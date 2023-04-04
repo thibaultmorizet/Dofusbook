@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class CreateStuff extends Component
+class ShowStuff extends Component
 {
     public string $stuff_title = "";
     public int $character_level = 1;

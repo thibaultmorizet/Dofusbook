@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->boolean('is_private')->default(true);
             $table->integer("level")->default(1);
             $table->string("gender")->default("male");
+            $table->string("title")->default("");
 
             $table->boolean('is_exo_pa')->default(false);
             $table->boolean('is_exo_pm')->default(false);
@@ -37,24 +38,24 @@ return new class extends Migration {
             $table->integer("luck_parchment")->default(0);
             $table->integer("wisdom_parchment")->default(0);
 
-            $table->integer("amulet_id");
-            $table->integer("shield_id");
-            $table->integer("ring_1_id");
-            $table->integer("belt_id");
-            $table->integer("boots_id");
+            $table->integer("amulet_id")->nullable();
+            $table->integer("shield_id")->nullable();
+            $table->integer("ring_1_id")->nullable();
+            $table->integer("belt_id")->nullable();
+            $table->integer("boots_id")->nullable();
 
-            $table->integer("helmet_id");
-            $table->integer("weapon_id");
-            $table->integer("ring_2_id");
-            $table->integer("cape_id");
-            $table->integer("animal_id");
+            $table->integer("helmet_id")->nullable();
+            $table->integer("weapon_id")->nullable();
+            $table->integer("ring_2_id")->nullable();
+            $table->integer("cape_id")->nullable();
+            $table->integer("animal_id")->nullable();
 
-            $table->integer("dofus_1_id");
-            $table->integer("dofus_2_id");
-            $table->integer("dofus_3_id");
-            $table->integer("dofus_4_id");
-            $table->integer("dofus_5_id");
-            $table->integer("dofus_6_id");
+            $table->integer("dofus_1_id")->nullable();
+            $table->integer("dofus_2_id")->nullable();
+            $table->integer("dofus_3_id")->nullable();
+            $table->integer("dofus_4_id")->nullable();
+            $table->integer("dofus_5_id")->nullable();
+            $table->integer("dofus_6_id")->nullable();
 
 
             $table->timestamps();

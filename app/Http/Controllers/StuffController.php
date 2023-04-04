@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stuff;
 use Illuminate\View\View;
 
 class StuffController extends Controller
@@ -11,6 +12,11 @@ class StuffController extends Controller
      */
     public function create()
     {
-        return view('stuff.create-stuff');
+        return view('stuff.create');
+    }
+
+    public function show(Stuff $stuff)
+    {
+        return view('stuff.show', ['stuff' => $stuff]);
     }
 }

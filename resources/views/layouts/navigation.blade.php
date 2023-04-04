@@ -18,7 +18,7 @@
                 </div>
 
                  <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('stuff.create-stuff')" :active="request()->routeIs('stuff.create-stuff')">
+                    <x-nav-link :href="route('stuff.create')" :active="request()->routeIs('stuff.create')">
                         {{ __('Créer un équipement') }}
                     </x-nav-link>
                 </div>

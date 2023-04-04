@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.stuff-base-img{
+.stuff-base-img {
     opacity: .3;
     filter: grayscale(100%) brightness(125%);
 }
@@ -14,7 +14,12 @@
     margin-right: 50px;
 }
 
-.separator{
+.character-img-dashboard {
+    object-fit: contain;
+    max-height: 150px;
+}
+
+.separator {
     border-bottom: #111827 solid 2px;
     border-radius: 20px;
     margin-top: 15px;
