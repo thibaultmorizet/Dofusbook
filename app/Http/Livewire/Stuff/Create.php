@@ -2,13 +2,16 @@
 
 namespace App\Http\Livewire\Stuff;
 
+use App\Models\Classe;
 use App\Models\Stuff;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class ShowStuff extends Component
+class Create extends Component
 {
+    public ?int $stuff_id = null;
+
     public string $stuff_title = "";
     public int $character_level = 1;
     public string $character_gender = "male";
@@ -92,8 +95,69 @@ class ShowStuff extends Component
     public int $push_res = 0;
     public int $distance_res = 0;
 
-    public function mount()
+    public Stuff $stuff;
+    public string $class_slug = "feca";
+
+    public function mount(int $stuff_id = null, string $stuff_title = "", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
     {
+        $this->stuff_id = $stuff_id;
+        if (!is_null($this->stuff_id)) {
+            $this->stuff = Stuff::query()->findOrFail($this->stuff_id);
+            $this->class_slug = Classe::query()->findOrFail($this->stuff->class_id)->slug;
+        }
+
+        $this->stuff_title = $stuff_title;
+        $this->updateTitle($this->stuff_title);
+
+        $this->character_level = $character_level;
+        $this->updateLevel($this->character_level);
+
+        $this->is_exo_pa = $is_exo_pa;
+        $this->updateExoPa($this->is_exo_pa);
+
+        $this->is_exo_pm = $is_exo_pm;
+        $this->updateExoPm($this->is_exo_pm);
+
+        $this->is_exo_po = $is_exo_po;
+        $this->updateExoPo($this->is_exo_po);
+
+
+        $this->boost_vitality = $boost_vitality;
+        $this->updateBoostVitality($this->boost_vitality);
+
+        $this->boost_wisdom = $boost_wisdom;
+        $this->updateBoostWisdom($this->boost_wisdom);
+
+        $this->boost_strength = $boost_strength;
+        $this->updateBoostStrength($this->boost_strength);
+
+        $this->boost_intel = $boost_intel;
+        $this->updateBoostIntel($this->boost_intel);
+
+        $this->boost_luck = $boost_luck;
+        $this->updateBoostLuck($this->boost_luck);
+
+        $this->boost_agility = $boost_agility;
+        $this->updateBoostAgility($this->boost_agility);
+
+
+        $this->parchment_vitality = $parchment_vitality;
+        $this->updateParchmentVitality($this->parchment_vitality);
+
+        $this->parchment_wisdom = $parchment_wisdom;
+        $this->updateParchmentWisdom($this->parchment_wisdom);
+
+        $this->parchment_strength = $parchment_strength;
+        $this->updateParchmentStrength($this->parchment_strength);
+
+        $this->parchment_intel = $parchment_intel;
+        $this->updateParchmentIntel($this->parchment_intel);
+
+        $this->parchment_luck = $parchment_luck;
+        $this->updateParchmentLuck($this->parchment_luck);
+
+        $this->parchment_agility = $parchment_agility;
+        $this->updateParchmentAgility($this->parchment_agility);
     }
 
     public function updateLevel(int $level)
@@ -102,46 +166,45 @@ class ShowStuff extends Component
         $this->setTotalVitality();
         $this->setBoostAvailable();
         if ($level >= 100) {
-            $this->total_pa = 6 + 1;
+            $this->total_pa = 6 + 1 + $this->is_exo_pa;
         }
+        $this->stuff->character_level = $this->character_level;
+        $this->stuff->save();
     }
 
-    public function updateExoPa()
+    public function updateExoPa(int $is_exo_pa)
     {
-        if ($this->is_exo_pa === 1) {
-            $this->total_pa--;
-        }
-        if ($this->is_exo_pa === 0) {
-            $this->total_pa++;
-        }
-        $this->is_exo_pa = !$this->is_exo_pa;
+        $extraPaByLvl = $this->character_level >= 100 ? 1 : 0;
+        $this->total_pa = 6 + $extraPaByLvl + $is_exo_pa;
+        $this->is_exo_pa = $is_exo_pa;
+        $this->stuff->is_exo_pa = $this->is_exo_pa;
+        $this->stuff->save();
+
     }
 
-    public function updateExoPm()
+    public function updateExoPm(int $is_exo_pm)
     {
-        if ($this->is_exo_pm === 1) {
-            $this->total_pm--;
-        }
-        if ($this->is_exo_pm === 0) {
-            $this->total_pm++;
-        }
-        $this->is_exo_pm = !$this->is_exo_pm;
+        $this->total_pm = 3 + $is_exo_pm;
+        $this->is_exo_pm = $is_exo_pm;
+        $this->stuff->is_exo_pm = $this->is_exo_pm;
+        $this->stuff->save();
     }
 
-    public function updateExoPo()
+    public function updateExoPo(int $is_exo_po)
     {
-        if ($this->is_exo_po === 1) {
-            $this->total_po--;
-        }
-        if ($this->is_exo_po === 0) {
-            $this->total_po++;
-        }
-        $this->is_exo_po = !$this->is_exo_po;
+        $this->total_po = $is_exo_po;
+        $this->is_exo_po = $is_exo_po;
+        $this->stuff->is_exo_po = $this->is_exo_po;
+        $this->stuff->save();
     }
 
     public function updateTitle(string $title)
     {
         $this->stuff_title = $title;
+
+        $this->stuff->title = $this->stuff_title;
+        $this->stuff->save();
+
     }
 
     public function setInitiative()
@@ -254,36 +317,49 @@ class ShowStuff extends Component
     {
         $this->parchment_vitality = $parchment_vitality;
         $this->setSubtotalVitality();
+        $this->stuff->vitality_parchment = $this->parchment_vitality;
+        $this->stuff->save();
+
     }
 
     public function updateParchmentWisdom(int $parchment_wisdom)
     {
         $this->parchment_wisdom = $parchment_wisdom;
         $this->setSubtotalWisdom();
+        $this->stuff->wisdom_parchment = $this->parchment_wisdom;
+        $this->stuff->save();
     }
 
     public function updateParchmentStrength(int $parchment_strength)
     {
         $this->parchment_strength = $parchment_strength;
         $this->setSubtotalStrength();
+        $this->stuff->strength_parchment = $this->parchment_strength;
+        $this->stuff->save();
     }
 
     public function updateParchmentIntel(int $parchment_intel)
     {
         $this->parchment_intel = $parchment_intel;
         $this->setSubtotalIntel();
+        $this->stuff->intel_parchment = $this->parchment_intel;
+        $this->stuff->save();
     }
 
     public function updateParchmentLuck(int $parchment_luck)
     {
         $this->parchment_luck = $parchment_luck;
         $this->setSubtotalLuck();
+        $this->stuff->luck_parchment = $this->parchment_luck;
+        $this->stuff->save();
     }
 
     public function updateParchmentAgility(int $parchment_agility)
     {
         $this->parchment_agility = $parchment_agility;
         $this->setSubtotalAgility();
+        $this->stuff->agility_parchment = $this->parchment_agility;
+        $this->stuff->save();
     }
 
 
@@ -292,6 +368,8 @@ class ShowStuff extends Component
         $this->boost_vitality = $boost_vitality;
         $this->setSubtotalVitality();
         $this->setBoostAvailable();
+        $this->stuff->vitality_boost = $this->boost_vitality;
+        $this->stuff->save();
     }
 
     public function updateBoostWisdom(int $boost_wisdom)
@@ -299,6 +377,8 @@ class ShowStuff extends Component
         $this->boost_wisdom = $boost_wisdom;
         $this->setSubtotalWisdom();
         $this->setBoostAvailable();
+        $this->stuff->wisdom_boost = $this->boost_wisdom;
+        $this->stuff->save();
     }
 
     public function updateBoostStrength(int $boost_strength)
@@ -306,6 +386,8 @@ class ShowStuff extends Component
         $this->boost_strength = $boost_strength;
         $this->setSubtotalStrength();
         $this->setBoostAvailable();
+        $this->stuff->strength_boost = $this->boost_strength;
+        $this->stuff->save();
     }
 
     public function updateBoostIntel(int $boost_intel)
@@ -313,6 +395,8 @@ class ShowStuff extends Component
         $this->boost_intel = $boost_intel;
         $this->setSubtotalIntel();
         $this->setBoostAvailable();
+        $this->stuff->intel_boost = $this->boost_intel;
+        $this->stuff->save();
     }
 
     public function updateBoostLuck(int $boost_luck)
@@ -320,6 +404,8 @@ class ShowStuff extends Component
         $this->boost_luck = $boost_luck;
         $this->setSubtotalLuck();
         $this->setBoostAvailable();
+        $this->stuff->luck_boost = $this->boost_luck;
+        $this->stuff->save();
     }
 
     public function updateBoostAgility(int $boost_agility)
@@ -327,6 +413,8 @@ class ShowStuff extends Component
         $this->boost_agility = $boost_agility;
         $this->setSubtotalAgility();
         $this->setBoostAvailable();
+        $this->stuff->agility_boost = $this->boost_agility;
+        $this->stuff->save();
     }
 
 
@@ -362,122 +450,6 @@ class ShowStuff extends Component
         }
         return $boost_strength;
     }
-
-    public function saveStuff()
-    {
-        try {
-            $newStuff = new Stuff();
-            $newStuff->user_id = Auth::id();
-            $newStuff->class_id = 1;
-            $newStuff->is_private = $this->is_private_stuff;
-            $newStuff->level = $this->character_level;
-            $newStuff->gender = $this->character_gender;
-            $newStuff->title = $this->stuff_title;
-            $newStuff->is_exo_pa = $this->is_exo_pa;
-            $newStuff->is_exo_pm = $this->is_exo_pm;
-            $newStuff->is_exo_po = $this->is_exo_po;
-            $newStuff->vitality_boost = $this->boost_vitality;
-            $newStuff->wisdom_boost = $this->boost_wisdom;
-            $newStuff->agility_boost = $this->boost_agility;
-            $newStuff->strength_boost = $this->boost_strength;
-            $newStuff->intel_boost = $this->boost_intel;
-            $newStuff->luck_boost = $this->boost_luck;
-            $newStuff->vitality_parchment = $this->parchment_vitality;
-            $newStuff->wisdom_parchment = $this->parchment_wisdom;
-            $newStuff->agility_parchment = $this->parchment_agility;
-            $newStuff->strength_parchment = $this->parchment_strength;
-            $newStuff->intel_parchment = $this->parchment_intel;
-            $newStuff->luck_parchment = $this->parchment_luck;
-
-
-            if ($newStuff->save()) {
-                session()->flash('message', 'Votre stuff a bien été enregistré.');
-                return redirect()->route('dashboard');
-            }
-
-        } catch (\Exception $exception) {
-            session()->flash('alert-class', 'alert-danger');
-            session()->flash('message', 'Une erreur est survenue');
-            return redirect()->route('stuff.create', [
-                'stuff_title' => $this->stuff_title,
-                'character_level' => $this->character_level,
-
-                'total_vitality' => $this->total_vitality,
-                'total_prospection' => $this->total_prospection,
-                'total_pa' => $this->total_pa,
-                'total_pm' => $this->total_pm,
-                'total_po' => $this->total_po,
-                'total_initiative' => $this->total_initiative,
-                'total_critique' => $this->total_critique,
-                'total_invocation' => $this->total_invocation,
-                'total_soin' => $this->total_soin,
-
-                'subtotal_vitality' => $this->subtotal_vitality,
-                'subtotal_wisdom' => $this->subtotal_wisdom,
-                'subtotal_strength' => $this->subtotal_strength,
-                'subtotal_intel' => $this->subtotal_intel,
-                'subtotal_luck' => $this->subtotal_luck,
-                'subtotal_agility' => $this->subtotal_agility,
-                'subtotal_power' => $this->subtotal_power,
-
-                'boost_vitality' => $this->boost_vitality,
-                'boost_wisdom' => $this->boost_wisdom,
-                'boost_strength' => $this->boost_strength,
-                'boost_intel' => $this->boost_intel,
-                'boost_luck' => $this->boost_luck,
-                'boost_agility' => $this->boost_agility,
-                'boost_available' => $this->boost_available,
-
-                'parchment_vitality' => $this->parchment_vitality,
-                'parchment_wisdom' => $this->parchment_wisdom,
-                'parchment_strength' => $this->parchment_strength,
-                'parchment_intel' => $this->parchment_intel,
-                'parchment_luck' => $this->parchment_luck,
-                'parchment_agility' => $this->parchment_agility,
-
-                'leak' => $this->leak,
-                'avoid_pa' => $this->avoid_pa,
-                'avoid_pm' => $this->avoid_pm,
-                'pods' => $this->pods,
-
-                'tackle' => $this->tackle,
-                'pa_recession' => $this->pa_recession,
-                'pm_recession' => $this->pm_recession,
-                'stuff_level' => $this->stuff_level,
-
-                'do_neutral' => $this->do_neutral,
-                'do_earth' => $this->do_earth,
-                'do_fire' => $this->do_fire,
-                'do_water' => $this->do_water,
-                'do_air' => $this->do_air,
-
-                'do_critique' => $this->do_critique,
-                'do_push' => $this->do_push,
-                'do_weapon' => $this->do_weapon,
-                'do_spell' => $this->do_spell,
-                'do_melee' => $this->do_melee,
-                'do_distance' => $this->do_distance,
-
-                'neutral_res' => $this->neutral_res,
-                'earth_res' => $this->earth_res,
-                'fire_res' => $this->fire_res,
-                'water_res' => $this->water_res,
-                'air_res' => $this->air_res,
-                'critique_res' => $this->critique_res,
-                'melee_res' => $this->melee_res,
-                'weapon_res' => $this->weapon_res,
-
-                'percent_neutral_res' => $this->percent_neutral_res,
-                'percent_earth_res' => $this->percent_earth_res,
-                'percent_fire_res' => $this->percent_fire_res,
-                'percent_water_res' => $this->percent_water_res,
-                'percent_air_res' => $this->percent_air_res,
-                'push_res' => $this->push_res,
-                'distance_res' => $this->distance_res,
-            ]);
-        }
-    }
-
     public function render(): View
     {
         return view('livewire.stuff.create', [

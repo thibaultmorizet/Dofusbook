@@ -15,6 +15,11 @@ class StuffController extends Controller
         return view('stuff.create');
     }
 
+    public function createStuffModal()
+    {
+        return view('create-stuff-modal');
+    }
+
     public function show(Stuff $stuff)
     {
         return view('stuff.show', ['stuff' => $stuff]);

@@ -15,13 +15,19 @@ class Dashboard extends Component
 
     public function render(): View
     {
-        return view('livewire.dashboard');
+        $stuffList = Stuff::query()
+            ->select('*','stuffs.id as stuff_id')
+            ->where("user_id", Auth::user()->id)
+            ->join('classes', function ($join) {
+                $join->on('stuffs.class_id', '=', 'classes.id');
+            })->get();
+
+        return view('livewire.dashboard', ['stuffList' => $stuffList]);
     }
 
     public function goToStuffEdit(int $stuff_id)
     {
-        dd(1);
-        return redirect()->route('/stuff/show/' + $stuff_id);
+        return redirect()->route('stuff.show', $stuff_id);
     }
 
 }

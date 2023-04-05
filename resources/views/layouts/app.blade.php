@@ -12,49 +12,11 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
     <!-- Scripts -->
-            <script>
-            window.addEventListener('toast', event => {
-                var type = event.detail.type
-                var title = 'Error'
-                var icon =   `<x-heroicon-o-x-circle class="w-5 h-5 text-red-500" />`;
-
-                if (type === 'success') {
-                    title = 'Success'
-                    icon = `<x-heroicon-o-check-circle class="w-5 h-5 text-green-500" />`;
-                }
-
-                Swal.fire({
-                    position: 'top-end',
-                    html: '<div class="w-full flex flex-col items-center space-y-4 sm:items-end">'+
-                        '    <div class="max-w-sm w-full bg-white rounded-lg pointer-events-auto overflow-hidden">'+
-                        '        <div>'+
-                        '            <div class="flex items-start">'+
-                        '                <div class="flex-shrink-0">'+
-                        '                       '+icon+
-                        '                </div>'+
-                        '                <div class="ml-3 w-0 flex-1 pt-0.5">'+
-                        '                    <p class="text-sm font-medium text-gray-900">'+
-                        '                        '+title+
-                        '                    </p>'+
-                        '                    <p class="mt-1 text-sm text-gray-500">'+
-                        '                        '+ event.detail.message +
-                        '                    </p>'+
-                        '                </div>'+
-                        '            </div>'+
-                        '        </div>'+
-                        '    </div>'+
-                        '</div>',
-                    icon: false,
-                    padding: '0rem',
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                    toast: true,
-                    timer: 10000
-                })
-            })
-        </script>
+    <script defer src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('modals')
+
     @livewireStyles
 
 </head>
@@ -76,7 +38,9 @@
         {{ $slot }}
     </main>
 </div>
+
 @livewireScripts
+@livewire('livewire-ui-modal')
 
 </body>
 </html>

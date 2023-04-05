@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users')->references('id')->onDelete('cascade');
             $table->foreignId('class_id')->constrained('classes')->references('id')->onDelete('cascade');
             $table->boolean('is_private')->default(true);
-            $table->integer("level")->default(1);
+            $table->integer("character_level")->default(1);
             $table->string("gender")->default("male");
             $table->string("title")->default("");
 

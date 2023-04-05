@@ -8,7 +8,7 @@
                    placeholder="Nom de l'équipement"
             >
 
-            <input type="text" name="stuff_level" wire:change="updateLevel($event.target.value)"
+            <input type="text" name="character_level" wire:change="updateLevel($event.target.value)"
                    wire:model.defer="character_level"
                    class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center font-semibold"
                    size="5" placeholder="niveau"
@@ -16,9 +16,11 @@
 
         </div>
         <div>
-            <button class="rounded-lg text-white bg-[#d9534f] p-1 mx-2">Supprimer</button>
+            <button class="rounded-lg text-white bg-[#d9534f] p-1 mx-2"
+                    wire:click="$emit('openModal', 'delete-stuff-modal',{{ json_encode(["stuff_id" => $stuff_id]) }})">
+                Supprimer
+            </button>
             <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2">Modifier</button>
-            <button class="rounded-lg text-white bg-[#75b96d] p-1 mx-2" wire:click="saveStuff()">Sauvegarder</button>
         </div>
     </div>
     <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-5 pl-5 pr-20">
@@ -50,7 +52,7 @@
                                                                                      width="28px">
                             <span class="w-5"> PA</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
-                                  wire:click="updateExoPa()">+ {{$is_exo_pa}}</span>
+                                  wire:click="updateExoPa({{$is_exo_pa===0?1:0}})">+ {{$is_exo_pa}}</span>
                         </div>
                         <div class="text-white flex items-center">
                             <span class="w-10 text-right">{{$total_pm}} </span> <img src="/img/icons/pm.png"
@@ -59,7 +61,7 @@
                                                                                      width="28px">
                             <span class="w-5"> PM</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
-                                  wire:click="updateExoPm()">+ {{$is_exo_pm}}</span>
+                                  wire:click="updateExoPm({{$is_exo_pm===0?1:0}})">+ {{$is_exo_pm}}</span>
 
                         </div>
                         <div class="text-white flex items-center">
@@ -69,7 +71,7 @@
                                                                                      width="28px">
                             <span class="w-5"> PO</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
-                                  wire:click="updateExoPo()">+ {{$is_exo_po}}</span>
+                                  wire:click="updateExoPo({{$is_exo_po===0?1:0}})">+ {{$is_exo_po}}</span>
 
                         </div>
                     </div>
@@ -179,7 +181,8 @@
                                 <input type="text" name="vitality_boost"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$boost_vitality}}" wire:change="updateBoostVitality($event.target.value)"
+                                       value="{{$boost_vitality}}"
+                                       wire:change="updateBoostVitality($event.target.value)"
                                        wire:model.defer="boost_vitality">
                                 <input type="text" name="wisdom_boost"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
@@ -189,7 +192,8 @@
                                 <input type="text" name="strength_boost"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$boost_strength}}" wire:change="updateBoostStrength($event.target.value)"
+                                       value="{{$boost_strength}}"
+                                       wire:change="updateBoostStrength($event.target.value)"
                                        wire:model.defer="boost_strength">
                                 <input type="text" name="intel_boost"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
@@ -213,36 +217,44 @@
                                 <input type="text" name="vitality_parchment"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$parchment_vitality}}" wire:change="updateParchmentVitality($event.target.value)"
+                                       value="{{$parchment_vitality}}"
+                                       wire:change="updateParchmentVitality($event.target.value)"
                                        wire:model.defer="parchment_vitality">
                                 <input type="text" name="wisdom_parchment"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$parchment_wisdom}}" wire:change="updateParchmentWisdom($event.target.value)"
+                                       value="{{$parchment_wisdom}}"
+                                       wire:change="updateParchmentWisdom($event.target.value)"
                                        wire:model.defer="parchment_wisdom">
                                 <input type="text" name="strength_parchment"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$parchment_strength}}" wire:change="updateParchmentStrength($event.target.value)"
+                                       value="{{$parchment_strength}}"
+                                       wire:change="updateParchmentStrength($event.target.value)"
                                        wire:model.defer="parchment_strength">
                                 <input type="text" name="intel_parchment"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$parchment_intel}}" wire:change="updateParchmentIntel($event.target.value)"
+                                       value="{{$parchment_intel}}"
+                                       wire:change="updateParchmentIntel($event.target.value)"
                                        wire:model.defer="parchment_intel">
                                 <input type="text" name="luck_parchment"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$parchment_luck}}" wire:change="updateParchmentLuck($event.target.value)"
+                                       value="{{$parchment_luck}}"
+                                       wire:change="updateParchmentLuck($event.target.value)"
                                        wire:model.defer="parchment_luck">
                                 <input type="text" name="agility_parchment"
                                        class="text-white sm:rounded-lg dark:bg-gray-700 border-transparent text-center py-0 h-5 mb-2"
                                        size="5"
-                                       value="{{$parchment_agility}}" wire:change="updateParchmentAgility($event.target.value)"
+                                       value="{{$parchment_agility}}"
+                                       wire:change="updateParchmentAgility($event.target.value)"
                                        wire:model.defer="parchment_agility">
                                 <div>
-                                    <span class="dark:bg-gray-700 px-1 sm:rounded-lg cursor-pointer" wire:click="updateParchmentsToZero()">0</span>
-                                    <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer" wire:click="updateParchmentsToHundred()">100</span>
+                                    <span class="dark:bg-gray-700 px-1 sm:rounded-lg cursor-pointer"
+                                          wire:click="updateParchmentsToZero()">0</span>
+                                    <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer"
+                                          wire:click="updateParchmentsToHundred()">100</span>
                                 </div>
                             </div>
                         </div>
@@ -361,7 +373,7 @@
                                     class="stuff-base-img">
                         </div>
                     </div>
-                    <img src="/img/character/feca-male.png"
+                    <img src="/img/character/{{$class_slug}}-{{$character_gender}}.png"
                          class="character-img"
                          alt="character image">
                     <div>
