@@ -97,67 +97,38 @@ class Create extends Component
 
     public Stuff $stuff;
     public string $class_slug = "feca";
+    public int $class_id = 1;
 
-    public function mount(int $stuff_id = null, string $stuff_title = "", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
+    public function mount(int $stuff_id = null, int $class_id = 1, string $stuff_title = "", string $character_gender = "male", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
     {
+
         $this->stuff_id = $stuff_id;
         if (!is_null($this->stuff_id)) {
             $this->stuff = Stuff::query()->findOrFail($this->stuff_id);
-            $this->class_slug = Classe::query()->findOrFail($this->stuff->class_id)->slug;
+            $this->class_slug = Classe::query()->findOrFail($class_id)->slug;
         }
 
-        $this->stuff_title = $stuff_title;
-        $this->updateTitle($this->stuff_title);
+        $this->updateClass($class_id);
+        $this->updateTitle($stuff_title);
+        $this->updateCharacterGender($character_gender);
+        $this->updateLevel($character_level);
+        $this->updateExoPa($is_exo_pa);
+        $this->updateExoPm($is_exo_pm);
+        $this->updateExoPo($is_exo_po);
 
-        $this->character_level = $character_level;
-        $this->updateLevel($this->character_level);
+        $this->updateBoostVitality($boost_vitality);
+        $this->updateBoostWisdom($boost_wisdom);
+        $this->updateBoostStrength($boost_strength);
+        $this->updateBoostIntel($boost_intel);
+        $this->updateBoostLuck($boost_luck);
+        $this->updateBoostAgility($boost_agility);
 
-        $this->is_exo_pa = $is_exo_pa;
-        $this->updateExoPa($this->is_exo_pa);
-
-        $this->is_exo_pm = $is_exo_pm;
-        $this->updateExoPm($this->is_exo_pm);
-
-        $this->is_exo_po = $is_exo_po;
-        $this->updateExoPo($this->is_exo_po);
-
-
-        $this->boost_vitality = $boost_vitality;
-        $this->updateBoostVitality($this->boost_vitality);
-
-        $this->boost_wisdom = $boost_wisdom;
-        $this->updateBoostWisdom($this->boost_wisdom);
-
-        $this->boost_strength = $boost_strength;
-        $this->updateBoostStrength($this->boost_strength);
-
-        $this->boost_intel = $boost_intel;
-        $this->updateBoostIntel($this->boost_intel);
-
-        $this->boost_luck = $boost_luck;
-        $this->updateBoostLuck($this->boost_luck);
-
-        $this->boost_agility = $boost_agility;
-        $this->updateBoostAgility($this->boost_agility);
-
-
-        $this->parchment_vitality = $parchment_vitality;
-        $this->updateParchmentVitality($this->parchment_vitality);
-
-        $this->parchment_wisdom = $parchment_wisdom;
-        $this->updateParchmentWisdom($this->parchment_wisdom);
-
-        $this->parchment_strength = $parchment_strength;
-        $this->updateParchmentStrength($this->parchment_strength);
-
-        $this->parchment_intel = $parchment_intel;
-        $this->updateParchmentIntel($this->parchment_intel);
-
-        $this->parchment_luck = $parchment_luck;
-        $this->updateParchmentLuck($this->parchment_luck);
-
-        $this->parchment_agility = $parchment_agility;
-        $this->updateParchmentAgility($this->parchment_agility);
+        $this->updateParchmentVitality($parchment_vitality);
+        $this->updateParchmentWisdom($parchment_wisdom);
+        $this->updateParchmentStrength($parchment_strength);
+        $this->updateParchmentIntel($parchment_intel);
+        $this->updateParchmentLuck($parchment_luck);
+        $this->updateParchmentAgility($parchment_agility);
     }
 
     public function updateLevel(int $level)
@@ -203,6 +174,24 @@ class Create extends Component
         $this->stuff_title = $title;
 
         $this->stuff->title = $this->stuff_title;
+        $this->stuff->save();
+
+    }
+
+    public function updateClass(int $class_id)
+    {
+        $this->class_id = $class_id;
+
+        $this->stuff->class_id = $this->class_id;
+        $this->stuff->save();
+
+    }
+
+    public function updateCharacterGender(string $character_gender)
+    {
+        $this->character_gender = $character_gender;
+
+        $this->stuff->gender = $this->character_gender;
         $this->stuff->save();
 
     }
@@ -450,6 +439,7 @@ class Create extends Component
         }
         return $boost_strength;
     }
+
     public function render(): View
     {
         return view('livewire.stuff.create', [

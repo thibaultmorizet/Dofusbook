@@ -25,3 +25,23 @@
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+.selected {
+    background-color: rgb(107 114 128);
+    border-width: 1px;
+    border-color: rgb(55 65 81);
+}
+
+.selected:hover {
+    background-color: rgb(156 163 175);
+    border-color: rgb(107 114 128);
+}
+
+.unselected {
+    border-width: 1px;
+    border-color: rgb(75 85 99);
+}
+
+.unselected:hover {
+    background-color: rgb(75 85 99);
+}

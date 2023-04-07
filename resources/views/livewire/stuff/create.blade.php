@@ -20,7 +20,17 @@
                     wire:click="$emit('openModal', 'delete-stuff-modal',{{ json_encode(["stuff_id" => $stuff_id]) }})">
                 Supprimer
             </button>
-            <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2">Modifier</button>
+            <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2"
+                    wire:click="$emit('openModal', 'create-stuff-modal',{{ json_encode(["
+character_level" => $character_level,
+"stuff_title" => $stuff_title,
+"stuff_id" => $stuff_id,
+"selectedClass" => $class_id,
+"gender" => $character_gender,
+"is_confidential_stuff" => $is_private_stuff
+]) }})">
+                Modifier
+            </button>
         </div>
     </div>
     <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-5 pl-5 pr-20">

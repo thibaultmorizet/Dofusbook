@@ -6,15 +6,17 @@
                     {{ __('Créer un équipement') }}
                 </h3>
             </div>
-            <div class="grid grid-cols-10 gap-2">
-                <div wire:click="updateSelectedClass(0)">
+            <div class="grid grid-cols-10 gap-1">
+                <div wire:click="updateSelectedClass(0)"
+                     class="cursor-pointer p-1 rounded-lg {{$selectedClass===0?'selected':'unselected'}}">
                     <img
                             src="/img/avatar/no-class.png"
                             alt="no-class image"
                     >
                 </div>
                 @foreach($classes as $class)
-                    <div wire:click="updateSelectedClass({{$class->id}})">
+                    <div wire:click="updateSelectedClass({{$class->id}})"
+                         class="cursor-pointer p-1 rounded-lg {{$selectedClass===$class->id?'selected':'unselected'}}">
                         <img
                                 id="class-{{$class->id}}"
                                 src="/img/avatar/{{$class->slug}}-{{$gender}}.png"
@@ -29,23 +31,80 @@
                     <input type="text" name="title"
                            class="text-white rounded-lg dark:bg-gray-500 mr-2 "
                            wire:change="updateTitle($event.target.value)"
-                           wire:model.defer="title"
+                           wire:model.defer="stuff_title"
                     >
                 </div>
 
                 <div class="flex flex-col">
+                    <script type="text/javascript">
+                        const lvl_input = document.getElementsByName("character_level");
+
+                        lvl_input[0].addEventListener('keypress',
+                            function (event) {
+                                if (isNaN(parseInt(event.key)) !== false) {
+                                    event.preventDefault();
+                                }
+                            }
+                        );
+
+                        lvl_input[0].addEventListener('keyup',
+                            function (event) {
+                                if (parseInt(lvl_input[0].value) > 200) {
+                                    lvl_input[0].value = 200;
+                                }
+                                if (parseInt(lvl_input[0].value) < 1) {
+                                    lvl_input[0].value = 1;
+                                }
+
+                                lvl_input[0].value = isNaN(parseInt(lvl_input[0].value)) || parseInt(lvl_input[0].value) === 0 ? 1 : parseInt(lvl_input[0].value)
+                            }
+                        );
+                    </script>
+
                     <label for="character_level" class="text-white text-center">Niveau</label>
                     <input type="text" name="character_level"
                            class="text-white rounded-lg dark:bg-gray-500 text-center font-semibold"
                            size="5"
                            wire:change="updateLevel($event.target.value)"
                            wire:model.defer="character_level"
-
                     >
                 </div>
             </div>
             <div class="flex">
+                <div class="flex flex-auto">
+                    <div wire:click="updateSelectedGender('male')"
+                         class="cursor-pointer mr-3 p-2 rounded-lg {{$gender==='male'?'selected':'unselected'}}">
+                        <img
+                                id="gender-male"
+                                src="/img/icons/male.png"
+                                alt="icon male image"
+                                width="24px"
+                        >
+                    </div>
 
+                    <div wire:click="updateSelectedGender('female')"
+                         class="cursor-pointer p-2 rounded-lg {{$gender==='female'?'selected':'unselected'}}">
+                        <img
+                                id="gender-female"
+                                src="/img/icons/female.png"
+                                alt="icon female image"
+                                width="24px"
+                        >
+                    </div>
+                </div>
+                <div class="flex flex-auto text-white items-center">
+
+                    <span class="mr-4">Stuff Confidentiel : </span>
+
+                    <div wire:click="updateIsConfidentialStuff(true)"
+                         class="cursor-pointer mr-5 px-2 py-1 rounded-lg {{$is_confidential_stuff?'selected':'unselected'}}">
+                        <span>Oui</span>
+                    </div>
+                    <div wire:click="updateIsConfidentialStuff(false)"
+                         class="cursor-pointer px-2 py-1 rounded-lg {{!$is_confidential_stuff?'selected':'unselected'}}">
+                        <span>Non</span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="dark:bg-gray-600 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
