@@ -12,6 +12,7 @@
                     <livewire:stuff.create :stuff_id="$stuff->id"
                                            :stuff_title="$stuff->title"
                                            :character_level="$stuff->character_level"
+                                           :is_private_stuff="$stuff->is_private"
                                            :class_id="$stuff->class_id"
                                            :character_gender="$stuff->gender"
                                            :is_exo_pa="$stuff->is_exo_pa"

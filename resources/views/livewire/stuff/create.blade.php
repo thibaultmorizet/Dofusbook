@@ -21,14 +21,15 @@
                 Supprimer
             </button>
             <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2"
-                    wire:click="$emit('openModal', 'create-stuff-modal',{{ json_encode(["
-character_level" => $character_level,
-"stuff_title" => $stuff_title,
-"stuff_id" => $stuff_id,
-"selectedClass" => $class_id,
-"gender" => $character_gender,
-"is_confidential_stuff" => $is_private_stuff
-]) }})">
+                    wire:click="$emit('openModal', 'create-stuff-modal',{{ json_encode([
+    "character_level" => $character_level,
+    "stuff_title" => $stuff_title,
+    "stuff_id" => $stuff_id,
+    "selectedClass" => $class_id,
+    "gender" => $character_gender,
+    "is_private_stuff" => $is_private_stuff,
+    "is_updating_stuff" => true
+    ]) }})">
                 Modifier
             </button>
         </div>

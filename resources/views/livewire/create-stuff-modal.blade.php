@@ -3,7 +3,7 @@
         <div class="py-6 px-4 space-y-6 sm:p-6">
             <div>
                 <h3 class="font-custom-title text-lg leading-6 font-semibold text-white">
-                    {{ __('Créer un équipement') }}
+                    {{ $is_updating_stuff?__('Modifier l\'équipement'):__('Créer un équipement') }}
                 </h3>
             </div>
             <div class="grid grid-cols-10 gap-1">
@@ -97,11 +97,11 @@
                     <span class="mr-4">Stuff Confidentiel : </span>
 
                     <div wire:click="updateIsConfidentialStuff(true)"
-                         class="cursor-pointer mr-5 px-2 py-1 rounded-lg {{$is_confidential_stuff?'selected':'unselected'}}">
+                         class="cursor-pointer mr-5 px-2 py-1 rounded-lg {{$is_private_stuff?'selected':'unselected'}}">
                         <span>Oui</span>
                     </div>
                     <div wire:click="updateIsConfidentialStuff(false)"
-                         class="cursor-pointer px-2 py-1 rounded-lg {{!$is_confidential_stuff?'selected':'unselected'}}">
+                         class="cursor-pointer px-2 py-1 rounded-lg {{!$is_private_stuff?'selected':'unselected'}}">
                         <span>Non</span>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                     type="submit"
                     class="px-4 py-2 text-sm inline-flex items-center font-medium rounded-md shadow-sm text-white text-white bg-indigo-500 hover:bg-indigo-600"
             >
-                {{ __('Créer') }}
+                {{  $is_updating_stuff?__('Modifier'):__('Créer') }}
             </button>
             <button
                     type="button"

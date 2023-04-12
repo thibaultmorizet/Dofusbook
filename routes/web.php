@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EncyclopediaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StuffController;
@@ -24,10 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('/stuff')->group(function () {
-        Route::get('/create', [StuffController::class, 'create'])->name('stuff.create');
         Route::get('/show/{stuff}', [StuffController::class, 'show'])->name('stuff.show');
     });
     Route::get('/dashboard', [HomeController::class, 'show'])->name('dashboard');
+    Route::get('/encyclopedia', [EncyclopediaController::class, 'show'])->name('encyclopedia');
 });
 
 Route::fallback(function () {

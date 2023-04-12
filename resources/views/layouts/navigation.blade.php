@@ -22,7 +22,12 @@
                                 :active="request()->routeIs('stuff.create')">
                         {{ __('Créer un équipement') }}
                     </x-nav-link>
+                </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('encyclopedia')" :active="request()->routeIs('encyclopedia')">
+                        {{ __('Encyclopédie') }}
+                    </x-nav-link>
                 </div>
             </div>
 

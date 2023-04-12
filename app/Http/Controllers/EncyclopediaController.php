@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 
-class HomeController extends Controller
+class EncyclopediaController extends Controller
 {
     /**
-     * Display stuffs list
+     * Display Equipements list
      */
     public function show(): View
     {
-        return view('dashboard');
+        return view('encyclopedia');
     }
 }
-

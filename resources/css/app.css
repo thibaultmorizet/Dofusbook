@@ -26,6 +26,14 @@
     margin-bottom: 15px;
 }
 
+.equipment-separator {
+    border-bottom: #111827 solid 1px;
+    border-radius: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
 .selected {
     background-color: rgb(107 114 128);
     border-width: 1px;

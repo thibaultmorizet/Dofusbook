@@ -99,15 +99,15 @@ class Create extends Component
     public string $class_slug = "feca";
     public int $class_id = 1;
 
-    public function mount(int $stuff_id = null, int $class_id = 1, string $stuff_title = "", string $character_gender = "male", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
+    public function mount(int $stuff_id = null, int $class_id = 1, bool $is_private_stuff = true, string $stuff_title = "", string $character_gender = "male", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
     {
-
         $this->stuff_id = $stuff_id;
         if (!is_null($this->stuff_id)) {
             $this->stuff = Stuff::query()->findOrFail($this->stuff_id);
             $this->class_slug = Classe::query()->findOrFail($class_id)->slug;
         }
 
+        $this->updateIsPrivateStuff($is_private_stuff);
         $this->updateClass($class_id);
         $this->updateTitle($stuff_title);
         $this->updateCharacterGender($character_gender);
@@ -406,6 +406,12 @@ class Create extends Component
         $this->stuff->save();
     }
 
+    public function updateIsPrivateStuff(bool $is_private_stuff)
+    {
+        $this->is_private_stuff = $is_private_stuff;
+        $this->stuff->is_private = $this->is_private_stuff;
+        $this->stuff->save();
+    }
 
     public function updateParchmentsToZero()
     {
@@ -426,7 +432,6 @@ class Create extends Component
         $this->updateParchmentLuck(100);
         $this->updateParchmentAgility(100);
     }
-
 
     private function getBoostCharacteristicPoints(int $characteristic): int
     {
@@ -520,5 +525,4 @@ class Create extends Component
             'distance_res' => $this->distance_res,
         ]);
     }
-
 }
