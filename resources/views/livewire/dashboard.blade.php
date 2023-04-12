@@ -44,11 +44,11 @@
                                         class="stuff-base-img">
                             </div>
                         @endif
-                        @if(is_null($stuff->helmet_id))
+                        @if(is_null($stuff->hat_id))
                             <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="/img/stuff/helmet.png"
-                                        alt="helmet image"
+                                        src="/img/stuff/hat.png"
+                                        alt="hat image"
                                         class="stuff-base-img">
                             </div>
                         @endif

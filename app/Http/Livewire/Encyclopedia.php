@@ -53,26 +53,30 @@ class Encyclopedia extends Component
         "Dommage Air" => "do_air",
         "Dommage Critiques" => "do_critique",
         "Dommage Poussée" => "do_push",
-        "% Dommages Armes" => "do_weapon",
-        "% Dommages Sorts" => "do_spell",
-        "% Dommages Mélée" => "do_melee",
-        "% Dommages Distance" => "do_distance",
+        "Dommage Pièges" => "do_tricks",
+        "Dommages Pièges" => "do_tricks",
+        "% Dommages d'armes" => "do_weapon",
+        "% Dommages aux sorts" => "do_spell",
+        "% Dommages mêlée" => "do_melee",
+        "% Dommages distance" => "do_distance",
         "Résistances Neutre" => "neutral_res",
         "Résistances Terre" => "earth_res",
         "Résistances Feu" => "fire_res",
         "Résistances Eau" => "water_res",
         "Résistances Air" => "air_res",
         "Résistances Critiques" => "critique_res",
-        "% Résistance Mélée" => "melee_res",
-        "% Résistance Armes" => "weapon_res",
+        "% Résistance mêlée" => "melee_res",
+        "% Résistance aux armes" => "weapon_res",
         "% Résistance Neutre" => "neutral_res",
         "% Résistance Terre" => "earth_res",
         "% Résistance Feu" => "fire_res",
         "% Résistance Eau" => "water_res",
         "% Résistance Air" => "air_res",
         "Résistances Poussée" => "push_res",
-        "% Résistances Distance" => "distance_res",
+        "% Résistances distance" => "distance_res",
+        "% Résistance distance" => "distance_res",
         "Puissance (pièges)" => "trick_power",
+        "-special spell-" => "special_spell",
         "Titre :" => "title",
         "Échangeable :" => "trick_power",
         "Utilisations restantes : /" => "trick_power",
@@ -81,6 +85,17 @@ class Encyclopedia extends Component
     ];
     public int $last_page;
     public array $items;
+    public string $equipment_or_mounts = "equipment";
+
+    public function mount()
+    {
+        if (request()->equipment_or_mounts) {
+            $this->equipment_or_mounts = request()->equipment_or_mounts;
+        }
+        if (request()->equipment_type) {
+            $this->equipment_type = request()->equipment_type;
+        }
+    }
 
     public function gotoPage(int $page)
     {
@@ -106,9 +121,10 @@ class Encyclopedia extends Component
         }
     }
 
+
     private function updateItems()
     {
-        $request = Http::get('https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=desc&filter%5Btype_name%5D=' . $this->equipment_type . '&page%5Bsize%5D=' . $this->page_size . '&page%5Bnumber%5D=' . $this->page . '&fields%5Bitem%5D=parent_set,effects')->json();
+        $request = Http::get('https://api.dofusdu.de/dofus2/fr/items/' . $this->equipment_or_mounts . '?sort%5Blevel%5D=desc&filter%5Btype_name%5D=' . $this->equipment_type . '&page%5Bsize%5D=' . $this->page_size . '&page%5Bnumber%5D=' . $this->page . '&fields%5Bitem%5D=parent_set,effects')->json();
         $links = $request['_links'];
         if (array_key_exists("last", $links)) {
             $prefix = "page%5Bnumber%5D%3D";
@@ -123,7 +139,7 @@ class Encyclopedia extends Component
     public function render(): View
     {
         $this->updateItems();
-        return view('livewire.encyclopedia');
+        return view('livewire.encyclopedia', ['equipment_type' => $this->equipment_type]);
     }
 
 

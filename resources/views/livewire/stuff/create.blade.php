@@ -390,8 +390,8 @@
                     <div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                             <img
-                                    src="/img/stuff/helmet.png"
-                                    alt="helmet image"
+                                    src="/img/stuff/hat.png"
+                                    alt="hat image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>

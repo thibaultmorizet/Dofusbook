@@ -44,7 +44,7 @@ return new class extends Migration {
             $table->integer("belt_id")->nullable();
             $table->integer("boots_id")->nullable();
 
-            $table->integer("helmet_id")->nullable();
+            $table->integer("hat_id")->nullable();
             $table->integer("weapon_id")->nullable();
             $table->integer("ring_2_id")->nullable();
             $table->integer("cape_id")->nullable();
