@@ -1,5 +1,3 @@
-
-
 <div>
     <div class="grid grid-cols-3 gap-4">
         @foreach($items as $index=>$item)
@@ -8,7 +6,8 @@
                     <div class="flex bg-gray-800 p-6 rounded-t-lg">
                         <div class="flex-1">
                             <p class="text-xl font-semibold cursor-pointer">{{$item['name']}}</p>
-                            <p>{{$item['type']['name']}} - Niveau {{$item['level']}}</p>
+                            <p>{{array_key_exists("type",$item)?$item['type']['name']:$item['name']}} -
+                                Niveau {{$equipment_or_mounts==="items/equipment"? $item['level']:"60"}}</p>
                             @if(array_key_exists('parent_set',$item))
                                 <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$item['parent_set']['name']}}</p>
                             @endif
@@ -21,14 +20,17 @@
                     <div class="flex flex-col p-6">
                         @if(array_key_exists("effects",$item))
                             @foreach($item['effects'] as $item_effects)
+                                @if(array_key_exists($item_effects['type']['name'],$equipment_trad))
                                 <div class="flex">
                                     <img
                                             src="{{'/img/icons/'.$equipment_trad[$item_effects['type']['name']].'.png'}}"
                                             alt="effect image"
                                             width="24"
-                                            class="mr-2">
+                                            height="24"
+                                            class="mr-2 h-fit self-center">
                                     <span class="{{substr($item_effects['formatted'],0,1)=='-'?'text-red-600':''}}">{{$item_effects['formatted']}}</span>
                                 </div>
+                                @endif
                             @endforeach
                         @endif
                     </div>
@@ -60,7 +62,7 @@
                     <button wire:click="gotoPage({{$i}})" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
                                                               "border-transparent text-gray-500 hover:text-gray-400"  => $page!==$i,
                                                               "border-indigo-500 text-indigo-600" => $page===$i]) {{($page===$i ? 'aria-current="page"' : '')}}>{{$i}}</button>
-                    @if($page > 3)
+                    @if($page > 4)
                         <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
                     @endif
                 @elseif($i >= $page-2 && $i <= $page+2)

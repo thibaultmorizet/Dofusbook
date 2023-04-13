@@ -1,6 +1,6 @@
 <div class="flex justify-around">
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Amulette')">
+         wire:click="updateEquipmentType('items/equipment','Amulette')">
         <img
                 src="/img/stuff/amulet.png"
                 alt="amulet image"
@@ -9,7 +9,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Anneau')">
+         wire:click="updateEquipmentType('items/equipment','Anneau')">
 
         <img
                 src="/img/stuff/ring.png"
@@ -19,7 +19,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Bottes')">
+         wire:click="updateEquipmentType('items/equipment','Bottes')">
 
         <img
                 src="/img/stuff/boots.png"
@@ -29,7 +29,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Bouclier')">
+         wire:click="updateEquipmentType('items/equipment','Bouclier')">
 
         <img
                 src="/img/stuff/shield.png"
@@ -39,7 +39,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Cape')">
+         wire:click="updateEquipmentType('items/equipment','Cape')">
 
         <img
                 src="/img/stuff/cape.png"
@@ -49,7 +49,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Ceinture')">
+         wire:click="updateEquipmentType('items/equipment','Ceinture')">
 
         <img
                 src="/img/stuff/belt.png"
@@ -59,7 +59,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Chapeau')">
+         wire:click="updateEquipmentType('items/equipment','Chapeau')">
 
         <img
                 src="/img/stuff/hat.png"
@@ -69,7 +69,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Dofus')">
+         wire:click="updateEquipmentType('items/equipment','Dofus')">
 
         <img
                 src="/img/stuff/dofus.png"
@@ -79,7 +79,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Trophée')">
+         wire:click="updateEquipmentType('items/equipment','Trophée')">
 
         <img
                 src="/img/stuff/trophy.png"
@@ -89,7 +89,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('equipment','Prysmaradite')">
+         wire:click="updateEquipmentType('items/equipment','Prysmaradite')">
 
         <img
                 src="/img/stuff/prysmaradite.png"
@@ -99,7 +99,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('mounts','Familier')">
+         wire:click="updateEquipmentType('items/equipment','Familier')">
 
         <img
                 src="/img/stuff/animal.png"
@@ -109,7 +109,7 @@
     </div>
 
     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-         wire:click="updateEquipmentType('mounts','Montilier')">
+         wire:click="updateEquipmentType('items/equipment','Montilier')">
 
         <img
                 src="/img/stuff/mount.png"

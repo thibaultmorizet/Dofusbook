@@ -60,11 +60,17 @@ class Encyclopedia extends Component
         "% Dommages mêlée" => "do_melee",
         "% Dommages distance" => "do_distance",
         "Résistances Neutre" => "neutral_res",
+        "Résistance Neutre" => "neutral_res",
         "Résistances Terre" => "earth_res",
+        "Résistance Terre" => "earth_res",
         "Résistances Feu" => "fire_res",
+        "Résistance Feu" => "fire_res",
         "Résistances Eau" => "water_res",
+        "Résistance Eau" => "water_res",
         "Résistances Air" => "air_res",
+        "Résistance Air" => "air_res",
         "Résistances Critiques" => "critique_res",
+        "Résistance Critiques" => "critique_res",
         "% Résistance mêlée" => "melee_res",
         "% Résistance aux armes" => "weapon_res",
         "% Résistance Neutre" => "neutral_res",
@@ -73,19 +79,33 @@ class Encyclopedia extends Component
         "% Résistance Eau" => "water_res",
         "% Résistance Air" => "air_res",
         "Résistances Poussée" => "push_res",
+        "Résistance Poussée" => "push_res",
         "% Résistances distance" => "distance_res",
         "% Résistance distance" => "distance_res",
         "Puissance (pièges)" => "trick_power",
         "-special spell-" => "special_spell",
+        "Désactive la ligne de vue du sort" => "no_ldv",
+        "Augmente de% les Critiques du sort" => "critic",
+        "Réduit de le coût en PA du sort" => "pa",
+        "Augmente la portée maximale du sort de" => "po",
+        "Désactive le lancer en ligne du sort" => "no_line",
+        "Rend la portée du sort modifiable" => "po",
+        "Réduit de le délai de relance du sort" => "lunch_delay",
+        "Augmente de les Dommages du sort" => "do",
+        "Le sort peut être lancé sur une case libre" => "no_line",
+        "Augmente de le nombre de lancer maximal par tour du sort" => "lunch_per_tour",
+        "Augmente de le nombre de lancer maximal par cible du sort" => "lunch_per_cible",
+        "Augmente les dégâts de base du sort de" => "do",
+        "Quelqu'un vous suit !" => "title",
+        "Renvoie dommages" => "return_attack",
+        "Renvoie dommage" => "return_attack",
+        "Change les paroles" => "title",
+        "Attitude" => "attitude",
         "Titre :" => "title",
-        "Échangeable :" => "trick_power",
-        "Utilisations restantes : /" => "trick_power",
-        "Nombre de victimes :" => "trick_power",
-        "Lié au personnage" => "trick_power",
     ];
     public int $last_page;
     public array $items;
-    public string $equipment_or_mounts = "equipment";
+    public string $equipment_or_mounts = "items/equipment";
 
     public function mount()
     {
@@ -95,6 +115,7 @@ class Encyclopedia extends Component
         if (request()->equipment_type) {
             $this->equipment_type = request()->equipment_type;
         }
+        $this->page_size = $this->equipment_type === "Montilier" ? "-1" : $this->page_size;
     }
 
     public function gotoPage(int $page)
@@ -124,16 +145,20 @@ class Encyclopedia extends Component
 
     private function updateItems()
     {
-        $request = Http::get('https://api.dofusdu.de/dofus2/fr/items/' . $this->equipment_or_mounts . '?sort%5Blevel%5D=desc&filter%5Btype_name%5D=' . $this->equipment_type . '&page%5Bsize%5D=' . $this->page_size . '&page%5Bnumber%5D=' . $this->page . '&fields%5Bitem%5D=parent_set,effects')->json();
+        $sort = $this->equipment_or_mounts === "items/equipment" ? "sort%5Blevel%5D=desc" : "";
+        $type_name = $this->equipment_or_mounts === "items/equipment" ? "filter%5Btype_name%5D=" . $this->equipment_type : "filter%5Bfamily_name%5D=" . $this->equipment_type;
+        $fields_item = $this->equipment_or_mounts === "items/equipment" ? "fields%5Bitem%5D=parent_set,effects" : "fields%5Bmount%5D=effects";
+
+        $request = Http::get('https://api.dofusdu.de/dofus2/fr/' . $this->equipment_or_mounts . '?' . $sort . '&' . $type_name . '&page%5Bsize%5D=' . $this->page_size . '&page%5Bnumber%5D=' . $this->page . '&' . $fields_item)->json();
         $links = $request['_links'];
         if (array_key_exists("last", $links)) {
             $prefix = "page%5Bnumber%5D%3D";
             $suffix = "%26page%5Bsize%5D%3D";
             $start_pos_page_number = strpos($links["last"], $prefix) + strlen($prefix);
             $end_pos_page_number = strpos($links["last"], $suffix);
-            $this->last_page = substr($links["last"], $start_pos_page_number, $end_pos_page_number - $start_pos_page_number);
+            $this->last_page = $this->equipment_type === "Montilier" ? "1" : substr($links["last"], $start_pos_page_number, $end_pos_page_number - $start_pos_page_number);
         }
-        $this->items = $request['items'];
+        $this->items = $this->equipment_or_mounts === "items/equipment" ? $request['items'] : $request['mounts'];
     }
 
     public function render(): View
