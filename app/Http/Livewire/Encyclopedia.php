@@ -10,9 +10,10 @@ class Encyclopedia extends Component
 {
 
     public int $page = 1;
-    public int $page_size = 24;
-    public string $equipment_type = "Amulette";
-    public array $equipment_trad = [
+    public int $pageSize = 24;
+    public string $equipmentType = "Amulette";
+    public ?string $stuffName = null;
+    public array $equipmentTrad = [
         "Vitalité" => "vitality",
         "Prospection" => "prospection",
         "PA" => "pa",
@@ -103,26 +104,22 @@ class Encyclopedia extends Component
         "Attitude" => "attitude",
         "Titre :" => "title",
     ];
-    public int $last_page;
+    public int $lastPage;
     public array $items;
-    public string $equipment_or_mounts = "items/equipment";
+    public string $equipmentOrMounts = "items/equipment";
+    public int $minLvl = 1;
+    public int $maxLvl = 200;
 
     public function mount()
     {
-        if (request()->equipment_or_mounts) {
-            $this->equipment_or_mounts = request()->equipment_or_mounts;
-        }
-        if (request()->equipment_type) {
-            $this->equipment_type = request()->equipment_type;
-        }
-        $this->page_size = $this->equipment_type === "Montilier" ? "-1" : $this->page_size;
+        $this->items = $this->updateItems();
     }
 
     public function gotoPage(int $page)
     {
-        if ($page >= 1 && $page <= $this->last_page) {
+        if ($page >= 1 && $page <= $this->lastPage) {
             $this->page = $page;
-            $this->updateItems();
+            $this->items = $this->updateItems();
         }
     }
 
@@ -130,41 +127,119 @@ class Encyclopedia extends Component
     {
         if ($this->page > 1) {
             $this->page -= 1;
-            $this->updateItems();
+            $this->items = $this->updateItems();
         }
     }
 
     public function nextPage()
     {
-        if ($this->page < $this->last_page) {
+        if ($this->page < $this->lastPage) {
             $this->page += 1;
-            $this->updateItems();
+            $this->items = $this->updateItems();
         }
     }
 
+    public function updateEquipmentType(string $equipmentOrMounts, string $equipmentType)
+    {
+        if ($this->equipmentType != $equipmentType) {
+            $this->equipmentType = $equipmentType;
+            $this->equipmentOrMounts = $equipmentOrMounts;
+            $this->items = $this->updateItems();
+        } elseif (!is_null($this->stuffName) && $this->stuffName !== "") {
+            $this->equipmentType = "";
+            $this->equipmentOrMounts = "both";
+            $this->items = $this->updateItems();
+        }
+    }
 
     private function updateItems()
     {
-        $sort = $this->equipment_or_mounts === "items/equipment" ? "sort%5Blevel%5D=desc" : "";
-        $type_name = $this->equipment_or_mounts === "items/equipment" ? "filter%5Btype_name%5D=" . $this->equipment_type : "filter%5Bfamily_name%5D=" . $this->equipment_type;
-        $fields_item = $this->equipment_or_mounts === "items/equipment" ? "fields%5Bitem%5D=parent_set,effects" : "fields%5Bmount%5D=effects";
-
-        $request = Http::get('https://api.dofusdu.de/dofus2/fr/' . $this->equipment_or_mounts . '?' . $sort . '&' . $type_name . '&page%5Bsize%5D=' . $this->page_size . '&page%5Bnumber%5D=' . $this->page . '&' . $fields_item)->json();
-        $links = $request['_links'];
-        if (array_key_exists("last", $links)) {
-            $prefix = "page%5Bnumber%5D%3D";
-            $suffix = "%26page%5Bsize%5D%3D";
-            $start_pos_page_number = strpos($links["last"], $prefix) + strlen($prefix);
-            $end_pos_page_number = strpos($links["last"], $suffix);
-            $this->last_page = $this->equipment_type === "Montilier" ? "1" : substr($links["last"], $start_pos_page_number, $end_pos_page_number - $start_pos_page_number);
+        if ($this->equipmentOrMounts === "items/equipment") {
+            $sort = "sort%5Blevel%5D=desc";
+            $typeName = "&filter%5Btype_name%5D=" . $this->equipmentType;
+            $fieldsItem = "&fields%5Bitem%5D=parent_set,effects";
+            $minLvl = "&filter%5Bmin_level%5D=" . $this->minLvl;
+            $maxLvl = "&filter%5Bmax_level%5D=" . $this->maxLvl;
+        } elseif ($this->equipmentOrMounts === "mounts") {
+            $sort = "";
+            $typeName = "&filter%5Bfamily_name%5D=" . $this->equipmentType;
+            $fieldsItem = "&fields%5Bmount%5D=effects";
+            $minLvl = "";
+            $maxLvl = "";
         }
-        $this->items = $this->equipment_or_mounts === "items/equipment" ? $request['items'] : $request['mounts'];
+        if (is_null($this->stuffName) || $this->stuffName === "") {
+            $this->pageSize = $this->equipmentType === "Montilier" ? "-1" : 24;
+            $request = Http::get('https://api.dofusdu.de/dofus2/fr/' . $this->equipmentOrMounts . '?' . $sort . $typeName . '&page%5Bsize%5D=' . $this->pageSize . '&page%5Bnumber%5D=' . $this->page . $fieldsItem . $minLvl . $maxLvl)->json();
+            $links = $request['_links'];
+            if (array_key_exists("last", $links)) {
+                $prefix = "page%5Bnumber%5D%3D";
+                $suffix = "%26page%5Bsize%5D%3D";
+                $startPosPageNumber = strpos($links["last"], $prefix) + strlen($prefix);
+                $endPosPageNumber = strpos($links["last"], $suffix);
+                $this->lastPage = $this->equipmentType === "Montilier" ? "1" : substr($links["last"], $startPosPageNumber, $endPosPageNumber - $startPosPageNumber);
+            }
+            $generalResult = $this->equipmentOrMounts === "items/equipment" ? $request['items'] : $request['mounts'];
+            return $generalResult;
+        }
+        $items = [];
+        $mounts = [];
+        if ($this->equipmentOrMounts === "items/equipment" || $this->equipmentOrMounts === "both") {
+            $items = Http::get('https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=desc&filter%5Btype_name%5D=' . $this->equipmentType . '&page%5Bsize%5D=-1&page%5Bnumber%5D=1&fields%5Bitem%5D=parent_set,effects&filter%5Bmin_level%5D=' . $this->minLvl . "&filter%5Bmax_level%5D=" . $this->maxLvl)->json()['items'];
+        }
+        if ($this->equipmentOrMounts === "mounts" || $this->equipmentOrMounts === "both") {
+            $mounts = Http::get('https://api.dofusdu.de/dofus2/fr/mounts?page%5Bsize%5D=-1&page%5Bnumber%5D=1&fields%5Bmount%5D=effects&filter%5Bfamily_name%5D=' . $this->equipmentType)->json()['mounts'];
+        }
+        $generalResult = array_merge($items, $mounts);
+        $cpt = 0;
+        foreach ($generalResult as $item) {
+            $itemIsCertificate =
+                array_key_exists('type', $item) &&
+                (str_contains($item['type']['name'], 'Certificat') ||
+                    str_contains($item['type']['name'], ' Percepteur'));
+
+            if (!str_contains(strtolower($item['name']), $this->stuffName) || $itemIsCertificate) {
+                array_splice($generalResult, $cpt, 1);
+            } else {
+                $cpt++;
+            }
+        }
+        $this->lastPage = "1";
+        return $generalResult;
+    }
+
+    public function updateStuffName(string $stuffName)
+    {
+        $this->stuffName = $stuffName;
+        $this->items = $this->updateItems();
+    }
+
+    public function deleteFilters()
+    {
+        $this->minLvl = 1;
+        $this->maxLvl = 200;
+        $this->page = 1;
+        $this->pageSize = 24;
+        $this->equipmentType = "Amulette";
+        $this->stuffName = null;
+        $this->equipmentOrMounts = "items/equipment";
+        $this->items = $this->updateItems();
+    }
+
+    public function updateMinLvl(int $minLvl)
+    {
+        $this->minLvl = $minLvl;
+        $this->items = $this->updateItems();
+    }
+
+    public function updateMaxLvl(int $maxLvl)
+    {
+        $this->maxLvl = $maxLvl;
+        $this->items = $this->updateItems();
     }
 
     public function render(): View
     {
-        $this->updateItems();
-        return view('livewire.encyclopedia', ['equipment_type' => $this->equipment_type]);
+        return view('livewire.encyclopedia');
     }
 
 

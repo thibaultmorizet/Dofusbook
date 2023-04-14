@@ -281,3 +281,54 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
 }
+if (window.location.pathname === "/encyclopedia") {
+    const minLvl = document.getElementsByName("minLvl");
+    const maxLvl = document.getElementsByName("maxLvl");
+
+    minLvl[0].addEventListener('keypress',
+        function (event) {
+            if (isNaN(parseInt(event.key)) !== false) {
+                event.preventDefault();
+            }
+        }
+    );
+
+    minLvl[0].addEventListener('keyup',
+        function (event) {
+            if (parseInt(minLvl[0].value) > 200) {
+                minLvl[0].value = 200;
+            }
+            if (parseInt(minLvl[0].value) < 1) {
+                minLvl[0].value = 1;
+            }
+            if (parseInt(minLvl[0].value) > parseInt(maxLvl[0].value)) {
+                minLvl[0].value = parseInt(maxLvl[0].value);
+            }
+            minLvl[0].value = isNaN(parseInt(minLvl[0].value)) || parseInt(minLvl[0].value) === 0 ? 1 : parseInt(minLvl[0].value)
+        }
+    );
+
+    maxLvl[0].addEventListener('keypress',
+        function (event) {
+            if (isNaN(parseInt(event.key)) !== false) {
+                event.preventDefault();
+            }
+        }
+    );
+
+    maxLvl[0].addEventListener('keyup',
+        function (event) {
+            if (parseInt(maxLvl[0].value) > 200) {
+                maxLvl[0].value = 200;
+            }
+            if (parseInt(maxLvl[0].value) < 1) {
+                maxLvl[0].value = 1;
+            }
+            if (parseInt(maxLvl[0].value) < parseInt(minLvl[0].value)) {
+                maxLvl[0].value = parseInt(minLvl[0].value);
+            }
+            maxLvl[0].value = isNaN(parseInt(maxLvl[0].value)) || parseInt(maxLvl[0].value) === 0 ? 1 : parseInt(maxLvl[0].value)
+        }
+    );
+
+}
