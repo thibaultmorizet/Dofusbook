@@ -343,8 +343,8 @@
     <div class="py-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div>
-                <div class="grid grid-cols-3 gap-4">
-                    @foreach($items as $index=>$item)
+                <div class="grid grid-cols-3 gap-4 mb-5">
+                    @foreach($itemsToView as $index=>$item)
                         <div class="text-gray-900 dark:text-gray-100 dark:bg-gray-700 rounded-lg flex flex-col">
                             <div>
                                 <div class="flex bg-gray-800 p-6 rounded-t-lg">
@@ -364,10 +364,10 @@
                                 <div class="flex flex-col p-6">
                                     @if(array_key_exists("effects",$item))
                                         @foreach($item['effects'] as $itemEffects)
-                                            @if(array_key_exists($itemEffects['type']['name'],$equipmentTrad))
+                                            @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
                                                 <div class="flex">
                                                     <img
-                                                            src="{{'/img/icons/'.$equipmentTrad[$itemEffects['type']['name']].'.png'}}"
+                                                            src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
                                                             alt="effect image"
                                                             width="24"
                                                             height="24"
@@ -382,7 +382,8 @@
                             <div class="flex-1 flex flex-col justify-end">
                                 <div class="equipment-separator"></div>
                                 <div class="flex items-center justify-center pb-4">
-                                    <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2">
+                                    <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
+                                            wire:click="addItemToStuff({{$item['ankama_id']}})">
                                         +
                                     </button>
                                 </div>
@@ -391,6 +392,21 @@
                         </div>
                     @endforeach
                 </div>
+
+                @if(count($items)>count($itemsToView))
+                    <div class="flex items-center justify-center">
+                        <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
+                                wire:click="updateItemsToLoad()" wire:poll.visible="updateItemsToLoad()">
+                            Voir plus
+                        </button>
+                    </div>
+                @endif
+
+                @if(count($itemsToView)===0)
+                    <div class="dark:bg-gray-800 shadow-sm sm:rounded-lg p-2 text-white text-center font-semibold">
+                        <span>Aucun équipement avec ces filtres</span>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

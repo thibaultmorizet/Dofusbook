@@ -20,132 +20,275 @@
                         <span class="font-semibold">Niveau : {{$stuff->character_level}}</span>
                     </div>
                     <div class="grid grid-cols-8 gap-2">
-                        @if(is_null($stuff->amulet_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['amulet']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/amulet.png"
                                         alt="amulet image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['amulet']['image_urls']['hd']}}"
+                                        alt="amulet image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->ring_1_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['ring_1']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/ring.png"
                                         alt="ring image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['ring_1']['image_urls']['hd']}}"
+                                        alt="ring 1 image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->ring_2_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['ring_2']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/ring.png"
                                         alt="ring image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['ring_2']['image_urls']['hd']}}"
+                                        alt="ring 2 image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->hat_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['hat']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/hat.png"
                                         alt="hat image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['hat']['image_urls']['hd']}}"
+                                        alt="hat image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->cape_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['cape']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/cape.png"
                                         alt="cape image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['cape']['image_urls']['hd']}}"
+                                        alt="cape image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->belt_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['belt']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/belt.png"
                                         alt="belt image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['belt']['image_urls']['hd']}}"
+                                        alt="belt image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->boots_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['boots']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/boots.png"
                                         alt="boots image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['boots']['image_urls']['hd']}}"
+                                        alt="boots image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->weapon_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['weapon']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/weapon.png"
                                         alt="weapon image"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['weapon']['image_urls']['hd']}}"
+                                        alt="weapon image"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->dofus_1_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['dofus_1']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
+                                        width="60px"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['dofus_1']['image_urls']['hd']}}"
+                                        alt="dofus 1 image"
+                                        width="60px"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->dofus_2_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['dofus_2']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
+                                        width="60px"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['dofus_2']['image_urls']['hd']}}"
+                                        alt="dofus 2 image"
+                                        width="60px"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->dofus_3_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['dofus_3']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
+                                        width="60px"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['dofus_3']['image_urls']['hd']}}"
+                                        alt="dofus 3 image"
+                                        width="60px"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->dofus_4_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['dofus_4']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
+                                        width="60px"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['dofus_4']['image_urls']['hd']}}"
+                                        alt="dofus 4 image"
+                                        width="60px"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->dofus_5_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['dofus_5']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
+                                        width="60px"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['dofus_5']['image_urls']['hd']}}"
+                                        alt="dofus 5 image"
+                                        width="60px"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->dofus_6_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['dofus_6']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
+                                        width="60px"
                                         class="stuff-base-img">
                             </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['dofus_6']['image_urls']['hd']}}"
+                                        alt="dofus 6 image"
+                                        width="60px"
+                                >
+                            </div>
                         @endif
-                        @if(is_null($stuff->animal_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(!is_null($stuff['animal']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['animal']['image_urls']['hd']}}"
+                                        alt="animal image"
+                                        width="60px"
+                                >
+                            </div>
+                        @elseif(!is_null($stuff['mount']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                                <img
+                                        src="{{$stuff['mount']['image_urls']['hd']}}"
+                                        alt="mount image"
+                                        width="60px"
+                                >
+                            </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/animal.png"
                                         alt="animal image"
+                                        width="60px"
                                         class="stuff-base-img">
                             </div>
                         @endif
-                        @if(is_null($stuff->shield_id))
-                            <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        @if(is_null($stuff['shield']))
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
                                         src="/img/stuff/shield.png"
                                         alt="shield image"
                                         class="stuff-base-img">
+                            </div>
+                        @else
+                            <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+
+                                <img
+                                        src="{{$stuff['shield']['image_urls']['hd']}}"
+                                        alt="shield image"
+                                >
                             </div>
                         @endif
                     </div>

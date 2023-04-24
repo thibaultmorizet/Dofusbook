@@ -348,45 +348,88 @@
             <div class="flex-1">
                 <div class="flex justify-center">
                     <div>
+
+
+
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Amulette',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/amulet.png"
-                                    alt="amulet image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Amulette',{{$character_level}})">
+                            @if(is_null($stuffDetail['amulet']))
+                                <img
+                                        src="/img/stuff/amulet.png"
+                                        alt="amulet image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['amulet']['image_urls']['hd']}}"
+                                        alt="amulet image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Bouclier',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/shield.png"
-                                    alt="shield image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Bouclier',{{$character_level}})">
+                            @if(is_null($stuffDetail['shield']))
+                                <img
+                                        src="/img/stuff/shield.png"
+                                        alt="shield image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['shield']['image_urls']['hd']}}"
+                                        alt="shield image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/ring.png"
-                                    alt="ring image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
+                            @if(is_null($stuffDetail['ring_1']))
+                                <img
+                                        src="/img/stuff/ring.png"
+                                        alt="ring image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['ring_1']['image_urls']['hd']}}"
+                                        alt="ring 1 image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Ceinture',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/belt.png"
-                                    alt="belt image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Ceinture',{{$character_level}})">
+                            @if(is_null($stuffDetail['belt']))
+                                <img
+                                        src="/img/stuff/belt.png"
+                                        alt="belt image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['belt']['image_urls']['hd']}}"
+                                        alt="belt image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Bottes',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/boots.png"
-                                    alt="boots image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Bottes',{{$character_level}})">
+                            @if(is_null($stuffDetail['boots']))
+                                <img
+                                        src="/img/stuff/boots.png"
+                                        alt="boots image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['boots']['image_urls']['hd']}}"
+                                        alt="boots image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                     </div>
                     <img src="/img/character/{{$class_slug}}-{{$character_gender}}.png"
@@ -394,95 +437,189 @@
                          alt="character image">
                     <div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Chapeau',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/hat.png"
-                                    alt="hat image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Chapeau',{{$character_level}})">
+                            @if(is_null($stuffDetail['hat']))
+                                <img
+                                        src="/img/stuff/hat.png"
+                                        alt="hat image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['hat']['image_urls']['hd']}}"
+                                        alt="hat image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Arc',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/weapon.png"
-                                    alt="weapon image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Arc',{{$character_level}})">
+                            @if(is_null($stuffDetail['weapon']))
+                                <img
+                                        src="/img/stuff/weapon.png"
+                                        alt="weapon image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['weapon']['image_urls']['hd']}}"
+                                        alt="weapon image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/ring.png"
-                                    alt="ring image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
+                            @if(is_null($stuffDetail['ring_2']))
+                                <img
+                                        src="/img/stuff/ring.png"
+                                        alt="ring image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['ring_2']['image_urls']['hd']}}"
+                                        alt="ring 2 image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Cape',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/cape.png"
-                                    alt="cape image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('items/equipment','Cape',{{$character_level}})">
+                            @if(is_null($stuffDetail['cape']))
+                                <img
+                                        src="/img/stuff/cape.png"
+                                        alt="cape image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @else
+                                <img
+                                        src="{{$stuffDetail['cape']['image_urls']['hd']}}"
+                                        alt="cape image"
+                                        width="60px"
+                                >
+                            @endif
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('mounts','Dragodinde',{{$character_level}})">
-                            <img
-                                    src="/img/stuff/animal.png"
-                                    alt="animal image"
-                                    width="60px"
-                                    class="stuff-base-img">
+                             wire:click="openEncyclopediaWithFilters('mounts','Dragodinde',{{$character_level}})">
+                            @if(!is_null($stuffDetail['animal']))
+                                <img
+                                        src="{{$stuffDetail['animal']['image_urls']['hd']}}"
+                                        alt="animal image"
+                                        width="60px"
+                                >
+                            @elseif(!is_null($stuffDetail['mount']))
+                                <img
+                                        src="{{$stuffDetail['mount']['image_urls']['hd']}}"
+                                        alt="mount image"
+                                        width="60px"
+                                >
+                            @else
+                                <img
+                                        src="/img/stuff/animal.png"
+                                        alt="animal image"
+                                        width="60px"
+                                        class="stuff-base-img">
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        <img
-                                src="/img/stuff/dofus.png"
-                                alt="dofus image"
-                                width="60px"
-                                class="stuff-base-img">
+                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
+                        @if(is_null($stuffDetail['dofus_1']))
+                            <img
+                                    src="/img/stuff/dofus.png"
+                                    alt="dofus image"
+                                    width="60px"
+                                    class="stuff-base-img">
+                        @else
+                            <img
+                                    src="{{$stuffDetail['dofus_1']['image_urls']['hd']}}"
+                                    alt="dofus 1 image"
+                                    width="60px"
+                            >
+                        @endif
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        <img
-                                src="/img/stuff/dofus.png"
-                                alt="dofus image"
-                                width="60px"
-                                class="stuff-base-img">
+                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
+                        @if(is_null($stuffDetail['dofus_2']))
+                            <img
+                                    src="/img/stuff/dofus.png"
+                                    alt="dofus image"
+                                    width="60px"
+                                    class="stuff-base-img">
+                        @else
+                            <img
+                                    src="{{$stuffDetail['dofus_2']['image_urls']['hd']}}"
+                                    alt="dofus 2 image"
+                                    width="60px"
+                            >
+                        @endif
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        <img
-                                src="/img/stuff/dofus.png"
-                                alt="dofus image"
-                                width="60px"
-                                class="stuff-base-img">
+                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
+                        @if(is_null($stuffDetail['dofus_3']))
+                            <img
+                                    src="/img/stuff/dofus.png"
+                                    alt="dofus image"
+                                    width="60px"
+                                    class="stuff-base-img">
+                        @else
+                            <img
+                                    src="{{$stuffDetail['dofus_3']['image_urls']['hd']}}"
+                                    alt="dofus 3 image"
+                                    width="60px"
+                            >
+                        @endif
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg ml-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        <img
-                                src="/img/stuff/dofus.png"
-                                alt="dofus image"
-                                width="60px"
-                                class="stuff-base-img">
+                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
+                        @if(is_null($stuffDetail['dofus_4']))
+                            <img
+                                    src="/img/stuff/dofus.png"
+                                    alt="dofus image"
+                                    width="60px"
+                                    class="stuff-base-img">
+                        @else
+                            <img
+                                    src="{{$stuffDetail['dofus_4']['image_urls']['hd']}}"
+                                    alt="dofus 4 image"
+                                    width="60px"
+                            >
+                        @endif
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        <img
-                                src="/img/stuff/dofus.png"
-                                alt="dofus image"
-                                width="60px"
-                                class="stuff-base-img">
+                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
+                        @if(is_null($stuffDetail['dofus_5']))
+                            <img
+                                    src="/img/stuff/dofus.png"
+                                    alt="dofus image"
+                                    width="60px"
+                                    class="stuff-base-img">
+                        @else
+                            <img
+                                    src="{{$stuffDetail['dofus_5']['image_urls']['hd']}}"
+                                    alt="dofus 5 image"
+                                    width="60px"
+                            >
+                        @endif
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg  p-1 cursor-pointer"
-                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        <img
-                                src="/img/stuff/dofus.png"
-                                alt="dofus image"
-                                width="60px"
-                                class="stuff-base-img">
+                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
+                        @if(is_null($stuffDetail['dofus_6']))
+                            <img
+                                    src="/img/stuff/dofus.png"
+                                    alt="dofus image"
+                                    width="60px"
+                                    class="stuff-base-img">
+                        @else
+                            <img
+                                    src="{{$stuffDetail['dofus_6']['image_urls']['hd']}}"
+                                    alt="dofus 6 image"
+                                    width="60px"
+                            >
+                        @endif
                     </div>
                 </div>
             </div>

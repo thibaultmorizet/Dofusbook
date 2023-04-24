@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Stuff;
 use App\Models\Classe;
 use App\Models\Stuff;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -99,12 +100,45 @@ class Create extends Component
     public string $class_slug = "feca";
     public int $class_id = 1;
 
+
+    public array $stuffDetail = [
+        'amulet' => null,
+        'shield' => null,
+        'ring_1' => null,
+        'ring_2' => null,
+        'belt' => null,
+        'boots' => null,
+        'hat' => null,
+        'cape' => null,
+        'dofus_1' => null,
+        'dofus_2' => null,
+        'dofus_3' => null,
+        'dofus_4' => null,
+        'dofus_5' => null,
+        'dofus_6' => null,
+        'animal' => null,
+        'mount' => null,
+        'weapon' => null
+    ];
+
+
     public function mount(int $stuff_id = null, int $class_id = 1, bool $is_private_stuff = true, string $stuff_title = "", string $character_gender = "male", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
     {
         $this->stuff_id = $stuff_id;
         if (!is_null($this->stuff_id)) {
             $this->stuff = Stuff::query()->findOrFail($this->stuff_id);
             $this->class_slug = Classe::query()->findOrFail($class_id)->slug;
+            foreach (array_keys($this->stuffDetail) as $aStuffItem) {
+                $item_id = $this->stuff->{$aStuffItem . '_id'};
+                if (!is_null($item_id)) {
+                    if ($aStuffItem === "mount") {
+                        $this->stuffDetail[$aStuffItem] = $this->getItemByTypeAndId($item_id, "mounts/");
+                    } else {
+                        $this->stuffDetail[$aStuffItem] = $this->getItemByTypeAndId($item_id);
+                    }
+                    $this->addItemCharacteristics($this->stuffDetail[$aStuffItem]);
+                }
+            }
         }
 
         $this->updateIsPrivateStuff($is_private_stuff);
@@ -351,7 +385,6 @@ class Create extends Component
         $this->stuff->save();
     }
 
-
     public function updateBoostVitality(int $boost_vitality)
     {
         $this->boost_vitality = $boost_vitality;
@@ -445,7 +478,6 @@ class Create extends Component
         return $boost_strength;
     }
 
-
     public function openEncyclopediaWithFilters(string $equipmentOrMounts, string $equipementType, int $maxLvl)
     {
         return redirect()->route('encyclopedia', [
@@ -454,6 +486,19 @@ class Create extends Component
             'maxLvl' => $maxLvl]);
     }
 
+    private function getItemByTypeAndId(int $item_id, string $equipmentOrMounts = "items/equipment/")
+    {
+        return Http::get('https://api.dofusdu.de/dofus2/fr/' . $equipmentOrMounts . $item_id)->json();
+    }
+    
+    private function addItemCharacteristics(array $aStuffItem)
+    {
+        foreach ($aStuffItem["effects"] as $anEffect){
+//            dd($anEffect);
+
+        }
+    }
+    
     public function render(): View
     {
         return view('livewire.stuff.create', [
@@ -534,4 +579,8 @@ class Create extends Component
             'distance_res' => $this->distance_res,
         ]);
     }
+
+
+
+
 }

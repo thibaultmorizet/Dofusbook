@@ -12,7 +12,7 @@ class Encyclopedia extends Component
     public int $pageSize = -1;
     public string $equipmentType = "Amulette";
     public ?string $stuffName = null;
-    public array $equipmentTrad = [
+    public array $characteristicsTranslate = [
         "Vitalité" => "vitality",
         "Prospection" => "prospection",
         "PA" => "pa",
@@ -103,17 +103,76 @@ class Encyclopedia extends Component
         "Attitude" => "attitude",
         "Titre :" => "title",
     ];
+    public array $equipmentTranslate = [
+        "Amulette" => "amulet_id",
+        "Bouclier" => "shield_id",
+        "Anneau" => ["ring_1_id", "ring_2_id"],
+        "Ceinture" => "belt_id",
+        "Bottes" => "boots_id",
+        "Chapeau" => "hat_id",
+        "Cape" => "cape_id",
+        "Dofus" => [
+            "dofus_1_id",
+            "dofus_2_id",
+            "dofus_3_id",
+            "dofus_4_id",
+            "dofus_5_id",
+            "dofus_6_id"],
+        "Familier" => "animal_id",
+        "Montilier" => "animal_id",
+        "Dragodinde" => "mount_id",
+        "Muldo" => "mount_id",
+        "Volkorne" => "mount_id",
+        "Arc" => "weapon_id",
+        "Baguette" => "weapon_id",
+        "Bâton" => "weapon_id",
+        "Épée" => "weapon_id",
+        "Faux" => "weapon_id",
+        "Hache" => "weapon_id",
+        "Lance" => "weapon_id",
+        "Marteau" => "weapon_id",
+        "Pelle" => "weapon_id",
+        "Pioche" => "weapon_id",
+        "Trophée" => [
+            "dofus_1_id",
+            "dofus_2_id",
+            "dofus_3_id",
+            "dofus_4_id",
+            "dofus_5_id",
+            "dofus_6_id"],
+        "Prysmaradite" => [
+            "dofus_1_id",
+            "dofus_2_id",
+            "dofus_3_id",
+            "dofus_4_id",
+            "dofus_5_id",
+            "dofus_6_id"],
+    ];
+
     public array $items;
+    public array $itemsToView;
+    public int $itemsToLoad = 24;
     public string $equipmentOrMounts = "items/equipment";
     public int $minLvl = 1;
     public int $maxLvl = 200;
 
     public function mount()
     {
-        $this->equipmentOrMounts = request()->query->get("equipmentOrMounts")??"items/equipment";
-        $this->equipmentType = request()->query->get("equipementType")??"Amulette";
-        $this->maxLvl = request()->query->get("maxLvl")??200;
-        $this->items = $this->updateItems();
+        $this->equipmentOrMounts = request()->query->get("equipmentOrMounts") ?? "items/equipment";
+        $this->equipmentType = request()->query->get("equipementType") ?? "Amulette";
+        $this->maxLvl = request()->query->get("maxLvl") ?? 200;
+        $this->updateItems();
+    }
+
+    public function updateItemsToLoad()
+    {
+        $this->itemsToLoad += 24;
+        $this->updateItemsToView();
+    }
+
+    public function updateItemsToView()
+    {
+        $this->itemsToView = array_slice($this->items, 0, $this->itemsToLoad);
     }
 
     public function updateEquipmentType(string $equipmentOrMounts, string $equipmentType)
@@ -121,11 +180,11 @@ class Encyclopedia extends Component
         if ($this->equipmentType != $equipmentType) {
             $this->equipmentType = $equipmentType;
             $this->equipmentOrMounts = $equipmentOrMounts;
-            $this->items = $this->updateItems();
+            $this->updateItems();
         } elseif (!is_null($this->stuffName) && $this->stuffName !== "") {
             $this->equipmentType = "";
             $this->equipmentOrMounts = "both";
-            $this->items = $this->updateItems();
+            $this->updateItems();
         }
     }
 
@@ -146,8 +205,11 @@ class Encyclopedia extends Component
         }
         if (is_null($this->stuffName) || $this->stuffName === "") {
             $request = Http::get('https://api.dofusdu.de/dofus2/fr/' . $this->equipmentOrMounts . '?' . $sort . $typeName . '&page%5Bsize%5D=' . $this->pageSize . $fieldsItem . $minLvl . $maxLvl)->json();
-            $generalResult = $this->equipmentOrMounts === "items/equipment" ? $request['items'] : $request['mounts'];
-            return $generalResult;
+            $generalResult = !is_null($request) ? ($this->equipmentOrMounts === "items/equipment" ? $request['items'] : $request['mounts']) : [];
+            $this->items = $generalResult;
+            $this->updateItemsToView();
+            return;
+
         }
         $items = [];
         $mounts = [];
@@ -171,13 +233,14 @@ class Encyclopedia extends Component
                 $cpt++;
             }
         }
-        return $generalResult;
+        $this->items = $generalResult;
+        $this->updateItemsToView();
     }
 
     public function updateStuffName(string $stuffName)
     {
         $this->stuffName = $stuffName;
-        $this->items = $this->updateItems();
+        $this->updateItems();
     }
 
     public function deleteFilters()
@@ -188,19 +251,49 @@ class Encyclopedia extends Component
         $this->equipmentType = "Amulette";
         $this->stuffName = null;
         $this->equipmentOrMounts = "items/equipment";
-        $this->items = $this->updateItems();
+        $this->updateItems();
     }
 
     public function updateMinLvl(int $minLvl)
     {
         $this->minLvl = $minLvl;
-        $this->items = $this->updateItems();
+        $this->updateItems();
     }
 
     public function updateMaxLvl(int $maxLvl)
     {
         $this->maxLvl = $maxLvl;
-        $this->items = $this->updateItems();
+        $this->updateItems();
+    }
+
+    public function addItemToStuff(int $item_id)
+    {
+        $stuff = session()->get('stuff');
+        unset($stuff->class_slug);
+        if (!is_null($stuff)) {
+            $databaseEquipmentName = $this->equipmentTranslate[$this->equipmentType];
+            if (!is_array($databaseEquipmentName)) {
+                if ($databaseEquipmentName === "mount_id") {
+                    $stuff->animal_id = null;
+                }
+                if ($databaseEquipmentName === "animal_id") {
+                    $stuff->mount_id = null;
+                }
+                $stuff->{$databaseEquipmentName} = $item_id;
+                $stuff->save();
+                return redirect()->route('stuff.show', $stuff->id);
+            }
+
+            foreach ($databaseEquipmentName as $itemEmplacement) {
+                if (is_null($stuff->{$itemEmplacement})) {
+                    $stuff->{$itemEmplacement} = $item_id;
+                    $stuff->save();
+                    return redirect()->route('stuff.show', $stuff->id);
+                }
+            }
+
+            return redirect()->route('stuff.show', $stuff->id);
+        }
     }
 
     public function render(): View
