@@ -391,48 +391,6 @@
                         </div>
                     @endforeach
                 </div>
-
-                <div class="mt-3 flex items-center justify-between border-t border-gray-300 px-4">
-                    <div class="-mt-px flex w-0 flex-1">
-                        <button wire:click="previousPage"
-                                class="inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium text-gray-500 hover:text-gray-400">
-                            <x-heroicon-m-arrow-long-left class="mr-3 w-5 h-5 text-gray-400"/>
-                            Previous
-                        </button>
-                    </div>
-                    <div class="hidden md:-mt-px md:flex">
-                        @for($i = 1; $i <= $lastPage; $i++)
-                            @if($i <= 1)
-                                <button wire:click="gotoPage({{$i}})" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
-                                                              "border-transparent text-gray-500 hover:text-gray-400"  => $page!==$i,
-                                                              "border-indigo-500 text-indigo-600" => $page===$i]) {{($page===$i ? 'aria-current="page"' : '')}}>{{$i}}</button>
-                                @if($page > 4)
-                                    <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
-                                @endif
-                            @elseif($i >= $page-2 && $i <= $page+2)
-                                <button wire:click="gotoPage({{$i}})" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
-                                                          "border-transparent text-gray-500 hover:text-gray-400"  => $page!==$i,
-                                                          "border-indigo-500 text-indigo-600" => $page===$i]) {{($page===$i ? 'aria-current="page"' : '')}}>{{$i}}</button>
-                            @endif
-
-                            @if($i >= $lastPage && $page <= $lastPage-3)
-                                @if($page < $lastPage-3)
-                                    <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
-                                @endif
-                                <button wire:click="gotoPage({{$i}})" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
-                                                  "border-transparent text-gray-500 hover:text-gray-400"  => $page!==$i,
-                                                  "border-indigo-500 text-indigo-600" => $page===$i]) {{($page===$i ? 'aria-current="page"' : '')}}>{{$i}}</button>
-                            @endif
-                        @endfor
-                    </div>
-                    <div class="-mt-px flex w-0 flex-1 justify-end">
-                        <button wire:click="nextPage"
-                                class="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-gray-500 hover:text-gray-400">
-                            Next
-                            <x-heroicon-m-arrow-long-right class="ml-3 w-5 h-5 text-gray-400"/>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

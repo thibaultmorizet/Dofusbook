@@ -348,35 +348,40 @@
             <div class="flex-1">
                 <div class="flex justify-center">
                     <div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Amulette',{{$character_level}})">
                             <img
                                     src="/img/stuff/amulet.png"
                                     alt="amulet image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Bouclier',{{$character_level}})">
                             <img
                                     src="/img/stuff/shield.png"
                                     alt="shield image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
                             <img
                                     src="/img/stuff/ring.png"
                                     alt="ring image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Ceinture',{{$character_level}})">
                             <img
                                     src="/img/stuff/belt.png"
                                     alt="belt image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Bottes',{{$character_level}})">
                             <img
                                     src="/img/stuff/boots.png"
                                     alt="boots image"
@@ -388,35 +393,40 @@
                          class="character-img"
                          alt="character image">
                     <div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Chapeau',{{$character_level}})">
                             <img
                                     src="/img/stuff/hat.png"
                                     alt="hat image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Arc',{{$character_level}})">
                             <img
                                     src="/img/stuff/weapon.png"
                                     alt="weapon image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
                             <img
                                     src="/img/stuff/ring.png"
                                     alt="ring image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Cape',{{$character_level}})">
                             <img
                                     src="/img/stuff/cape.png"
                                     alt="cape image"
                                     width="60px"
                                     class="stuff-base-img">
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('mounts','Dragodinde',{{$character_level}})">
                             <img
                                     src="/img/stuff/animal.png"
                                     alt="animal image"
@@ -426,42 +436,48 @@
                     </div>
                 </div>
                 <div class="flex justify-center">
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer">
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         <img
                                 src="/img/stuff/dofus.png"
                                 alt="dofus image"
                                 width="60px"
                                 class="stuff-base-img">
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer">
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         <img
                                 src="/img/stuff/dofus.png"
                                 alt="dofus image"
                                 width="60px"
                                 class="stuff-base-img">
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer">
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         <img
                                 src="/img/stuff/dofus.png"
                                 alt="dofus image"
                                 width="60px"
                                 class="stuff-base-img">
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg ml-4 p-1 cursor-pointer">
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg ml-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         <img
                                 src="/img/stuff/dofus.png"
                                 alt="dofus image"
                                 width="60px"
                                 class="stuff-base-img">
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer">
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         <img
                                 src="/img/stuff/dofus.png"
                                 alt="dofus image"
                                 width="60px"
                                 class="stuff-base-img">
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg  p-1 cursor-pointer">
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg  p-1 cursor-pointer"
+                        wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         <img
                                 src="/img/stuff/dofus.png"
                                 alt="dofus image"

@@ -445,6 +445,15 @@ class Create extends Component
         return $boost_strength;
     }
 
+
+    public function openEncyclopediaWithFilters(string $equipmentOrMounts, string $equipementType, int $maxLvl)
+    {
+        return redirect()->route('encyclopedia', [
+            'equipmentOrMounts' => $equipmentOrMounts,
+            'equipementType' => $equipementType,
+            'maxLvl' => $maxLvl]);
+    }
+
     public function render(): View
     {
         return view('livewire.stuff.create', [
