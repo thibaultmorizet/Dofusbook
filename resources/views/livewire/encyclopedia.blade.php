@@ -349,7 +349,7 @@
                             <div>
                                 <div class="flex bg-gray-800 p-6 rounded-t-lg">
                                     <div class="flex-1">
-                                        <p class="text-xl font-semibold cursor-pointer">{{$item['name']}}</p>
+                                        <p class="text-xl font-semibold">{{$item['name']}}</p>
                                         <p>{{array_key_exists("type",$item)?$item['type']['name']:$item['name']}} -
                                             Niveau {{(array_key_exists('level',$item)? $item['level']:"60")}}</p>
                                         @if(array_key_exists('parent_set',$item))

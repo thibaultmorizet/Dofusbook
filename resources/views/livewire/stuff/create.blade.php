@@ -350,24 +350,77 @@
                     <div>
 
 
-
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
-                             wire:click="openEncyclopediaWithFilters('items/equipment','Amulette',{{$character_level}})">
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['amulet']))
+                                 data-tooltip-target="tooltip-no-amulet"
+                             @else
+                                 data-tooltip-target="tooltip-amulet"
+                             @endif
+                             data-tooltip-placement="right"
+                             >
                             @if(is_null($stuffDetail['amulet']))
                                 <img
                                         src="/img/stuff/amulet.png"
                                         alt="amulet image"
                                         width="60px"
-                                        class="stuff-base-img">
+                                        class="stuff-base-img"
+                                        wire:click="openEncyclopediaWithFilters('items/equipment','Amulette',{{$character_level}})"
+                                >
+                                <div id="tooltip-no-amulet" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter une amulette
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+
                             @else
                                 <img
                                         src="{{$stuffDetail['amulet']['image_urls']['hd']}}"
                                         alt="amulet image"
                                         width="60px"
                                 >
+                                <div id="tooltip-amulet" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    <p class="text-xl font-semibold">{{$stuffDetail['amulet']['name']}}</p>
+                                    <p>{{array_key_exists("type",$stuffDetail['amulet'])?$stuffDetail['amulet']['type']['name']:$stuffDetail['amulet']['name']}}
+                                        {{(array_key_exists('level',$stuffDetail['amulet'])? "- Niveau ".$stuffDetail['amulet']['level']:"")}}</p>
+                                    @if(array_key_exists('parent_set',$stuffDetail['amulet']))
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['amulet']['parent_set']['name']}}</p>
+                                    @endif
+                                    @if(array_key_exists("effects",$stuffDetail['amulet']))
+                                        @foreach($stuffDetail['amulet']['effects'] as $itemEffects)
+                                            @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                                <div class="flex">
+                                                    <img
+                                                            src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                            alt="effect image"
+                                                            width="24"
+                                                            height="24"
+                                                            class="mr-2 h-fit self-center">
+                                                    <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}}">{{$itemEffects['formatted']}}</span>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                        <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                                wire:click="deleteItemToStuff('amulet')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['shield']))
+                                 data-tooltip-target="tooltip-no-shield"
+                             @else
+                                 data-tooltip-target="tooltip-shield"
+                             @endif
+                             data-tooltip-placement="right"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Bouclier',{{$character_level}})">
                             @if(is_null($stuffDetail['shield']))
                                 <img
@@ -375,6 +428,11 @@
                                         alt="shield image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-shield" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter un bouclier
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
                             @else
                                 <img
                                         src="{{$stuffDetail['shield']['image_urls']['hd']}}"
@@ -383,7 +441,13 @@
                                 >
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['ring_1']))
+                                 data-tooltip-target="tooltip-no-ring-1"
+                             @else
+                                 data-tooltip-target="tooltip-ring-1"
+                             @endif
+                             data-tooltip-placement="right"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
                             @if(is_null($stuffDetail['ring_1']))
                                 <img
@@ -391,6 +455,11 @@
                                         alt="ring image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-ring-1" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter un anneau
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
                             @else
                                 <img
                                         src="{{$stuffDetail['ring_1']['image_urls']['hd']}}"
@@ -399,7 +468,13 @@
                                 >
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['belt']))
+                                 data-tooltip-target="tooltip-no-belt"
+                             @else
+                                 data-tooltip-target="tooltip-belt"
+                             @endif
+                             data-tooltip-placement="right"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Ceinture',{{$character_level}})">
                             @if(is_null($stuffDetail['belt']))
                                 <img
@@ -407,6 +482,12 @@
                                         alt="belt image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-belt" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter une ceinture
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+
                             @else
                                 <img
                                         src="{{$stuffDetail['belt']['image_urls']['hd']}}"
@@ -415,7 +496,13 @@
                                 >
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['boots']))
+                                 data-tooltip-target="tooltip-no-boots"
+                             @else
+                                 data-tooltip-target="tooltip-boots"
+                             @endif
+                             data-tooltip-placement="right"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Bottes',{{$character_level}})">
                             @if(is_null($stuffDetail['boots']))
                                 <img
@@ -423,6 +510,12 @@
                                         alt="boots image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-boots" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter des bottes
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+
                             @else
                                 <img
                                         src="{{$stuffDetail['boots']['image_urls']['hd']}}"
@@ -436,7 +529,13 @@
                          class="character-img"
                          alt="character image">
                     <div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['hat']))
+                                 data-tooltip-target="tooltip-no-hat"
+                             @else
+                                 data-tooltip-target="tooltip-hat"
+                             @endif
+                             data-tooltip-placement="left"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Chapeau',{{$character_level}})">
                             @if(is_null($stuffDetail['hat']))
                                 <img
@@ -444,6 +543,12 @@
                                         alt="hat image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-hat" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter un chapeau
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+
                             @else
                                 <img
                                         src="{{$stuffDetail['hat']['image_urls']['hd']}}"
@@ -452,7 +557,13 @@
                                 >
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['weapon']))
+                                 data-tooltip-target="tooltip-no-weapon"
+                             @else
+                                 data-tooltip-target="tooltip-weapon"
+                             @endif
+                             data-tooltip-placement="left"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Arc',{{$character_level}})">
                             @if(is_null($stuffDetail['weapon']))
                                 <img
@@ -460,6 +571,12 @@
                                         alt="weapon image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-weapon" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter une arme
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+
                             @else
                                 <img
                                         src="{{$stuffDetail['weapon']['image_urls']['hd']}}"
@@ -468,7 +585,13 @@
                                 >
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['ring_2']))
+                                 data-tooltip-target="tooltip-no-ring-2"
+                             @else
+                                 data-tooltip-target="tooltip-ring-2"
+                             @endif
+                             data-tooltip-placement="left"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Anneau',{{$character_level}})">
                             @if(is_null($stuffDetail['ring_2']))
                                 <img
@@ -476,6 +599,12 @@
                                         alt="ring image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-ring-2" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter un anneau
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+
                             @else
                                 <img
                                         src="{{$stuffDetail['ring_2']['image_urls']['hd']}}"
@@ -484,7 +613,13 @@
                                 >
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['cape']))
+                                 data-tooltip-target="tooltip-no-cape"
+                             @else
+                                 data-tooltip-target="tooltip-cape"
+                             @endif
+                             data-tooltip-placement="left"
                              wire:click="openEncyclopediaWithFilters('items/equipment','Cape',{{$character_level}})">
                             @if(is_null($stuffDetail['cape']))
                                 <img
@@ -492,6 +627,12 @@
                                         alt="cape image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-cape" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter une cape
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+
                             @else
                                 <img
                                         src="{{$stuffDetail['cape']['image_urls']['hd']}}"
@@ -500,7 +641,13 @@
                                 >
                             @endif
                         </div>
-                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer"
+                        <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                             @if(is_null($stuffDetail['animal']) && is_null($stuffDetail['mount']))
+                                 data-tooltip-target="tooltip-no-animal-or-mount"
+                             @else
+                                 data-tooltip-target="tooltip-animal-or-mount"
+                             @endif
+                             data-tooltip-placement="left"
                              wire:click="openEncyclopediaWithFilters('mounts','Dragodinde',{{$character_level}})">
                             @if(!is_null($stuffDetail['animal']))
                                 <img
@@ -508,6 +655,7 @@
                                         alt="animal image"
                                         width="60px"
                                 >
+
                             @elseif(!is_null($stuffDetail['mount']))
                                 <img
                                         src="{{$stuffDetail['mount']['image_urls']['hd']}}"
@@ -520,12 +668,23 @@
                                         alt="animal image"
                                         width="60px"
                                         class="stuff-base-img">
+                                <div id="tooltip-no-animal-or-mount" role="tooltip"
+                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                    Ajouter un familier ou une monture
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
                             @endif
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-center">
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer"
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                         @if(is_null($stuffDetail['dofus_1']))
+                             data-tooltip-target="tooltip-no-dofus-1"
+                         @else
+                             data-tooltip-target="tooltip-dofus-1"
+                         @endif
+                         data-tooltip-placement="top"
                          wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         @if(is_null($stuffDetail['dofus_1']))
                             <img
@@ -533,6 +692,11 @@
                                     alt="dofus image"
                                     width="60px"
                                     class="stuff-base-img">
+                            <div id="tooltip-no-dofus-1" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                Ajouter un dofus ou un trophée
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         @else
                             <img
                                     src="{{$stuffDetail['dofus_1']['image_urls']['hd']}}"
@@ -541,7 +705,13 @@
                             >
                         @endif
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer"
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                         @if(is_null($stuffDetail['dofus_2']))
+                             data-tooltip-target="tooltip-no-dofus-2"
+                         @else
+                             data-tooltip-target="tooltip-dofus-2"
+                         @endif
+                         data-tooltip-placement="top"
                          wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         @if(is_null($stuffDetail['dofus_2']))
                             <img
@@ -549,6 +719,11 @@
                                     alt="dofus image"
                                     width="60px"
                                     class="stuff-base-img">
+                            <div id="tooltip-no-dofus-2" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                Ajouter un dofus ou un trophée
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         @else
                             <img
                                     src="{{$stuffDetail['dofus_2']['image_urls']['hd']}}"
@@ -557,7 +732,13 @@
                             >
                         @endif
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-1 cursor-pointer"
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                         @if(is_null($stuffDetail['dofus_3']))
+                             data-tooltip-target="tooltip-no-dofus-3"
+                         @else
+                             data-tooltip-target="tooltip-dofus-3"
+                         @endif
+                         data-tooltip-placement="top"
                          wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         @if(is_null($stuffDetail['dofus_3']))
                             <img
@@ -565,6 +746,11 @@
                                     alt="dofus image"
                                     width="60px"
                                     class="stuff-base-img">
+                            <div id="tooltip-no-dofus-3" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                Ajouter un dofus ou un trophée
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         @else
                             <img
                                     src="{{$stuffDetail['dofus_3']['image_urls']['hd']}}"
@@ -573,7 +759,13 @@
                             >
                         @endif
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg ml-4 p-1 cursor-pointer"
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                         @if(is_null($stuffDetail['dofus_4']))
+                             data-tooltip-target="tooltip-no-dofus-4"
+                         @else
+                             data-tooltip-target="tooltip-dofus-4"
+                         @endif
+                         data-tooltip-placement="top"
                          wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         @if(is_null($stuffDetail['dofus_4']))
                             <img
@@ -581,6 +773,11 @@
                                     alt="dofus image"
                                     width="60px"
                                     class="stuff-base-img">
+                            <div id="tooltip-no-dofus-4" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                Ajouter un dofus ou un trophée
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         @else
                             <img
                                     src="{{$stuffDetail['dofus_4']['image_urls']['hd']}}"
@@ -589,7 +786,13 @@
                             >
                         @endif
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mx-4 p-1 cursor-pointer"
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                         @if(is_null($stuffDetail['dofus_5']))
+                             data-tooltip-target="tooltip-no-dofus-5"
+                         @else
+                             data-tooltip-target="tooltip-dofus-5"
+                         @endif
+                         data-tooltip-placement="top"
                          wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         @if(is_null($stuffDetail['dofus_5']))
                             <img
@@ -597,6 +800,11 @@
                                     alt="dofus image"
                                     width="60px"
                                     class="stuff-base-img">
+                            <div id="tooltip-no-dofus-5" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                Ajouter un dofus ou un trophée
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         @else
                             <img
                                     src="{{$stuffDetail['dofus_5']['image_urls']['hd']}}"
@@ -605,7 +813,13 @@
                             >
                         @endif
                     </div>
-                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg  p-1 cursor-pointer"
+                    <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
+                         @if(is_null($stuffDetail['dofus_6']))
+                             data-tooltip-target="tooltip-no-dofus-6"
+                         @else
+                             data-tooltip-target="tooltip-dofus-6"
+                         @endif
+                         data-tooltip-placement="top"
                          wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
                         @if(is_null($stuffDetail['dofus_6']))
                             <img
@@ -613,6 +827,11 @@
                                     alt="dofus image"
                                     width="60px"
                                     class="stuff-base-img">
+                            <div id="tooltip-no-dofus-6" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                Ajouter un dofus ou un trophée
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         @else
                             <img
                                     src="{{$stuffDetail['dofus_6']['image_urls']['hd']}}"
