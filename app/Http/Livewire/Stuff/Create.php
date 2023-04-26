@@ -585,8 +585,7 @@ class Create extends Component
     private function addItemCharacteristics(array $aStuffItem)
     {
         foreach ($aStuffItem["effects"] as $anEffect) {
-//            dd($anEffect);
-
+//            $this->{$this->characteristicsEquivalentFunction[$anEffect['type']['name']]} + $anEffect['int_maximum'];
         }
     }
 

@@ -379,6 +379,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['amulet']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['amulet']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['amulet']))
                                         @foreach($stuffDetail['amulet']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -442,6 +443,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['shield']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['shield']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['shield']))
                                         @foreach($stuffDetail['shield']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -506,6 +508,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['ring_1']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['ring_1']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['ring_1']))
                                         @foreach($stuffDetail['ring_1']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -570,6 +573,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['belt']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['belt']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['belt']))
                                         @foreach($stuffDetail['belt']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -634,6 +638,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['boots']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['boots']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['boots']))
                                         @foreach($stuffDetail['boots']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -703,6 +708,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['hat']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['hat']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['hat']))
                                         @foreach($stuffDetail['hat']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -767,6 +773,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['weapon']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['weapon']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['weapon']))
                                         @foreach($stuffDetail['weapon']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -800,7 +807,6 @@
                             </div>
 
                         </div>
-
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
                              data-popover-target="popover-ring-2"
                              data-popover-placement="left"
@@ -832,6 +838,7 @@
                                     @if(array_key_exists('parent_set',$stuffDetail['ring_2']))
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['ring_2']['parent_set']['name']}}</p>
                                     @endif
+                                    <div class="separator"></div>
                                     @if(array_key_exists("effects",$stuffDetail['ring_2']))
                                         @foreach($stuffDetail['ring_2']['effects'] as $itemEffects)
                                             @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
@@ -865,234 +872,569 @@
                             </div>
 
                         </div>
-
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                             @if(is_null($stuffDetail['cape']))
-                                 data-popover-target="popover-no-cape"
-                             @else
-                                 data-popover-target="popover-cape"
-                             @endif
+                             data-popover-target="popover-cape"
                              data-popover-placement="left"
-                             wire:click="openEncyclopediaWithFilters('items/equipment','Cape',{{$character_level}})">
-                            @if(is_null($stuffDetail['cape']))
-                                <img
-                                        src="/img/stuff/cape.png"
-                                        alt="cape image"
-                                        width="60px"
-                                        class="stuff-base-img">
-                                <div id="popover-no-cape" role="tooltip"
-                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                    Ajouter une cape
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                                </div>
+                        >
+                            <div wire:click="openEncyclopediaWithFilters('items/equipment','Cape',{{$character_level}})"
+                            >
+                                @if(is_null($stuffDetail['cape']))
+                                    <img
+                                            src="/img/stuff/cape.png"
+                                            alt="cape image"
+                                            width="60px"
+                                            class="stuff-base-img"
+                                    >
 
-                            @else
-                                <img
-                                        src="{{$stuffDetail['cape']['image_urls']['hd']}}"
-                                        alt="cape image"
-                                        width="60px"
-                                >
-                            @endif
+                                @else
+                                    <img
+                                            src="{{$stuffDetail['cape']['image_urls']['hd']}}"
+                                            alt="cape image"
+                                            width="60px"
+                                    >
+                                @endif
+                            </div>
+                            <div id="popover-cape" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                @if(!is_null($stuffDetail['cape']))
+                                    <p class="text-xl font-semibold">{{$stuffDetail['cape']['name']}}</p>
+                                    <p>{{array_key_exists("type",$stuffDetail['cape'])?$stuffDetail['cape']['type']['name']:$stuffDetail['cape']['name']}}
+                                        {{(array_key_exists('level',$stuffDetail['cape'])? "- Niveau ".$stuffDetail['cape']['level']:"")}}</p>
+                                    @if(array_key_exists('parent_set',$stuffDetail['cape']))
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['cape']['parent_set']['name']}}</p>
+                                    @endif
+                                    <div class="separator"></div>
+                                    @if(array_key_exists("effects",$stuffDetail['cape']))
+                                        @foreach($stuffDetail['cape']['effects'] as $itemEffects)
+                                            @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                                <div class="flex">
+                                                    <img
+                                                            src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                            alt="effect image"
+                                                            width="24"
+                                                            height="24"
+                                                            class="mr-2 h-fit self-center">
+                                                    <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}}">{{$itemEffects['formatted']}}</span>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                        <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                                wire:click="deleteItemToStuff('cape')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
+                                @else
+                                    Ajouter une cape
+
+                                @endif
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+
+                            </div>
+
                         </div>
                         <div class="dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg mb-4 mt-4 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                             @if(is_null($stuffDetail['animal']) && is_null($stuffDetail['mount']))
-                                 data-popover-target="popover-no-animal-or-mount"
-                             @else
-                                 data-popover-target="popover-animal-or-mount"
-                             @endif
+                             data-popover-target="popover-animal-or-mount"
                              data-popover-placement="left"
-                             wire:click="openEncyclopediaWithFilters('mounts','Dragodinde',{{$character_level}})">
-                            @if(!is_null($stuffDetail['animal']))
-                                <img
-                                        src="{{$stuffDetail['animal']['image_urls']['hd']}}"
-                                        alt="animal image"
-                                        width="60px"
-                                >
+                        >
+                            <div wire:click="openEncyclopediaWithFilters('mounts','Dragodinde',{{$character_level}})"
+                            >
+                                @if(!is_null($stuffDetail['animal']))
+                                    <img
+                                            src="{{$stuffDetail['animal']['image_urls']['hd']}}"
+                                            alt="animal image"
+                                            width="60px"
+                                    >
 
-                            @elseif(!is_null($stuffDetail['mount']))
-                                <img
-                                        src="{{$stuffDetail['mount']['image_urls']['hd']}}"
-                                        alt="mount image"
-                                        width="60px"
-                                >
-                            @else
-                                <img
-                                        src="/img/stuff/animal.png"
-                                        alt="animal image"
-                                        width="60px"
-                                        class="stuff-base-img">
-                                <div id="popover-no-animal-or-mount" role="tooltip"
-                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                @elseif(!is_null($stuffDetail['mount']))
+                                    <img
+                                            src="{{$stuffDetail['mount']['image_urls']['hd']}}"
+                                            alt="mount image"
+                                            width="60px"
+                                    >
+                                @else
+                                    <img
+                                            src="/img/stuff/animal.png"
+                                            alt="animal image"
+                                            width="60px"
+                                            class="stuff-base-img">
+                                @endif
+                            </div>
+                            <div id="popover-animal-or-mount" role="tooltip"
+                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                                @if(!is_null($stuffDetail['animal']))
+                                    <p class="text-xl font-semibold">{{$stuffDetail['animal']['name']}}</p>
+                                    <p>{{array_key_exists("type",$stuffDetail['animal'])?$stuffDetail['animal']['type']['name']:$stuffDetail['animal']['name']}}
+                                        {{(array_key_exists('level',$stuffDetail['animal'])? "- Niveau ".$stuffDetail['animal']['level']:"")}}</p>
+                                    @if(array_key_exists('parent_set',$stuffDetail['animal']))
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['animal']['parent_set']['name']}}</p>
+                                    @endif
+                                    <div class="separator"></div>
+                                    @if(array_key_exists("effects",$stuffDetail['animal']))
+                                        @foreach($stuffDetail['animal']['effects'] as $itemEffects)
+                                            @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                                <div class="flex">
+                                                    <img
+                                                            src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                            alt="effect image"
+                                                            width="24"
+                                                            height="24"
+                                                            class="mr-2 h-fit self-center">
+                                                    <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}}">{{$itemEffects['formatted']}}</span>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                        <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                                wire:click="deleteItemToStuff('animal')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
+                                @elseif(!is_null($stuffDetail['mount']))
+                                    <p class="text-xl font-semibold">{{$stuffDetail['mount']['name']}}</p>
+                                    <p>{{array_key_exists("type",$stuffDetail['mount'])?$stuffDetail['mount']['type']['name']:$stuffDetail['mount']['name']}}
+                                        {{(array_key_exists('level',$stuffDetail['mount'])? "- Niveau ".$stuffDetail['mount']['level']:"")}}</p>
+                                    @if(array_key_exists('parent_set',$stuffDetail['mount']))
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['mount']['parent_set']['name']}}</p>
+                                    @endif
+                                    <div class="separator"></div>
+                                    @if(array_key_exists("effects",$stuffDetail['mount']))
+                                        @foreach($stuffDetail['mount']['effects'] as $itemEffects)
+                                            @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                                <div class="flex">
+                                                    <img
+                                                            src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                            alt="effect image"
+                                                            width="24"
+                                                            height="24"
+                                                            class="mr-2 h-fit self-center">
+                                                    <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}}">{{$itemEffects['formatted']}}</span>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                        <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                                wire:click="deleteItemToStuff('mount')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
+                                @else
                                     Ajouter un familier ou une monture
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                                </div>
-                            @endif
+
+                                @endif
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-center">
+
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                         @if(is_null($stuffDetail['dofus_1']))
-                             data-popover-target="popover-no-dofus-1"
-                         @else
-                             data-popover-target="popover-dofus-1"
-                         @endif
+                         data-popover-target="popover-dofus-1"
                          data-popover-placement="top"
-                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        @if(is_null($stuffDetail['dofus_1']))
-                            <img
-                                    src="/img/stuff/dofus.png"
-                                    alt="dofus image"
-                                    width="60px"
-                                    class="stuff-base-img">
-                            <div id="popover-no-dofus-1" role="tooltip"
-                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                    >
+                        <div wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})"
+                        >
+                            @if(is_null($stuffDetail['dofus_1']))
+                                <img
+                                        src="/img/stuff/dofus.png"
+                                        alt="dofus image"
+                                        width="60px"
+                                        class="stuff-base-img"
+                                >
+
+                            @else
+                                <img
+                                        src="{{$stuffDetail['dofus_1']['image_urls']['hd']}}"
+                                        alt="dofus image"
+                                        width="60px"
+                                >
+                            @endif
+                        </div>
+                        <div id="popover-dofus-1" role="tooltip"
+                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                            @if(!is_null($stuffDetail['dofus_1']))
+                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_1']['name']}}</p>
+                                <p>{{array_key_exists("type",$stuffDetail['dofus_1'])?$stuffDetail['dofus_1']['type']['name']:$stuffDetail['dofus_1']['name']}}
+                                    {{(array_key_exists('level',$stuffDetail['dofus_1'])? "- Niveau ".$stuffDetail['dofus_1']['level']:"")}}</p>
+                                @if(array_key_exists('parent_set',$stuffDetail['dofus_1']))
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_1']['parent_set']['name']}}</p>
+                                @endif
+                                <div class="separator"></div>
+                                @if(array_key_exists("effects",$stuffDetail['dofus_1']))
+                                    @foreach($stuffDetail['dofus_1']['effects'] as $itemEffects)
+                                        @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                            <div class="flex">
+                                                <img
+                                                        src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects['formatted']}}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                                <div class="flex items-center justify-center pb-4 mt-4">
+                                    <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                            wire:click="deleteItemToStuff('dofus_1')"
+                                    >
+                                        <x-heroicon-m-trash
+                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                    </button>
+                                </div>
+                            @else
                                 Ajouter un dofus ou un trophée
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        @else
-                            <img
-                                    src="{{$stuffDetail['dofus_1']['image_urls']['hd']}}"
-                                    alt="dofus 1 image"
-                                    width="60px"
-                            >
-                        @endif
+
+                            @endif
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+
+                        </div>
+
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                         @if(is_null($stuffDetail['dofus_2']))
-                             data-popover-target="popover-no-dofus-2"
-                         @else
-                             data-popover-target="popover-dofus-2"
-                         @endif
+                         data-popover-target="popover-dofus-2"
                          data-popover-placement="top"
-                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        @if(is_null($stuffDetail['dofus_2']))
-                            <img
-                                    src="/img/stuff/dofus.png"
-                                    alt="dofus image"
-                                    width="60px"
-                                    class="stuff-base-img">
-                            <div id="popover-no-dofus-2" role="tooltip"
-                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                    >
+                        <div wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})"
+                        >
+                            @if(is_null($stuffDetail['dofus_2']))
+                                <img
+                                        src="/img/stuff/dofus.png"
+                                        alt="dofus image"
+                                        width="60px"
+                                        class="stuff-base-img"
+                                >
+
+                            @else
+                                <img
+                                        src="{{$stuffDetail['dofus_2']['image_urls']['hd']}}"
+                                        alt="dofus image"
+                                        width="60px"
+                                >
+                            @endif
+                        </div>
+                        <div id="popover-dofus-2" role="tooltip"
+                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                            @if(!is_null($stuffDetail['dofus_2']))
+                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_2']['name']}}</p>
+                                <p>{{array_key_exists("type",$stuffDetail['dofus_2'])?$stuffDetail['dofus_2']['type']['name']:$stuffDetail['dofus_2']['name']}}
+                                    {{(array_key_exists('level',$stuffDetail['dofus_2'])? "- Niveau ".$stuffDetail['dofus_2']['level']:"")}}</p>
+                                @if(array_key_exists('parent_set',$stuffDetail['dofus_2']))
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_2']['parent_set']['name']}}</p>
+                                @endif
+                                <div class="separator"></div>
+                                @if(array_key_exists("effects",$stuffDetail['dofus_2']))
+                                    @foreach($stuffDetail['dofus_2']['effects'] as $itemEffects)
+                                        @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                            <div class="flex">
+                                                <img
+                                                        src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects['formatted']}}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                                <div class="flex items-center justify-center pb-4 mt-4">
+                                    <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                            wire:click="deleteItemToStuff('dofus_2')"
+                                    >
+                                        <x-heroicon-m-trash
+                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                    </button>
+                                </div>
+                            @else
                                 Ajouter un dofus ou un trophée
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        @else
-                            <img
-                                    src="{{$stuffDetail['dofus_2']['image_urls']['hd']}}"
-                                    alt="dofus 2 image"
-                                    width="60px"
-                            >
-                        @endif
+
+                            @endif
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+
+                        </div>
+
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                         @if(is_null($stuffDetail['dofus_3']))
-                             data-popover-target="popover-no-dofus-3"
-                         @else
-                             data-popover-target="popover-dofus-3"
-                         @endif
+                         data-popover-target="popover-dofus-3"
                          data-popover-placement="top"
-                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        @if(is_null($stuffDetail['dofus_3']))
-                            <img
-                                    src="/img/stuff/dofus.png"
-                                    alt="dofus image"
-                                    width="60px"
-                                    class="stuff-base-img">
-                            <div id="popover-no-dofus-3" role="tooltip"
-                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                    >
+                        <div wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})"
+                        >
+                            @if(is_null($stuffDetail['dofus_3']))
+                                <img
+                                        src="/img/stuff/dofus.png"
+                                        alt="dofus image"
+                                        width="60px"
+                                        class="stuff-base-img"
+                                >
+
+                            @else
+                                <img
+                                        src="{{$stuffDetail['dofus_3']['image_urls']['hd']}}"
+                                        alt="dofus image"
+                                        width="60px"
+                                >
+                            @endif
+                        </div>
+                        <div id="popover-dofus-3" role="tooltip"
+                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                            @if(!is_null($stuffDetail['dofus_3']))
+                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_3']['name']}}</p>
+                                <p>{{array_key_exists("type",$stuffDetail['dofus_3'])?$stuffDetail['dofus_3']['type']['name']:$stuffDetail['dofus_3']['name']}}
+                                    {{(array_key_exists('level',$stuffDetail['dofus_3'])? "- Niveau ".$stuffDetail['dofus_3']['level']:"")}}</p>
+                                @if(array_key_exists('parent_set',$stuffDetail['dofus_3']))
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_3']['parent_set']['name']}}</p>
+                                @endif
+                                <div class="separator"></div>
+                                @if(array_key_exists("effects",$stuffDetail['dofus_3']))
+                                    @foreach($stuffDetail['dofus_3']['effects'] as $itemEffects)
+                                        @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                            <div class="flex">
+                                                <img
+                                                        src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects['formatted']}}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                                <div class="flex items-center justify-center pb-4 mt-4">
+                                    <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                            wire:click="deleteItemToStuff('dofus_3')"
+                                    >
+                                        <x-heroicon-m-trash
+                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                    </button>
+                                </div>
+                            @else
                                 Ajouter un dofus ou un trophée
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        @else
-                            <img
-                                    src="{{$stuffDetail['dofus_3']['image_urls']['hd']}}"
-                                    alt="dofus 3 image"
-                                    width="60px"
-                            >
-                        @endif
+
+                            @endif
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+
+                        </div>
+
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                         @if(is_null($stuffDetail['dofus_4']))
-                             data-popover-target="popover-no-dofus-4"
-                         @else
-                             data-popover-target="popover-dofus-4"
-                         @endif
+                         data-popover-target="popover-dofus-4"
                          data-popover-placement="top"
-                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        @if(is_null($stuffDetail['dofus_4']))
-                            <img
-                                    src="/img/stuff/dofus.png"
-                                    alt="dofus image"
-                                    width="60px"
-                                    class="stuff-base-img">
-                            <div id="popover-no-dofus-4" role="tooltip"
-                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                    >
+                        <div wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})"
+                        >
+                            @if(is_null($stuffDetail['dofus_4']))
+                                <img
+                                        src="/img/stuff/dofus.png"
+                                        alt="dofus image"
+                                        width="60px"
+                                        class="stuff-base-img"
+                                >
+
+                            @else
+                                <img
+                                        src="{{$stuffDetail['dofus_4']['image_urls']['hd']}}"
+                                        alt="dofus image"
+                                        width="60px"
+                                >
+                            @endif
+                        </div>
+                        <div id="popover-dofus-4" role="tooltip"
+                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                            @if(!is_null($stuffDetail['dofus_4']))
+                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_4']['name']}}</p>
+                                <p>{{array_key_exists("type",$stuffDetail['dofus_4'])?$stuffDetail['dofus_4']['type']['name']:$stuffDetail['dofus_4']['name']}}
+                                    {{(array_key_exists('level',$stuffDetail['dofus_4'])? "- Niveau ".$stuffDetail['dofus_4']['level']:"")}}</p>
+                                @if(array_key_exists('parent_set',$stuffDetail['dofus_4']))
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_4']['parent_set']['name']}}</p>
+                                @endif
+                                <div class="separator"></div>
+                                @if(array_key_exists("effects",$stuffDetail['dofus_4']))
+                                    @foreach($stuffDetail['dofus_4']['effects'] as $itemEffects)
+                                        @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                            <div class="flex">
+                                                <img
+                                                        src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects['formatted']}}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                                <div class="flex items-center justify-center pb-4 mt-4">
+                                    <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                            wire:click="deleteItemToStuff('dofus_4')"
+                                    >
+                                        <x-heroicon-m-trash
+                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                    </button>
+                                </div>
+                            @else
                                 Ajouter un dofus ou un trophée
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        @else
-                            <img
-                                    src="{{$stuffDetail['dofus_4']['image_urls']['hd']}}"
-                                    alt="dofus 4 image"
-                                    width="60px"
-                            >
-                        @endif
+
+                            @endif
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+
+                        </div>
+
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                         @if(is_null($stuffDetail['dofus_5']))
-                             data-popover-target="popover-no-dofus-5"
-                         @else
-                             data-popover-target="popover-dofus-5"
-                         @endif
+                         data-popover-target="popover-dofus-5"
                          data-popover-placement="top"
-                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        @if(is_null($stuffDetail['dofus_5']))
-                            <img
-                                    src="/img/stuff/dofus.png"
-                                    alt="dofus image"
-                                    width="60px"
-                                    class="stuff-base-img">
-                            <div id="popover-no-dofus-5" role="tooltip"
-                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                    >
+                        <div wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})"
+                        >
+                            @if(is_null($stuffDetail['dofus_5']))
+                                <img
+                                        src="/img/stuff/dofus.png"
+                                        alt="dofus image"
+                                        width="60px"
+                                        class="stuff-base-img"
+                                >
+
+                            @else
+                                <img
+                                        src="{{$stuffDetail['dofus_5']['image_urls']['hd']}}"
+                                        alt="dofus image"
+                                        width="60px"
+                                >
+                            @endif
+                        </div>
+                        <div id="popover-dofus-5" role="tooltip"
+                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                            @if(!is_null($stuffDetail['dofus_5']))
+                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_5']['name']}}</p>
+                                <p>{{array_key_exists("type",$stuffDetail['dofus_5'])?$stuffDetail['dofus_5']['type']['name']:$stuffDetail['dofus_5']['name']}}
+                                    {{(array_key_exists('level',$stuffDetail['dofus_5'])? "- Niveau ".$stuffDetail['dofus_5']['level']:"")}}</p>
+                                @if(array_key_exists('parent_set',$stuffDetail['dofus_5']))
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_5']['parent_set']['name']}}</p>
+                                @endif
+                                <div class="separator"></div>
+                                @if(array_key_exists("effects",$stuffDetail['dofus_5']))
+                                    @foreach($stuffDetail['dofus_5']['effects'] as $itemEffects)
+                                        @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                            <div class="flex">
+                                                <img
+                                                        src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects['formatted']}}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                                <div class="flex items-center justify-center pb-4 mt-4">
+                                    <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                            wire:click="deleteItemToStuff('dofus_5')"
+                                    >
+                                        <x-heroicon-m-trash
+                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                    </button>
+                                </div>
+                            @else
                                 Ajouter un dofus ou un trophée
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        @else
-                            <img
-                                    src="{{$stuffDetail['dofus_5']['image_urls']['hd']}}"
-                                    alt="dofus 5 image"
-                                    width="60px"
-                            >
-                        @endif
+
+                            @endif
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+
+                        </div>
+
                     </div>
                     <div class="dark:bg-gray-700 overflow-hidden shadow-sm rounded-lg ml-3 p-1 cursor-pointer border border-2 border-gray-700 hover:border-gray-600"
-                         @if(is_null($stuffDetail['dofus_6']))
-                             data-popover-target="popover-no-dofus-6"
-                         @else
-                             data-popover-target="popover-dofus-6"
-                         @endif
+                         data-popover-target="popover-dofus-6"
                          data-popover-placement="top"
-                         wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})">
-                        @if(is_null($stuffDetail['dofus_6']))
-                            <img
-                                    src="/img/stuff/dofus.png"
-                                    alt="dofus image"
-                                    width="60px"
-                                    class="stuff-base-img">
-                            <div id="popover-no-dofus-6" role="tooltip"
-                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                    >
+                        <div wire:click="openEncyclopediaWithFilters('items/equipment','Dofus',{{$character_level}})"
+                        >
+                            @if(is_null($stuffDetail['dofus_6']))
+                                <img
+                                        src="/img/stuff/dofus.png"
+                                        alt="dofus image"
+                                        width="60px"
+                                        class="stuff-base-img"
+                                >
+
+                            @else
+                                <img
+                                        src="{{$stuffDetail['dofus_6']['image_urls']['hd']}}"
+                                        alt="dofus image"
+                                        width="60px"
+                                >
+                            @endif
+                        </div>
+                        <div id="popover-dofus-6" role="tooltip"
+                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
+                            @if(!is_null($stuffDetail['dofus_6']))
+                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_6']['name']}}</p>
+                                <p>{{array_key_exists("type",$stuffDetail['dofus_6'])?$stuffDetail['dofus_6']['type']['name']:$stuffDetail['dofus_6']['name']}}
+                                    {{(array_key_exists('level',$stuffDetail['dofus_6'])? "- Niveau ".$stuffDetail['dofus_6']['level']:"")}}</p>
+                                @if(array_key_exists('parent_set',$stuffDetail['dofus_6']))
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_6']['parent_set']['name']}}</p>
+                                @endif
+                                <div class="separator"></div>
+                                @if(array_key_exists("effects",$stuffDetail['dofus_6']))
+                                    @foreach($stuffDetail['dofus_6']['effects'] as $itemEffects)
+                                        @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
+                                            <div class="flex">
+                                                <img
+                                                        src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects['formatted']}}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                                <div class="flex items-center justify-center pb-4 mt-4">
+                                    <button class="group rounded-lg text-[#d9534f] outline outline-1 outline-offset-1 outline-[#d9534f] p-1 mx-2 hover:bg-[#d9534f] hover:outline-0"
+                                            wire:click="deleteItemToStuff('dofus_6')"
+                                    >
+                                        <x-heroicon-m-trash
+                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                    </button>
+                                </div>
+                            @else
                                 Ajouter un dofus ou un trophée
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        @else
-                            <img
-                                    src="{{$stuffDetail['dofus_6']['image_urls']['hd']}}"
-                                    alt="dofus 6 image"
-                                    width="60px"
-                            >
-                        @endif
+
+                            @endif
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+
+                        </div>
+
                     </div>
+
+
                 </div>
             </div>
         </div>
