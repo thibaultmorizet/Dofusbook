@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('sets_effects', function (Blueprint $table) {
             $table->foreignId('set_id')->constrained('sets')->references('id')->onDelete('cascade');
             $table->foreignId('effect_id')->constrained('effects')->references('id')->onDelete('cascade');
+            $table->integer("items_number");
         });
     }
 
