@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Stuff;
+use App\Models\Stuffs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
@@ -36,7 +36,7 @@ class Dashboard extends Component
 
     public function render(): View
     {
-        $stuffList = Stuff::query()
+        $stuffList = Stuffs::query()
             ->select('*', 'stuffs.id as stuff_id')
             ->where("user_id", Auth::user()->id)
             ->join('classes', function ($join) {

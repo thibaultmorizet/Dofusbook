@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Items;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 use Livewire\Component;
+use Illuminate\Database\Eloquent\Collection;
 
 class Encyclopedia extends Component
 {
 
-    public int $pageSize = -1;
     public string $equipmentType = "Amulette";
     public ?string $stuffName = null;
     public array $characteristicsTranslate = [
@@ -149,16 +150,14 @@ class Encyclopedia extends Component
             "dofus_6_id"],
     ];
 
-    public array $items;
-    public array $itemsToView;
+    public Collection $items;
+    public Collection $itemsToView;
     public int $itemsToLoad = 24;
-    public string $equipmentOrMounts = "items/equipment";
     public int $minLvl = 1;
     public int $maxLvl = 200;
 
     public function mount()
     {
-        $this->equipmentOrMounts = request()->query->get("equipmentOrMounts") ?? "items/equipment";
         $this->equipmentType = request()->query->get("equipementType") ?? "Amulette";
         $this->maxLvl = request()->query->get("maxLvl") ?? 200;
         $this->updateItems();
@@ -175,66 +174,59 @@ class Encyclopedia extends Component
         $this->itemsToView = array_slice($this->items, 0, $this->itemsToLoad);
     }
 
-    public function updateEquipmentType(string $equipmentOrMounts, string $equipmentType)
+    public function updateEquipmentType(string $equipmentType)
     {
         if ($this->equipmentType != $equipmentType) {
             $this->equipmentType = $equipmentType;
-            $this->equipmentOrMounts = $equipmentOrMounts;
-            $this->updateItems();
-        } elseif (!is_null($this->stuffName) && $this->stuffName !== "") {
-            $this->equipmentType = "";
-            $this->equipmentOrMounts = "both";
             $this->updateItems();
         }
     }
 
     private function updateItems()
     {
-        if ($this->equipmentOrMounts === "items/equipment") {
-            $sort = "sort%5Blevel%5D=desc";
-            $typeName = "&filter%5Btype_name%5D=" . $this->equipmentType;
-            $fieldsItem = "&fields%5Bitem%5D=parent_set,effects";
-            $minLvl = "&filter%5Bmin_level%5D=" . $this->minLvl;
-            $maxLvl = "&filter%5Bmax_level%5D=" . $this->maxLvl;
-        } elseif ($this->equipmentOrMounts === "mounts") {
-            $sort = "";
-            $typeName = "&filter%5Bfamily_name%5D=" . $this->equipmentType;
-            $fieldsItem = "&fields%5Bmount%5D=effects";
-            $minLvl = "";
-            $maxLvl = "";
-        }
-        if (is_null($this->stuffName) || $this->stuffName === "") {
-            $request = Http::get('https://api.dofusdu.de/dofus2/fr/' . $this->equipmentOrMounts . '?' . $sort . $typeName . '&page%5Bsize%5D=' . $this->pageSize . $fieldsItem . $minLvl . $maxLvl)->json();
-            $generalResult = !is_null($request) ? ($this->equipmentOrMounts === "items/equipment" ? $request['items'] : $request['mounts']) : [];
-            $this->items = $generalResult;
-            $this->updateItemsToView();
-            return;
 
-        }
-        $items = [];
-        $mounts = [];
-        if ($this->equipmentOrMounts === "items/equipment" || $this->equipmentOrMounts === "both") {
-            $items = Http::get('https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=desc&filter%5Btype_name%5D=' . $this->equipmentType . '&page%5Bsize%5D=-1&fields%5Bitem%5D=parent_set,effects&filter%5Bmin_level%5D=' . $this->minLvl . "&filter%5Bmax_level%5D=" . $this->maxLvl)->json()['items'];
-        }
-        if ($this->equipmentOrMounts === "mounts" || $this->equipmentOrMounts === "both") {
-            $mounts = Http::get('https://api.dofusdu.de/dofus2/fr/mounts?page%5Bsize%5D=-1&fields%5Bmount%5D=effects&filter%5Bfamily_name%5D=' . $this->equipmentType)->json()['mounts'];
-        }
-        $generalResult = array_merge($items, $mounts);
-        $cpt = 0;
-        foreach ($generalResult as $item) {
-            $itemIsCertificate =
-                array_key_exists('type', $item) &&
-                (str_contains($item['type']['name'], 'Certificat') ||
-                    str_contains($item['type']['name'], ' Percepteur'));
 
-            if (!str_contains(strtolower($item['name']), $this->stuffName) || $itemIsCertificate) {
-                array_splice($generalResult, $cpt, 1);
-            } else {
-                $cpt++;
-            }
-        }
-        $this->items = $generalResult;
-        $this->updateItemsToView();
+//        if ($this->equipmentOrMounts === "items/equipment") {
+//            $sort = "sort%5Blevel%5D=desc";
+//            $typeName = "&filter%5Btype_name%5D=" . $this->equipmentType;
+//            $fieldsItem = "&fields%5Bitem%5D=parent_set,effects";
+//            $minLvl = "&filter%5Bmin_level%5D=" . $this->minLvl;
+//            $maxLvl = "&filter%5Bmax_level%5D=" . $this->maxLvl;
+//        } elseif ($this->equipmentOrMounts === "mounts") {
+//            $sort = "";
+//            $typeName = "&filter%5Bfamily_name%5D=" . $this->equipmentType;
+//            $fieldsItem = "&fields%5Bmount%5D=effects";
+//            $minLvl = "";
+//            $maxLvl = "";
+//        }
+//        if (is_null($this->stuffName) || $this->stuffName === "") {
+//            $request = Http::get('https://api.dofusdu.de/dofus2/fr/' . $this->equipmentOrMounts . '?' . $sort . $typeName . '&page%5Bsize%5D=' . $this->pageSize . $fieldsItem . $minLvl . $maxLvl)->json();
+//            $generalResult = !is_null($request) ? ($this->equipmentOrMounts === "items/equipment" ? $request['items'] : $request['mounts']) : [];
+//            $this->items = $generalResult;
+//            $this->updateItemsToView();
+//            return;
+//
+//        }
+//        $items = [];
+//        $mounts = [];
+//        if ($this->equipmentOrMounts === "items/equipment" || $this->equipmentOrMounts === "both") {
+//            $items = Http::get('https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=desc&filter%5Btype_name%5D=' . $this->equipmentType . '&page%5Bsize%5D=-1&fields%5Bitem%5D=parent_set,effects&filter%5Bmin_level%5D=' . $this->minLvl . "&filter%5Bmax_level%5D=" . $this->maxLvl)->json()['items'];
+//        }
+//        if ($this->equipmentOrMounts === "mounts" || $this->equipmentOrMounts === "both") {
+//            $mounts = Http::get('https://api.dofusdu.de/dofus2/fr/mounts?page%5Bsize%5D=-1&fields%5Bmount%5D=effects&filter%5Bfamily_name%5D=' . $this->equipmentType)->json()['mounts'];
+//        }
+//        $generalResult = array_merge($items, $mounts);
+
+//        $this->items = $generalResult;
+
+        $this->itemsToView = Items::query()
+            ->with(['type', 'effects', 'conditions'])
+            ->where("type_id", "=", 1)
+            ->get();
+//            ->where("type_id", "=", 1)
+////            ->join('types', 'items.type_id', '=', 'types.type_id')
+//            ->get();
+//        $this->updateItemsToView();
     }
 
     public function updateStuffName(string $stuffName)
@@ -247,10 +239,8 @@ class Encyclopedia extends Component
     {
         $this->minLvl = 1;
         $this->maxLvl = 200;
-        $this->pageSize = -1;
         $this->equipmentType = "Amulette";
         $this->stuffName = null;
-        $this->equipmentOrMounts = "items/equipment";
         $this->updateItems();
     }
 

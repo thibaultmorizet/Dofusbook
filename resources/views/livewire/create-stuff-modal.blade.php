@@ -19,8 +19,8 @@
                          class="cursor-pointer p-1 rounded-lg {{$selectedClass===$class->id?'selected':'unselected'}}">
                         <img
                                 id="class-{{$class->id}}"
-                                src="/img/avatar/{{$class->slug}}-{{$gender}}.png"
-                                alt="{{$class->slug}}-{{$gender}} image"
+                                src="/img/avatar/{{$class->class_slug}}-{{$gender}}.png"
+                                alt="{{$class->class_slug}}-{{$gender}} image"
                         >
                     </div>
                 @endforeach

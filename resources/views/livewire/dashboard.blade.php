@@ -3,7 +3,7 @@
         <div class="p-6 text-gray-900 dark:text-gray-100 dark:bg-gray-800 sm:rounded-lg cursor-pointer"
              wire:click="goToStuffEdit({{$stuff->stuff_id}})">
             <div class="flex text-center">
-                <div><img src="/img/character/{{$stuff->slug}}-{{$stuff->gender}}.png"
+                <div><img src="/img/character/{{$stuff->class_slug}}-{{$stuff->gender}}.png"
                           class="character-img-dashboard"
                           alt="character image">
                 </div>

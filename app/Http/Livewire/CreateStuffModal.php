@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Classe;
-use App\Models\Stuff;
+use App\Models\Classes;
+use App\Models\Stuffs;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -21,7 +21,7 @@ class CreateStuffModal extends ModalComponent
     public bool $is_private_stuff = true;
     public bool $is_updating_stuff = false;
 
-    public Stuff $stuff;
+    public Stuffs $stuff;
 
     public function updateLevel(int $level)
     {
@@ -54,7 +54,7 @@ class CreateStuffModal extends ModalComponent
             if ($this->stuff_title == "" || is_null($this->stuff_title)) {
                 return false;
             }
-            $newStuff = new Stuff();
+            $newStuff = new Stuffs();
             $newStuff->user_id = Auth::user()->id;
             $newStuff->class_id = $this->selectedClass === 0 ? 1 : $this->selectedClass;
             $newStuff->is_private = $this->is_private_stuff;
@@ -67,7 +67,7 @@ class CreateStuffModal extends ModalComponent
             return false;
         }
         if (!is_null($this->stuff_id)) {
-            $this->stuff = Stuff::query()->findOrFail($this->stuff_id);
+            $this->stuff = Stuffs::query()->findOrFail($this->stuff_id);
             $this->stuff->title = $this->stuff_title;
             $this->stuff->character_level = $this->character_level;
             $this->stuff->gender = $this->gender;
@@ -81,7 +81,7 @@ class CreateStuffModal extends ModalComponent
 
     public function render()
     {
-        $this->classes = Classe::all();
+        $this->classes = Classes::all();
         return view('livewire.create-stuff-modal', [
             'classes' => $this->classes,
             'gender' => $this->gender,

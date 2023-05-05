@@ -13,11 +13,11 @@ return new class extends Migration {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("summary", 5000);
+            $table->string("summary", 5000)->nullable();
             $table->foreignId('type_id')->constrained('types')->references('id')->onDelete('cascade');
             $table->foreignId('set_id')->nullable()->constrained('sets')->references('id')->onDelete('cascade');
             $table->integer("level");
-            $table->integer("pods");
+            $table->integer("pods")->nullable();
             $table->boolean("is_weapon");
             $table->string("image");
             $table->integer("critical_hit_probability")->nullable();

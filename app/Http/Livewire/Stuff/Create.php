@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Stuff;
 
-use App\Models\Classe;
-use App\Models\Stuff;
+use App\Models\Classes;
+use App\Models\Stuffs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
@@ -96,7 +96,7 @@ class Create extends Component
     public int $push_res = 0;
     public int $distance_res = 0;
 
-    public Stuff $stuff;
+    public Stuffs $stuff;
     public string $class_slug = "feca";
     public int $class_id = 1;
 
@@ -217,8 +217,8 @@ class Create extends Component
     {
         $this->stuff_id = $stuff_id;
         if (!is_null($this->stuff_id)) {
-            $this->stuff = Stuff::query()->findOrFail($this->stuff_id);
-            $this->class_slug = Classe::query()->findOrFail($class_id)->slug;
+            $this->stuff = Stuffs::query()->findOrFail($this->stuff_id);
+            $this->class_slug = Classes::query()->findOrFail($class_id)->slug;
             foreach (array_keys($this->stuffDetail) as $aStuffItem) {
                 $item_id = $this->stuff->{$aStuffItem . '_id'};
                 if (!is_null($item_id)) {

@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Effect;
-use App\Models\Item;
-use App\Models\ItemEffect;
-use App\Models\Set;
-use App\Models\SetEffect;
-use App\Models\Type;
+use App\Models\Conditions;
+use App\Models\Effects;
+use App\Models\Items;
+use App\Models\Sets;
+use App\Models\Types;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -30,6 +29,7 @@ class ImportItems extends Command
 
     public array $characteristicsTranslate = [
         "Vitalité" => "vitality",
+        "(PV rendus)" => "vitality",
         "Prospection" => "prospection",
         "PA" => "pa",
         "PM" => "pm",
@@ -41,10 +41,16 @@ class ImportItems extends Command
         "Soins" => "health",
         "Soin" => "health",
         "Sagesse" => "wisdom",
+        "Neutre" => "neutral",
         "Force" => "strength",
         "Intelligence" => "intel",
         "Chance" => "luck",
         "Agilité" => "agility",
+        "(vol Neutre)" => "neutral",
+        "(vol Terre)" => "strength",
+        "(vol Feu)" => "intel",
+        "(vol Eau)" => "luck",
+        "(vol Air)" => "agility",
         "Puissance" => "power",
         "Fuite" => "leak",
         "Tacle" => "tackle",
@@ -60,13 +66,23 @@ class ImportItems extends Command
         "Dommages Feu" => "do_fire",
         "Dommages Eau" => "do_water",
         "Dommages Air" => "do_air",
-        "Dommages Critiques" => "do_critique",
-        "Dommages Poussée" => "do_push",
         "Dommage Neutre" => "do_neutral",
         "Dommage Terre" => "do_earth",
         "Dommage Feu" => "do_fire",
         "Dommage Eau" => "do_water",
         "Dommage Air" => "do_air",
+        "(dommages Neutre)" => "do_neutral",
+        "(dommages Terre)" => "do_earth",
+        "(dommages Feu)" => "do_fire",
+        "(dommages Eau)" => "do_water",
+        "(dommages Air)" => "do_air",
+        "(dommage Neutre)" => "do_neutral",
+        "(dommage Terre)" => "do_earth",
+        "(dommage Feu)" => "do_fire",
+        "(dommage Eau)" => "do_water",
+        "(dommage Air)" => "do_air",
+        "Dommages Critiques" => "do_critique",
+        "Dommages Poussée" => "do_push",
         "Dommage Critiques" => "do_critique",
         "Dommage Poussée" => "do_push",
         "Dommage Pièges" => "do_tricks",
@@ -85,6 +101,26 @@ class ImportItems extends Command
         "Résistance Eau" => "water_res",
         "Résistances Air" => "air_res",
         "Résistance Air" => "air_res",
+        "Résistances Neutre JCJ" => "neutral_res",
+        "Résistance Neutre JCJ" => "neutral_res",
+        "Résistances Terre JCJ" => "earth_res",
+        "Résistance Terre JCJ" => "earth_res",
+        "Résistances Feu JCJ" => "fire_res",
+        "Résistance Feu JCJ" => "fire_res",
+        "Résistances Eau JCJ" => "water_res",
+        "Résistance Eau JCJ" => "water_res",
+        "Résistances Air JCJ" => "air_res",
+        "Résistance Air JCJ" => "air_res",
+        "% Résistances Neutre JCJ" => "neutral_res",
+        "% Résistance Neutre JCJ" => "neutral_res",
+        "% Résistances Terre JCJ" => "earth_res",
+        "% Résistance Terre JCJ" => "earth_res",
+        "% Résistances Feu JCJ" => "fire_res",
+        "% Résistance Feu JCJ" => "fire_res",
+        "% Résistances Eau JCJ" => "water_res",
+        "% Résistance Eau JCJ" => "water_res",
+        "% Résistances Air JCJ" => "air_res",
+        "% Résistance Air JCJ" => "air_res",
         "Résistances Critiques" => "critique_res",
         "Résistance Critiques" => "critique_res",
         "% Résistance mêlée" => "melee_res",
@@ -118,6 +154,18 @@ class ImportItems extends Command
         "Change les paroles" => "title",
         "Attitude" => "attitude",
         "Titre :" => "title",
+        "Arme de chasse" => "title",
+    ];
+    public array $characteristicsToIgnore = [
+        "max.",
+        "Ajouter un sort temporaire",
+        "Échangeable :",
+        "Utilisations restantes : /",
+        "Nombre de victimes :",
+        "Lié au personnage",
+        "Craft coopératif impossible.",
+        "Reçu le :",
+        "Change l'apparence"
     ];
 
     public function __construct()
@@ -129,6 +177,12 @@ class ImportItems extends Command
      * Execute the console command.
      */
     public function handle(): void
+    {
+        $this->importItems();
+        $this->importMounts();
+    }
+
+    private function importItems()
     {
         $equipmentTypes = [
             "Amulette",
@@ -154,42 +208,97 @@ class ImportItems extends Command
             "Trophée",
             "Prysmaradite"
         ];
-        $mountTypes = [
-            "Dragodinde",
-            "Muldo",
-            "Volkorne"
-        ];
+
         foreach ($equipmentTypes as $anEquipmentType) {
-            $type = Type::all()->where("name", "=", $anEquipmentType)->first();
+            $type = Types::all()->where("name", "=", $anEquipmentType)->first();
 
             if (is_null($type)) {
-                $type = new Type();
+                $type = new Types();
                 $type->name = $anEquipmentType;
                 $type->save();
             }
 
-            $equipmentRequest = "https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=desc&filter%5Btype_name%5D={$anEquipmentType}&filter%5Bmin_level%5D=0&filter%5Bmax_level%5D=200&page%5Bsize%5D=-1&fields%5Bitem%5D=recipe,description,conditions,effects,is_weapon,pods,parent_set,critical_hit_probability,critical_hit_bonus,is_two_handed,max_cast_per_turn,ap_cost,range";
+            $this->info('Start import of ' . $anEquipmentType . ' items');
+
+            $equipmentRequest = "https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=desc&filter%5Btype_name%5D=$anEquipmentType&filter%5Bmin_level%5D=0&filter%5Bmax_level%5D=200&page%5Bsize%5D=-1&fields%5Bitem%5D=recipe,description,conditions,effects,is_weapon,pods,parent_set,critical_hit_probability,critical_hit_bonus,is_two_handed,max_cast_per_turn,ap_cost,range";
             $equipmentList = Http::get($equipmentRequest);
             foreach ($equipmentList["items"] as $anEquipment) {
-                $item = Item::query()->find($anEquipment["ankama_id"]);
+                $item = Items::query()->find($anEquipment["ankama_id"]);
                 if (is_null($item)) {
                     $this->saveNewItem($anEquipment, $type);
                     continue;
                 }
                 if ($item->md5 !== md5(json_encode($anEquipment))) {
-                    $this->updateExistingItem($item->id, $anEquipment);
+                    $this->updateExistingItem($item->id, $anEquipment, $type);
                 }
-                die();
             }
             $this->info('All items of ' . $anEquipmentType . ' type are imported');
-            die();
+
+            $itemsIds = $this->pluck($equipmentList["items"], "ankama_id");
+
+            $itemsToDelete = Items::all()->where("type_id", "=", $type->type_id)->whereNotIn("id", $itemsIds);
+            if (count($itemsToDelete) > 0) {
+                foreach ($itemsToDelete as $item) {
+                    $this->deleteItem($item->id);
+                }
+                $this->info('All items to deleted of ' . $anEquipmentType . ' type are deleted');
+            }
         }
         $this->info('All items are imported');
+
     }
 
-    private function saveNewItem($item, Type $type)
+    private function importMounts()
     {
-        $newItem = new Item();
+        $mountTypes = [
+            "Dragodinde",
+            "Muldo",
+            "Volkorne"
+        ];
+
+        foreach ($mountTypes as $aMountType) {
+            $type = Types::all()->where("name", "=", $aMountType)->first();
+
+            if (is_null($type)) {
+                $type = new Types();
+                $type->name = $aMountType;
+                $type->save();
+            }
+            $this->info('Start import of ' . $aMountType . ' mounts');
+
+            $mountRequest = "https://api.dofusdu.de/dofus2/fr/mounts?filter%5Bfamily_name%5D=$aMountType&page%5Bsize%5D=-1&fields%5Bmount%5D=effects";
+            $mountList = Http::get($mountRequest);
+            foreach ($mountList["mounts"] as $anEquipment) {
+                $mount = Items::query()->find($anEquipment["ankama_id"]);
+                $anEquipment["level"] = 60;
+                $anEquipment["is_weapon"] = false;
+                if (is_null($mount)) {
+                    $this->saveNewItem($anEquipment, $type);
+                    continue;
+                }
+                if ($mount->md5 !== md5(json_encode($anEquipment))) {
+                    $this->updateExistingItem($mount->id, $anEquipment, $type);
+                }
+            }
+            $this->info('All mounts of ' . $aMountType . ' type are imported');
+
+            $mountsIds = $this->pluck($mountList["mounts"], "ankama_id");
+
+            $mountsToDelete = Items::all()->where("type_id", "=", $type->type_id)->whereNotIn("id", $mountsIds);
+            if (count($mountsToDelete) > 0) {
+                foreach ($mountsToDelete as $mount) {
+                    $this->deleteItem($mount->id);
+                }
+                $this->info('All mounts to deleted of ' . $aMountType . ' type are deleted');
+            }
+        }
+        $this->info('All mounts are imported');
+
+    }
+
+    private function saveNewItem($item, Types $type)
+    {
+        $newItem = new Items();
         $newItem->id = Arr::get($item, "ankama_id");
         $newItem->name = Arr::get($item, "name");
         $newItem->summary = Arr::get($item, "description");
@@ -208,50 +317,53 @@ class ImportItems extends Command
         $newItem->md5 = md5(json_encode($item));
         $parentSetId = Arr::get(Arr::get($item, "parent_set"), "id");
         if ($parentSetId) {
-            $parentSet = Set::query()->find($parentSetId);
+            $parentSet = Sets::query()->find($parentSetId);
             if (is_null($parentSet)) {
                 $this->createSet($parentSetId);
             }
             $newItem->set_id = $parentSetId;
         }
-//        TODO Ajout conditions
+
         if ($newItem->save()) {
-            $this->saveItemEffects($newItem->id, Arr::get($item, "effects"));
-        };
-
-    }
-
-    private function updateExistingItem(int $id, array $item)
-    {
-        var_dump($id, $item);
-        die();
-
-    }
-
-    private function saveItemEffects(int $id, array $effects)
-    {
-    }
-
-    private function saveSetEffects(int $id, array $effectsGroups)
-    {
-        foreach ($effectsGroups as $index => $effectsGroup) {
-            $itemsNumber = $index + 2;
-            foreach ($effectsGroup as $effect) {
-                $effectId = $this->saveEffect($effect);
-                if ($effectId === false) {
-                    return false;
-                }
-                $this->linkEffectToSet($effectId, $id, $itemsNumber);
-
+            $effects = Arr::get($item, "effects");
+            if (is_null($effects) === false) {
+                $this->saveItemEffects($newItem->id, $effects);
+            }
+            $conditions = Arr::get($item, "conditions");
+            if (is_null($conditions) === false) {
+                $this->saveItemConditions($newItem->id, $conditions);
             }
         }
     }
 
-    private function createSet(mixed $parentSetId)
+    private function updateExistingItem(int $itemId, array $item, Types $type)
     {
-        $setRequest = "https://api.dofusdu.de/dofus2/fr/sets/{$parentSetId}";
+        $this->deleteItem($itemId);
+        $this->saveNewItem($item, $type);
+    }
+
+    private function saveItemEffects(int $itemId, array $effects): void
+    {
+        foreach ($effects as $effect) {
+            $this->saveEffect($effect, itemId: $itemId);
+        }
+    }
+
+    private function saveSetEffects(int $setId, array $effectsGroups): void
+    {
+        foreach ($effectsGroups as $index => $effectsGroup) {
+            $itemsNumber = $index + 2;
+            foreach ($effectsGroup as $effect) {
+                $this->saveEffect($effect, itemsNumber: $itemsNumber, setId: $setId);
+            }
+        }
+    }
+
+    private function createSet(int $parentSetId)
+    {
+        $setRequest = "https://api.dofusdu.de/dofus2/fr/sets/$parentSetId";
         $setResult = Http::get($setRequest);
-        $set = new Set();
+        $set = new Sets();
         $set->id = Arr::get($setResult, "ankama_id");
         $set->name = Arr::get($setResult, "name");
         $set->items = count(Arr::get($setResult, "equipment_ids"));
@@ -259,43 +371,101 @@ class ImportItems extends Command
 
         if ($set->save()) {
             $this->saveSetEffects($set->id, Arr::get($setResult, "effects"));
-        };
+        }
 
     }
 
-    private function linkEffectToSet(int $effectId, int $setId, int $itemsNumber)
+    private function saveEffect(array $effectDatas, int $itemsNumber = null, int $itemId = null, int $setId = null): void
     {
-        $setEffect = new SetEffect();
-        $setEffect->set_id = $setId;
-        $setEffect->effect_id = $effectId;
-        $setEffect->items_number = $itemsNumber;
-        $setEffect->save();
-    }
+        $name = Arr::get(Arr::get($effectDatas, "type"), "name");
 
-    private function linkEffectToItem(int $effectId, int $itemId)
-    {
-        $itemEffect = new ItemEffect();
-        $itemEffect->item_id = $itemId;
-        $itemEffect->effect_id = $effectId;
-        $itemEffect->save();
-    }
+        if (array_search($name, $this->characteristicsToIgnore) !== false) {
+            return;
+        }
 
-    private function saveEffect(array $effectDatas)
-    {
-        $translate_name = Arr::get($this->characteristicsTranslate, Arr::get(Arr::get($effectDatas, "type"), "name"));;
-        $effect = new Effect();
-        $effect->name = Arr::get(Arr::get($effectDatas, "type"), "name");
+        $translate_name = Arr::get($this->characteristicsTranslate, $name);
+
+        $effect = new Effects();
+        $effect->name = $name;
         $effect->image = ('/img/icons/' . $translate_name . '.png');
-        $effect->translate_name = $translate_name;
+        $effect->translated_name = $translate_name;
         $effect->int_minimum = Arr::get($effectDatas, "int_minimum");
         $effect->int_maximum = Arr::get($effectDatas, "int_maximum");
         $effect->ignore_int_min = Arr::get($effectDatas, "ignore_int_min");
         $effect->ignore_int_max = Arr::get($effectDatas, "ignore_int_max");
         $effect->formatted_name = Arr::get($effectDatas, "formatted");
+        $effect->item_id = $itemId;
+        $effect->set_id = $setId;
+        $effect->set_number_items = $itemsNumber;
         if ($effect->save() === false) {
-            return false;
+            return;
         }
-        return $effect->id;
+        $effect->id;
+    }
+
+    private function saveItemConditions(int $itemId, array $conditions): void
+    {
+        foreach ($conditions as $condition) {
+            $this->saveCondition($condition, $itemId);
+        }
+    }
+
+    private function saveCondition(array $conditionDatas, int $itemId): void
+    {
+        $name = Arr::get(Arr::get($conditionDatas, "element"), "name");
+        if ($name === "") {
+            return;
+        }
+        $condition = new Conditions();
+        $condition->name = $name;
+        $condition->operator = Arr::get($conditionDatas, "operator");
+        $condition->int_value = Arr::get($conditionDatas, "int_value");
+        $condition->item_id = $itemId;
+        if ($condition->save() === false) {
+            return;
+        }
+        $condition->id;
+    }
+
+    private function deleteItem(int $itemId)
+    {
+        $itemToDelete = Items::query()->find($itemId);
+//        $conditionsToDelete = ItemsConditions::all()->where("item_id", "=", $itemId);
+//        $effectsToDelete = ItemsEffects::all()->where("item_id", "=", $itemId);
+//        foreach ($conditionsToDelete as  $aCondition) {
+//            (Conditions::query()->find($aCondition->condition_id))->delete();
+//        }
+//        foreach ($effectsToDelete as $anEffect) {
+//            (Effects::query()->find($anEffect->effect_id))->delete();
+//        }
+        $itemToDelete->delete();
+    }
+
+    function pluck($array, $field): array
+    {
+        $ids = [];
+
+        foreach ($array as $item) {
+            $tmpField = $field;
+            if (is_array($tmpField)) {
+
+                $tmpItem = $item[$tmpField[0]];
+
+                array_splice($tmpField, 0, 1);
+
+                foreach ($tmpField as $subfield) {
+                    $tmpItem = $tmpItem[$subfield];
+                }
+
+                $ids[] = $tmpItem;
+                continue;
+
+            }
+
+            $ids[] = $item[$field];
+
+        }
+        return $ids;
     }
 
 }

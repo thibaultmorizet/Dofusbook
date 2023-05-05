@@ -40,7 +40,7 @@
             <div class="grid grid-cols-13 gap-3">
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Amulette')">
+                         wire:click="updateEquipmentType('Amulette')">
                         <img
                                 src="/img/stuff/amulet.png"
                                 alt="amulet image"
@@ -51,7 +51,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Anneau')">
+                         wire:click="updateEquipmentType('Anneau')">
 
                         <img
                                 src="/img/stuff/ring.png"
@@ -63,7 +63,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Bottes')">
+                         wire:click="updateEquipmentType('Bottes')">
 
                         <img
                                 src="/img/stuff/boots.png"
@@ -75,7 +75,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Bouclier')">
+                         wire:click="updateEquipmentType('Bouclier')">
 
                         <img
                                 src="/img/stuff/shield.png"
@@ -87,7 +87,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Cape')">
+                         wire:click="updateEquipmentType('Cape')">
 
                         <img
                                 src="/img/stuff/cape.png"
@@ -99,7 +99,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Ceinture')">
+                         wire:click="updateEquipmentType('Ceinture')">
 
                         <img
                                 src="/img/stuff/belt.png"
@@ -111,7 +111,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Chapeau')">
+                         wire:click="updateEquipmentType('Chapeau')">
 
                         <img
                                 src="/img/stuff/hat.png"
@@ -123,7 +123,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Dofus')">
+                         wire:click="updateEquipmentType('Dofus')">
 
                         <img
                                 src="/img/stuff/dofus.png"
@@ -135,7 +135,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Familier')">
+                         wire:click="updateEquipmentType('Familier')">
 
                         <img
                                 src="/img/stuff/animal.png"
@@ -147,7 +147,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Montilier')">
+                         wire:click="updateEquipmentType('Montilier')">
 
                         <img
                                 src="/img/stuff/mount.png"
@@ -159,7 +159,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('mounts','Dragodinde')">
+                         wire:click="updateEquipmentType('Dragodinde')">
 
                         <img
                                 src="/img/stuff/dragodinde.png"
@@ -171,7 +171,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('mounts','Muldo')">
+                         wire:click="updateEquipmentType('Muldo')">
 
                         <img
                                 src="/img/stuff/muldo.png"
@@ -183,7 +183,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('mounts','Volkorne')">
+                         wire:click="updateEquipmentType('Volkorne')">
 
                         <img
                                 src="/img/stuff/volkorne.png"
@@ -195,7 +195,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Arc')">
+                         wire:click="updateEquipmentType('Arc')">
 
                         <img
                                 src="/img/stuff/bow.png"
@@ -207,7 +207,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Baguette')">
+                         wire:click="updateEquipmentType('Baguette')">
 
                         <img
                                 src="/img/stuff/rod.png"
@@ -219,7 +219,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Bâton')">
+                         wire:click="updateEquipmentType('Bâton')">
 
                         <img
                                 src="/img/stuff/stick.png"
@@ -231,7 +231,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Épée')">
+                         wire:click="updateEquipmentType('Épée')">
 
                         <img
                                 src="/img/stuff/sword.png"
@@ -243,7 +243,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Faux')">
+                         wire:click="updateEquipmentType('Faux')">
 
                         <img
                                 src="/img/stuff/scythe.png"
@@ -255,7 +255,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Hache')">
+                         wire:click="updateEquipmentType('Hache')">
 
                         <img
                                 src="/img/stuff/axe.png"
@@ -267,7 +267,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Lance')">
+                         wire:click="updateEquipmentType('Lance')">
 
                         <img
                                 src="/img/stuff/spear.png"
@@ -279,7 +279,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Marteau')">
+                         wire:click="updateEquipmentType('Marteau')">
 
                         <img
                                 src="/img/stuff/hammer.png"
@@ -291,7 +291,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Pelle')">
+                         wire:click="updateEquipmentType('Pelle')">
 
                         <img
                                 src="/img/stuff/shovel.png"
@@ -303,7 +303,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Pioche')">
+                         wire:click="updateEquipmentType('Pioche')">
                         <img
                                 src="/img/stuff/pickaxe.png"
                                 alt="pickaxe image"
@@ -314,7 +314,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Trophée')">
+                         wire:click="updateEquipmentType('Trophée')">
 
                         <img
                                 src="/img/stuff/trophy.png"
@@ -326,7 +326,7 @@
 
                 <div class="flex justify-center">
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
-                         wire:click="updateEquipmentType('items/equipment','Prysmaradite')">
+                         wire:click="updateEquipmentType('Prysmaradite')">
 
                         <img
                                 src="/img/stuff/prysmaradite.png"
@@ -349,15 +349,15 @@
                             <div>
                                 <div class="flex bg-gray-800 p-6 rounded-t-lg">
                                     <div class="flex-1">
-                                        <p class="text-xl font-semibold">{{$item['name']}}</p>
-                                        <p>{{array_key_exists("type",$item)?$item['type']['name']:$item['name']}} -
-                                            Niveau {{(array_key_exists('level',$item)? $item['level']:"60")}}</p>
-                                        @if(array_key_exists('parent_set',$item))
-                                            <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$item['parent_set']['name']}}</p>
+                                        <p class="text-xl font-semibold">{{$item->name}}</p>
+                                        <p>{{$item->type->name}} -
+                                            Niveau {{$item->level}}</p>
+                                        @if(is_null($item->set_id)!==false)
+                                            <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$item->set_id}}</p>
                                         @endif
                                     </div>
                                     <img
-                                            src="{{$item['image_urls']['sd']}}"
+                                            src="{{$item->item_image}}"
                                             alt="equipment image"
                                             width="90">
                                 </div>
@@ -383,7 +383,7 @@
                                 <div class="equipment-separator"></div>
                                 <div class="flex items-center justify-center pb-4">
                                     <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
-                                            wire:click="addItemToStuff({{$item['ankama_id']}})">
+                                            wire:click="addItemToStuff({{$item->id}})">
                                         +
                                     </button>
                                 </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Stuff;
+use App\Models\Stuffs;
 use LivewireUI\Modal\ModalComponent;
 
 class DeleteStuffModal extends ModalComponent
@@ -13,7 +13,7 @@ class DeleteStuffModal extends ModalComponent
     {
         try {
             if (!is_null($this->stuff_id)) {
-                $stuffToDelete = Stuff::query()->findOrFail($this->stuff_id);
+                $stuffToDelete = Stuffs::query()->findOrFail($this->stuff_id);
                 $stuffToDelete->delete();
             }
             return redirect()->route('dashboard');
