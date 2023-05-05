@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string("name");
             $table->string("image");
-            $table->string("translated_name");
+            $table->string("translated_name")->nullable();
             $table->integer("int_minimum");
             $table->integer("int_maximum");
             $table->boolean("ignore_int_min")->default(false);

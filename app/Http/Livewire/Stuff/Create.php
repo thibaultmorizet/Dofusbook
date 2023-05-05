@@ -30,9 +30,6 @@ class Create extends Component
     public int $total_pm = 3;
     public int $total_po = 0;
     public int $total_initiative = 0;
-    public int $total_critique = 0;
-    public int $total_invocation = 1;
-    public int $total_soin = 0;
 
     public int $subtotal_vitality = 0;
     public int $subtotal_wisdom = 0;
@@ -40,7 +37,6 @@ class Create extends Component
     public int $subtotal_intel = 0;
     public int $subtotal_luck = 0;
     public int $subtotal_agility = 0;
-    public int $subtotal_power = 0;
 
     public int $boost_vitality = 0;
     public int $boost_wisdom = 0;
@@ -67,36 +63,6 @@ class Create extends Component
     public int $pm_recession = 0;
     public int $stuff_level = 0;
 
-    public int $do_neutral = 0;
-    public int $do_earth = 0;
-    public int $do_fire = 0;
-    public int $do_water = 0;
-    public int $do_air = 0;
-
-    public int $do_critique = 0;
-    public int $do_push = 0;
-    public int $do_weapon = 0;
-    public int $do_spell = 0;
-    public int $do_melee = 0;
-    public int $do_distance = 0;
-
-    public int $neutral_res = 0;
-    public int $earth_res = 0;
-    public int $fire_res = 0;
-    public int $water_res = 0;
-    public int $air_res = 0;
-    public int $critique_res = 0;
-    public int $melee_res = 0;
-    public int $weapon_res = 0;
-
-    public int $percent_neutral_res = 0;
-    public int $percent_earth_res = 0;
-    public int $percent_fire_res = 0;
-    public int $percent_water_res = 0;
-    public int $percent_air_res = 0;
-    public int $push_res = 0;
-    public int $distance_res = 0;
-
     public Stuffs $stuff;
     public string $class_slug = "feca";
     public int $class_id = 1;
@@ -121,6 +87,54 @@ class Create extends Component
         'weapon' => null
     ];
 
+    public int $stuff_vitality = 0;
+    public int $stuff_strength = 0;
+    public int $stuff_intel = 0;
+    public int $stuff_luck = 0;
+    public int $stuff_agility = 0;
+    public int $stuff_wisdom = 0;
+    public int $stuff_initiative = 0;
+    public int $stuff_leak = 0;
+    public int $stuff_avoid_pm = 0;
+    public int $stuff_avoid_pa = 0;
+    public int $stuff_pa_recession = 0;
+    public int $stuff_pm_recession = 0;
+    public int $stuff_pods = 0;
+    public int $stuff_prospection = 0;
+    public int $stuff_tackle = 0;
+    public int $stuff_invocation = 1;
+    public int $stuff_health = 0;
+    public int $stuff_power = 0;
+    public int $stuff_critic = 0;
+    public int $stuff_pa = 0;
+    public int $stuff_pm = 0;
+    public int $stuff_po = 0;
+    public int $stuff_neutral_res = 0;
+    public int $stuff_water_res = 0;
+    public int $stuff_earth_res = 0;
+    public int $stuff_fire_res = 0;
+    public int $stuff_air_res = 0;
+    public int $stuff_percent_neutral_res = 0;
+    public int $stuff_percent_water_res = 0;
+    public int $stuff_percent_earth_res = 0;
+    public int $stuff_percent_fire_res = 0;
+    public int $stuff_percent_air_res = 0;
+    public int $stuff_distance_res = 0;
+    public int $stuff_critique_res = 0;
+    public int $stuff_push_res = 0;
+    public int $stuff_melee_res = 0;
+    public int $stuff_weapon_res = 0;
+    public int $stuff_do_neutral = 0;
+    public int $stuff_do_earth = 0;
+    public int $stuff_do_fire = 0;
+    public int $stuff_do_air = 0;
+    public int $stuff_do_water = 0;
+    public int $stuff_do_critique = 0;
+    public int $stuff_do_push = 0;
+    public int $stuff_do_melee = 0;
+    public int $stuff_do_distance = 0;
+    public int $stuff_do_weapon = 0;
+    public int $stuff_do_spell = 0;
 
     public function mount(int $stuff_id = null, int $class_id = 1, bool $is_private_stuff = true, string $stuff_title = "", string $character_gender = "male", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
     {
@@ -129,7 +143,7 @@ class Create extends Component
             $this->stuff = Stuffs::query()->find($this->stuff_id)->first();
             $this->class_slug = Classes::query()->findOrFail($class_id)->slug;
             $this->getStuffDetail();
-            //$this->resetItemsCharacteristics();
+            $this->resetItemsCharacteristics();
         }
 
         $this->updateIsPrivateStuff($is_private_stuff);
@@ -171,28 +185,42 @@ class Create extends Component
 
     public function updateExoPa(int $is_exo_pa)
     {
-        $extraPaByLvl = $this->character_level >= 100 ? 1 : 0;
-        $this->total_pa = 6 + $extraPaByLvl + $is_exo_pa;
         $this->is_exo_pa = $is_exo_pa;
         $this->stuff->is_exo_pa = $this->is_exo_pa;
         $this->stuff->save();
-
+        $this->setPa();
     }
 
     public function updateExoPm(int $is_exo_pm)
     {
-        $this->total_pm = 3 + $is_exo_pm;
         $this->is_exo_pm = $is_exo_pm;
         $this->stuff->is_exo_pm = $this->is_exo_pm;
         $this->stuff->save();
+        $this->setPm();
     }
 
     public function updateExoPo(int $is_exo_po)
     {
-        $this->total_po = $is_exo_po;
         $this->is_exo_po = $is_exo_po;
         $this->stuff->is_exo_po = $this->is_exo_po;
         $this->stuff->save();
+        $this->setPo();
+    }
+
+    public function setPa()
+    {
+        $extraPaByLvl = $this->character_level >= 100 ? 1 : 0;
+        $this->total_pa = 6 + $extraPaByLvl + $this->is_exo_pa + $this->stuff_pa;
+    }
+
+    public function setPm()
+    {
+        $this->total_pm = 3 + $this->is_exo_pm + $this->stuff_pm;
+    }
+
+    public function setPo()
+    {
+        $this->total_po = $this->is_exo_po + $this->stuff_po;
     }
 
     public function updateTitle(string $title)
@@ -224,7 +252,7 @@ class Create extends Component
 
     public function setInitiative()
     {
-        $this->total_initiative = $this->subtotal_strength + $this->subtotal_intel + $this->subtotal_luck + $this->subtotal_agility;
+        $this->total_initiative = $this->subtotal_strength + $this->subtotal_intel + $this->subtotal_luck + $this->subtotal_agility + $this->stuff_initiative;
     }
 
     public function setTotalVitality()
@@ -234,13 +262,13 @@ class Create extends Component
 
     public function setSubtotalVitality()
     {
-        $this->subtotal_vitality = $this->parchment_vitality + $this->boost_vitality;
+        $this->subtotal_vitality = $this->parchment_vitality + $this->boost_vitality + $this->stuff_vitality;
         $this->setTotalVitality();
     }
 
     public function setSubtotalWisdom()
     {
-        $this->subtotal_wisdom = $this->parchment_wisdom + $this->boost_wisdom;
+        $this->subtotal_wisdom = $this->parchment_wisdom + $this->boost_wisdom + $this->stuff_wisdom;
         $this->setAvoidPa();
         $this->setAvoidPm();
         $this->setPaRecession();
@@ -249,27 +277,27 @@ class Create extends Component
 
     public function setSubtotalStrength()
     {
-        $this->subtotal_strength = $this->parchment_strength + $this->boost_strength;
+        $this->subtotal_strength = $this->parchment_strength + $this->boost_strength + $this->stuff_strength;
         $this->setInitiative();
         $this->setPods();
     }
 
     public function setSubtotalIntel()
     {
-        $this->subtotal_intel = $this->parchment_intel + $this->boost_intel;
+        $this->subtotal_intel = $this->parchment_intel + $this->boost_intel + $this->stuff_intel;
         $this->setInitiative();
     }
 
     public function setSubtotalLuck()
     {
-        $this->subtotal_luck = $this->parchment_luck + $this->boost_luck;
+        $this->subtotal_luck = $this->parchment_luck + $this->boost_luck + $this->stuff_luck;
         $this->setInitiative();
         $this->setProspection();
     }
 
     public function setSubtotalAgility()
     {
-        $this->subtotal_agility = $this->parchment_agility + $this->boost_agility;
+        $this->subtotal_agility = $this->parchment_agility + $this->boost_agility + $this->stuff_agility;
         $this->setInitiative();
         $this->setLeak();
         $this->setTackle();
@@ -277,42 +305,42 @@ class Create extends Component
 
     public function setAvoidPa()
     {
-        $this->avoid_pa = round(floor($this->subtotal_wisdom / 10));
+        $this->avoid_pa = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_avoid_pa;
     }
 
     public function setAvoidPm()
     {
-        $this->avoid_pm = round(floor($this->subtotal_wisdom / 10));
+        $this->avoid_pm = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_avoid_pm;
     }
 
     public function setPaRecession()
     {
-        $this->pa_recession = round(floor($this->subtotal_wisdom / 10));
+        $this->pa_recession = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_pa_recession;
     }
 
     public function setPmRecession()
     {
-        $this->pm_recession = round(floor($this->subtotal_wisdom / 10));
+        $this->pm_recession = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_pm_recession;
     }
 
     public function setPods()
     {
-        $this->pods = 1000 + (5 * $this->subtotal_strength);
+        $this->pods = 1000 + (5 * $this->subtotal_strength) + $this->stuff_pods;
     }
 
     public function setProspection()
     {
-        $this->total_prospection = 100 + round(floor($this->subtotal_luck / 10));
+        $this->total_prospection = 100 + round(floor($this->subtotal_luck / 10)) + $this->stuff_prospection;
     }
 
     public function setLeak()
     {
-        $this->leak = round(floor($this->subtotal_agility / 10));
+        $this->leak = round(floor($this->subtotal_agility / 10)) + $this->stuff_leak;
     }
 
     public function setTackle()
     {
-        $this->tackle = round(floor($this->subtotal_agility / 10));
+        $this->tackle = round(floor($this->subtotal_agility / 10)) + $this->stuff_tackle;
     }
 
     public function setBoostAvailable()
@@ -477,15 +505,127 @@ class Create extends Component
             'maxLvl' => $maxLvl]);
     }
 
-    private function resetItemsCharacteristics()
+    public function updateStuffCharacteristic(string $stuffCharacteristicName, int $stuffCharacteristicsValue, string $operator = "+")
     {
-//            $this->{$this->characteristicsEquivalentFunction[$anEffect['type']['name']]} + $anEffect['int_maximum'];
-        foreach ($this->stuffDetail as $item) {
-            foreach ($item->effects as $effect) {
-                dd($item->effects);
+        $this->{"stuff_" . $stuffCharacteristicName} += $stuffCharacteristicsValue;
 
+        $updatedCharacteristicName = "";
+        foreach (explode("_", $stuffCharacteristicName) as $partOfStuffCharacteristicName) {
+            $updatedCharacteristicName .= ucfirst($partOfStuffCharacteristicName);
+        }
+
+        $basicsCharacteristics = ["vitality", "wisdom", "strength", "intel", "luck", "agility"];
+        $ignoredCharacteristics = [
+            "power",
+            "critic",
+            "health",
+            "invocation",
+            "neutral_res",
+            "water_res",
+            "earth_res",
+            "fire_res",
+            "air_res",
+            "percent_neutral_res",
+            "percent_water_res",
+            "percent_earth_res",
+            "percent_fire_res",
+            "percent_air_res",
+            "distance_res",
+            "critique_res",
+            "push_res",
+            "melee_res",
+            "weapon_res",
+            "do_neutral",
+            "do_earth",
+            "do_fire",
+            "do_air",
+            "do_water",
+            "do_critique",
+            "do_push",
+            "do_melee",
+            "do_distance",
+            "do_weapon",
+            "do_spell"
+        ];
+        if (in_array($stuffCharacteristicName, $basicsCharacteristics)) {
+            $this->{"setSubtotal" . $updatedCharacteristicName}();
+        } else {
+            if (in_array($stuffCharacteristicName, $ignoredCharacteristics) === false) {
+                $this->{"set" . $updatedCharacteristicName}();
             }
         }
+    }
+
+    private function resetItemsCharacteristics()
+    {
+        $this->setStuffCharacteristicsToZero();
+        foreach ($this->stuffDetail as $item) {
+            if (is_null($item) === false) {
+                foreach ($item->effects as $effect) {
+
+                    $value = $effect->int_maximum;
+                    if ($effect->ignore_int_max) {
+                        $value = $effect->int_minimum;
+                    }
+                    if (is_null($effect->translated_name) === false) {
+                        $this->updateStuffCharacteristic($effect->translated_name, $value);
+                    }
+                }
+            }
+        }
+    }
+
+    private function setStuffCharacteristicsToZero()
+    {
+        $this->stuff_vitality = 0;
+        $this->stuff_strength = 0;
+        $this->stuff_intel = 0;
+        $this->stuff_luck = 0;
+        $this->stuff_agility = 0;
+        $this->stuff_wisdom = 0;
+        $this->stuff_initiative = 0;
+        $this->stuff_leak = 0;
+        $this->stuff_avoid_pm = 0;
+        $this->stuff_avoid_pa = 0;
+        $this->stuff_pa_recession = 0;
+        $this->stuff_pm_recession = 0;
+        $this->stuff_pods = 0;
+        $this->stuff_prospection = 0;
+        $this->stuff_tackle = 0;
+        $this->stuff_invocation = 1;
+        $this->stuff_health = 0;
+        $this->stuff_power = 0;
+        $this->stuff_critic = 0;
+        $this->stuff_pa = 0;
+        $this->stuff_pm = 0;
+        $this->stuff_po = 0;
+        $this->stuff_neutral_res = 0;
+        $this->stuff_water_res = 0;
+        $this->stuff_earth_res = 0;
+        $this->stuff_fire_res = 0;
+        $this->stuff_air_res = 0;
+        $this->stuff_percent_neutral_res = 0;
+        $this->stuff_percent_water_res = 0;
+        $this->stuff_percent_earth_res = 0;
+        $this->stuff_percent_fire_res = 0;
+        $this->stuff_percent_air_res = 0;
+        $this->stuff_distance_res = 0;
+        $this->stuff_critique_res = 0;
+        $this->stuff_push_res = 0;
+        $this->stuff_melee_res = 0;
+        $this->stuff_weapon_res = 0;
+        $this->stuff_do_neutral = 0;
+        $this->stuff_do_earth = 0;
+        $this->stuff_do_fire = 0;
+        $this->stuff_do_air = 0;
+        $this->stuff_do_water = 0;
+        $this->stuff_do_critique = 0;
+        $this->stuff_do_push = 0;
+        $this->stuff_do_melee = 0;
+        $this->stuff_do_distance = 0;
+        $this->stuff_do_weapon = 0;
+        $this->stuff_do_spell = 0;
+
     }
 
     public function deleteItemToStuff(string $columnToDelete)
@@ -493,6 +633,8 @@ class Create extends Component
         $this->stuffDetail[$columnToDelete] = null;
         $this->stuff->{$columnToDelete . '_id'} = null;
         $this->stuff->save();
+        $this->getStuffDetail();
+        $this->resetItemsCharacteristics();
     }
 
     public function getStuffDetail()
@@ -511,6 +653,7 @@ class Create extends Component
     public function render(): View
     {
         $this->getStuffDetail();
+
         return view('livewire.stuff.create', [
             'stuff_title' => $this->stuff_title,
             'character_level' => $this->character_level,
@@ -521,9 +664,9 @@ class Create extends Component
             'total_pm' => $this->total_pm,
             'total_po' => $this->total_po,
             'total_initiative' => $this->total_initiative,
-            'total_critique' => $this->total_critique,
-            'total_invocation' => $this->total_invocation,
-            'total_soin' => $this->total_soin,
+            'total_critique' => $this->stuff_critic,
+            'total_invocation' => $this->stuff_invocation,
+            'total_health' => $this->stuff_health,
 
             'subtotal_vitality' => $this->subtotal_vitality,
             'subtotal_wisdom' => $this->subtotal_wisdom,
@@ -531,7 +674,7 @@ class Create extends Component
             'subtotal_intel' => $this->subtotal_intel,
             'subtotal_luck' => $this->subtotal_luck,
             'subtotal_agility' => $this->subtotal_agility,
-            'subtotal_power' => $this->subtotal_power,
+            'subtotal_power' => $this->stuff_power,
 
             'boost_vitality' => $this->boost_vitality,
             'boost_wisdom' => $this->boost_wisdom,
@@ -558,35 +701,35 @@ class Create extends Component
             'pm_recession' => $this->pm_recession,
             'stuff_level' => $this->stuff_level,
 
-            'do_neutral' => $this->do_neutral,
-            'do_earth' => $this->do_earth,
-            'do_fire' => $this->do_fire,
-            'do_water' => $this->do_water,
-            'do_air' => $this->do_air,
+            'do_neutral' => $this->stuff_do_neutral,
+            'do_earth' => $this->stuff_do_earth,
+            'do_fire' => $this->stuff_do_fire,
+            'do_water' => $this->stuff_do_water,
+            'do_air' => $this->stuff_do_air,
 
-            'do_critique' => $this->do_critique,
-            'do_push' => $this->do_push,
-            'do_weapon' => $this->do_weapon,
-            'do_spell' => $this->do_spell,
-            'do_melee' => $this->do_melee,
-            'do_distance' => $this->do_distance,
+            'do_critique' => $this->stuff_do_critique,
+            'do_push' => $this->stuff_do_push,
+            'do_weapon' => $this->stuff_do_weapon,
+            'do_spell' => $this->stuff_do_spell,
+            'do_melee' => $this->stuff_do_melee,
+            'do_distance' => $this->stuff_do_distance,
 
-            'neutral_res' => $this->neutral_res,
-            'earth_res' => $this->earth_res,
-            'fire_res' => $this->fire_res,
-            'water_res' => $this->water_res,
-            'air_res' => $this->air_res,
-            'critique_res' => $this->critique_res,
-            'melee_res' => $this->melee_res,
-            'weapon_res' => $this->weapon_res,
+            'neutral_res' => $this->stuff_neutral_res,
+            'earth_res' => $this->stuff_earth_res,
+            'fire_res' => $this->stuff_fire_res,
+            'water_res' => $this->stuff_water_res,
+            'air_res' => $this->stuff_air_res,
+            'critique_res' => $this->stuff_critique_res,
+            'melee_res' => $this->stuff_melee_res,
+            'weapon_res' => $this->stuff_weapon_res,
 
-            'percent_neutral_res' => $this->percent_neutral_res,
-            'percent_earth_res' => $this->percent_earth_res,
-            'percent_fire_res' => $this->percent_fire_res,
-            'percent_water_res' => $this->percent_water_res,
-            'percent_air_res' => $this->percent_air_res,
-            'push_res' => $this->push_res,
-            'distance_res' => $this->distance_res,
+            'percent_neutral_res' => $this->stuff_percent_neutral_res,
+            'percent_earth_res' => $this->stuff_percent_earth_res,
+            'percent_fire_res' => $this->stuff_percent_fire_res,
+            'percent_water_res' => $this->stuff_percent_water_res,
+            'percent_air_res' => $this->stuff_percent_air_res,
+            'push_res' => $this->stuff_push_res,
+            'distance_res' => $this->stuff_distance_res,
         ]);
     }
 

@@ -27,7 +27,7 @@ class ImportItems extends Command
      */
     protected $description = 'Import of all items via api';
 
-    public array $characteristicsTranslate = [
+    public array $characteristicsImageTranslate = [
         "Vitalité" => "vitality",
         "(PV rendus)" => "vitality",
         "Prospection" => "prospection",
@@ -155,6 +155,78 @@ class ImportItems extends Command
         "Attitude" => "attitude",
         "Titre :" => "title",
         "Arme de chasse" => "title",
+    ];
+    public array $characteristicsTranslate = [
+        "Vitalité" => "vitality",
+        "Prospection" => "prospection",
+        "PA" => "pa",
+        "PM" => "pm",
+        "Portée" => "po",
+        "Initiative" => "initiative",
+        "% Critique" => "critic",
+        "Invocation" => "invocation",
+        "Invocations" => "invocation",
+        "Soins" => "health",
+        "Soin" => "health",
+        "Sagesse" => "wisdom",
+        "Neutre" => "neutral",
+        "Force" => "strength",
+        "Intelligence" => "intel",
+        "Chance" => "luck",
+        "Agilité" => "agility",
+        "Puissance" => "power",
+        "Fuite" => "leak",
+        "Tacle" => "tackle",
+        "Esquive PA" => "avoid_pa",
+        "Esquive PM" => "avoid_pm",
+        "Retrait PA" => "pa_recession",
+        "Retrait PM" => "pm_recession",
+        "Pods" => "pods",
+        "Dommage" => "do",
+        "Dommages" => "do",
+        "Dommages Neutre" => "do_neutral",
+        "Dommages Terre" => "do_earth",
+        "Dommages Feu" => "do_fire",
+        "Dommages Eau" => "do_water",
+        "Dommages Air" => "do_air",
+        "Dommage Neutre" => "do_neutral",
+        "Dommage Terre" => "do_earth",
+        "Dommage Feu" => "do_fire",
+        "Dommage Eau" => "do_water",
+        "Dommage Air" => "do_air",
+        "Dommages Critiques" => "do_critique",
+        "Dommages Poussée" => "do_push",
+        "Dommage Critiques" => "do_critique",
+        "Dommage Poussée" => "do_push",
+        "Dommage Pièges" => "do_tricks",
+        "Dommages Pièges" => "do_tricks",
+        "% Dommages d'armes" => "do_weapon",
+        "% Dommages aux sorts" => "do_spell",
+        "% Dommages mêlée" => "do_melee",
+        "% Dommages distance" => "do_distance",
+        "Résistances Neutre" => "neutral_res",
+        "Résistance Neutre" => "neutral_res",
+        "Résistances Terre" => "earth_res",
+        "Résistance Terre" => "earth_res",
+        "Résistances Feu" => "fire_res",
+        "Résistance Feu" => "fire_res",
+        "Résistances Eau" => "water_res",
+        "Résistance Eau" => "water_res",
+        "Résistances Air" => "air_res",
+        "Résistance Air" => "air_res",
+        "Résistances Critiques" => "critique_res",
+        "Résistance Critiques" => "critique_res",
+        "% Résistance mêlée" => "melee_res",
+        "% Résistance aux armes" => "weapon_res",
+        "% Résistance Neutre" => "percent_neutral_res",
+        "% Résistance Terre" => "percent_earth_res",
+        "% Résistance Feu" => "percent_fire_res",
+        "% Résistance Eau" => "percent_water_res",
+        "% Résistance Air" => "percent_air_res",
+        "Résistances Poussée" => "push_res",
+        "Résistance Poussée" => "push_res",
+        "% Résistances distance" => "distance_res",
+        "% Résistance distance" => "distance_res",
     ];
     public array $characteristicsToIgnore = [
         "max.",
@@ -383,11 +455,12 @@ class ImportItems extends Command
             return;
         }
 
+        $image_name = Arr::get($this->characteristicsImageTranslate, $name);
         $translate_name = Arr::get($this->characteristicsTranslate, $name);
 
         $effect = new Effects();
         $effect->name = $name;
-        $effect->image = ('/img/icons/' . $translate_name . '.png');
+        $effect->image = ('/img/icons/' . $image_name . '.png');
         $effect->translated_name = $translate_name;
         $effect->int_minimum = Arr::get($effectDatas, "int_minimum");
         $effect->int_maximum = Arr::get($effectDatas, "int_maximum");
@@ -430,14 +503,6 @@ class ImportItems extends Command
     private function deleteItem(int $itemId)
     {
         $itemToDelete = Items::query()->find($itemId);
-//        $conditionsToDelete = ItemsConditions::all()->where("item_id", "=", $itemId);
-//        $effectsToDelete = ItemsEffects::all()->where("item_id", "=", $itemId);
-//        foreach ($conditionsToDelete as  $aCondition) {
-//            (Conditions::query()->find($aCondition->condition_id))->delete();
-//        }
-//        foreach ($effectsToDelete as $anEffect) {
-//            (Effects::query()->find($anEffect->effect_id))->delete();
-//        }
         $itemToDelete->delete();
     }
 

@@ -57,29 +57,32 @@
                             <span> PP</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_pa}} </span> <img src="/img/icons/pa.png"
-                                                                                     alt="pa image"
-                                                                                     class="ml-2"
-                                                                                     width="28px">
+                            <span class="w-10 text-right">{{($total_pa>=0)?($total_pa<=12?$total_pa:12):0}} </span> <img
+                                src="/img/icons/pa.png"
+                                alt="pa image"
+                                class="ml-2"
+                                width="28px">
                             <span class="w-5"> PA</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
                                   wire:click="updateExoPa({{$is_exo_pa===0?1:0}})">+ {{$is_exo_pa}}</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_pm}} </span> <img src="/img/icons/pm.png"
-                                                                                     alt="pm image"
-                                                                                     class="ml-2"
-                                                                                     width="28px">
+                            <span class="w-10 text-right">{{($total_pm>=0)?($total_pm<=6?$total_pm:6):0}} </span> <img
+                                src="/img/icons/pm.png"
+                                alt="pm image"
+                                class="ml-2"
+                                width="28px">
                             <span class="w-5"> PM</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
                                   wire:click="updateExoPm({{$is_exo_pm===0?1:0}})">+ {{$is_exo_pm}}</span>
 
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_po}} </span> <img src="/img/icons/po.png"
-                                                                                     alt="po image"
-                                                                                     class="ml-2"
-                                                                                     width="28px">
+                            <span class="w-10 text-right">{{($total_po>=0)?($total_po<=6?$total_po:6):0}} </span> <img
+                                src="/img/icons/po.png"
+                                alt="po image"
+                                class="ml-2"
+                                width="28px">
                             <span class="w-5"> PO</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
                                   wire:click="updateExoPo({{$is_exo_po===0?1:0}})">+ {{$is_exo_po}}</span>
@@ -97,7 +100,7 @@
                             <span> Initiative</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_critique}} </span> <img
+                            <span class="w-10 text-right">{{$total_critique>=0?$total_critique:0}} </span> <img
                                 src="/img/icons/critic.png"
                                 alt="critic image"
                                 class="ml-2"
@@ -113,7 +116,7 @@
                             <span> Invocation</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_soin}} </span> <img
+                            <span class="w-10 text-right">{{$total_health}} </span> <img
                                 src="/img/icons/health.png"
                                 alt="health image"
                                 class="ml-2"
