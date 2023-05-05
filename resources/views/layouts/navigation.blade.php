@@ -18,7 +18,7 @@
                 @if(!is_null($stuff))
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-nav-link :href="route('stuff.show', $stuff->id)">
-                            <img src="/img/avatar/{{$stuff->class_slug}}-{{$stuff->gender}}.png"
+                            <img src="/img/avatar/{{$stuff->class->slug}}-{{$stuff->gender}}.png"
                                  class="nav-character-img"
                                  alt="character image">
 

@@ -38,6 +38,11 @@ class Items extends Model
         return $this->belongsTo(Types::class, "type_id", "id");
     }
 
+    public function set(): BelongsTo
+    {
+        return $this->belongsTo(Sets::class, "set_id", "id");
+    }
+
     public function effects(): HasMany
     {
         return $this->HasMany(Effects::class, "item_id", "id");

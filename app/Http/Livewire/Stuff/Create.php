@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Stuff;
 
 use App\Models\Classes;
+use App\Models\Items;
 use App\Models\Stuffs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -117,99 +118,7 @@ class Create extends Component
         'dofus_5' => null,
         'dofus_6' => null,
         'animal' => null,
-        'mount' => null,
         'weapon' => null
-    ];
-    public array $characteristicsTranslate = [
-        "Vitalité" => "vitality",
-        "Prospection" => "prospection",
-        "PA" => "pa",
-        "PM" => "pm",
-        "Portée" => "po",
-        "Initiative" => "initiative",
-        "% Critique" => "critic",
-        "Invocation" => "invocation",
-        "Invocations" => "invocation",
-        "Soins" => "health",
-        "Soin" => "health",
-        "Sagesse" => "wisdom",
-        "Force" => "strength",
-        "Intelligence" => "intel",
-        "Chance" => "luck",
-        "Agilité" => "agility",
-        "Puissance" => "power",
-        "Fuite" => "leak",
-        "Tacle" => "tackle",
-        "Esquive PA" => "avoid_pa",
-        "Esquive PM" => "avoid_pm",
-        "Retrait PA" => "pa_recession",
-        "Retrait PM" => "pm_recession",
-        "Pods" => "pods",
-        "Dommage" => "do",
-        "Dommages" => "do",
-        "Dommages Neutre" => "do_neutral",
-        "Dommages Terre" => "do_earth",
-        "Dommages Feu" => "do_fire",
-        "Dommages Eau" => "do_water",
-        "Dommages Air" => "do_air",
-        "Dommages Critiques" => "do_critique",
-        "Dommages Poussée" => "do_push",
-        "Dommage Neutre" => "do_neutral",
-        "Dommage Terre" => "do_earth",
-        "Dommage Feu" => "do_fire",
-        "Dommage Eau" => "do_water",
-        "Dommage Air" => "do_air",
-        "Dommage Critiques" => "do_critique",
-        "Dommage Poussée" => "do_push",
-        "Dommage Pièges" => "do_tricks",
-        "Dommages Pièges" => "do_tricks",
-        "% Dommages d'armes" => "do_weapon",
-        "% Dommages aux sorts" => "do_spell",
-        "% Dommages mêlée" => "do_melee",
-        "% Dommages distance" => "do_distance",
-        "Résistances Neutre" => "neutral_res",
-        "Résistance Neutre" => "neutral_res",
-        "Résistances Terre" => "earth_res",
-        "Résistance Terre" => "earth_res",
-        "Résistances Feu" => "fire_res",
-        "Résistance Feu" => "fire_res",
-        "Résistances Eau" => "water_res",
-        "Résistance Eau" => "water_res",
-        "Résistances Air" => "air_res",
-        "Résistance Air" => "air_res",
-        "Résistances Critiques" => "critique_res",
-        "Résistance Critiques" => "critique_res",
-        "% Résistance mêlée" => "melee_res",
-        "% Résistance aux armes" => "weapon_res",
-        "% Résistance Neutre" => "neutral_res",
-        "% Résistance Terre" => "earth_res",
-        "% Résistance Feu" => "fire_res",
-        "% Résistance Eau" => "water_res",
-        "% Résistance Air" => "air_res",
-        "Résistances Poussée" => "push_res",
-        "Résistance Poussée" => "push_res",
-        "% Résistances distance" => "distance_res",
-        "% Résistance distance" => "distance_res",
-        "Puissance (pièges)" => "trick_power",
-        "-special spell-" => "special_spell",
-        "Désactive la ligne de vue du sort" => "no_ldv",
-        "Augmente de% les Critiques du sort" => "critic",
-        "Réduit de le coût en PA du sort" => "pa",
-        "Augmente la portée maximale du sort de" => "po",
-        "Désactive le lancer en ligne du sort" => "no_line",
-        "Rend la portée du sort modifiable" => "po",
-        "Réduit de le délai de relance du sort" => "lunch_delay",
-        "Augmente de les Dommages du sort" => "do",
-        "Le sort peut être lancé sur une case libre" => "no_line",
-        "Augmente de le nombre de lancer maximal par tour du sort" => "lunch_per_tour",
-        "Augmente de le nombre de lancer maximal par cible du sort" => "lunch_per_cible",
-        "Augmente les dégâts de base du sort de" => "do",
-        "Quelqu'un vous suit !" => "title",
-        "Renvoie dommages" => "return_attack",
-        "Renvoie dommage" => "return_attack",
-        "Change les paroles" => "title",
-        "Attitude" => "attitude",
-        "Titre :" => "title",
     ];
 
 
@@ -217,19 +126,10 @@ class Create extends Component
     {
         $this->stuff_id = $stuff_id;
         if (!is_null($this->stuff_id)) {
-            $this->stuff = Stuffs::query()->findOrFail($this->stuff_id);
+            $this->stuff = Stuffs::query()->find($this->stuff_id)->first();
             $this->class_slug = Classes::query()->findOrFail($class_id)->slug;
-            foreach (array_keys($this->stuffDetail) as $aStuffItem) {
-                $item_id = $this->stuff->{$aStuffItem . '_id'};
-                if (!is_null($item_id)) {
-                    if ($aStuffItem === "mount") {
-                        $this->stuffDetail[$aStuffItem] = $this->getItemByTypeAndId($item_id, "mounts/");
-                    } else {
-                        $this->stuffDetail[$aStuffItem] = $this->getItemByTypeAndId($item_id);
-                    }
-                    $this->addItemCharacteristics($this->stuffDetail[$aStuffItem]);
-                }
-            }
+            $this->getStuffDetail();
+            //$this->resetItemsCharacteristics();
         }
 
         $this->updateIsPrivateStuff($is_private_stuff);
@@ -254,6 +154,7 @@ class Create extends Component
         $this->updateParchmentIntel($parchment_intel);
         $this->updateParchmentLuck($parchment_luck);
         $this->updateParchmentAgility($parchment_agility);
+
     }
 
     public function updateLevel(int $level)
@@ -569,23 +470,21 @@ class Create extends Component
         return $boost_strength;
     }
 
-    public function openEncyclopediaWithFilters(string $equipmentOrMounts, string $equipementType, int $maxLvl)
+    public function openEncyclopediaWithFilters(string $equipementType, int $maxLvl)
     {
         return redirect()->route('encyclopedia', [
-            'equipmentOrMounts' => $equipmentOrMounts,
             'equipementType' => $equipementType,
             'maxLvl' => $maxLvl]);
     }
 
-    private function getItemByTypeAndId(int $item_id, string $equipmentOrMounts = "items/equipment/")
+    private function resetItemsCharacteristics()
     {
-        return Http::get('https://api.dofusdu.de/dofus2/fr/' . $equipmentOrMounts . $item_id)->json();
-    }
-
-    private function addItemCharacteristics(array $aStuffItem)
-    {
-        foreach ($aStuffItem["effects"] as $anEffect) {
 //            $this->{$this->characteristicsEquivalentFunction[$anEffect['type']['name']]} + $anEffect['int_maximum'];
+        foreach ($this->stuffDetail as $item) {
+            foreach ($item->effects as $effect) {
+                dd($item->effects);
+
+            }
         }
     }
 
@@ -596,8 +495,22 @@ class Create extends Component
         $this->stuff->save();
     }
 
+    public function getStuffDetail()
+    {
+        foreach (array_keys($this->stuffDetail) as $aStuffItem) {
+            $item_id = $this->stuff->{$aStuffItem . '_id'};
+            if (!is_null($item_id)) {
+                $this->stuffDetail[$aStuffItem] = Items::query()->with(['effects'])->where("id", $item_id)->get()->first();
+            } else {
+                $this->stuffDetail[$aStuffItem] = null;
+            }
+        }
+
+    }
+
     public function render(): View
     {
+        $this->getStuffDetail();
         return view('livewire.stuff.create', [
             'stuff_title' => $this->stuff_title,
             'character_level' => $this->character_level,

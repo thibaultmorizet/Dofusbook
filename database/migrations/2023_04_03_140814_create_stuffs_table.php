@@ -49,7 +49,6 @@ return new class extends Migration {
             $table->integer("ring_2_id")->nullable();
             $table->integer("cape_id")->nullable();
             $table->integer("animal_id")->nullable();
-            $table->integer("mount_id")->nullable();
 
             $table->integer("dofus_1_id")->nullable();
             $table->integer("dofus_2_id")->nullable();

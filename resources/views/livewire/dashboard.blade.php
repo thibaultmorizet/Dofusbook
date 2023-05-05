@@ -1,9 +1,9 @@
 <div class="grid grid-cols-3 gap-4">
     @foreach($stuffList as $index=>$stuff)
         <div class="p-6 text-gray-900 dark:text-gray-100 dark:bg-gray-800 sm:rounded-lg cursor-pointer"
-             wire:click="goToStuffEdit({{$stuff->stuff_id}})">
+             wire:click="goToStuffEdit({{$stuff->id}})">
             <div class="flex text-center">
-                <div><img src="/img/character/{{$stuff->class_slug}}-{{$stuff->gender}}.png"
+                <div><img src="/img/character/{{$stuff->class->slug}}-{{$stuff->gender}}.png"
                           class="character-img-dashboard"
                           alt="character image">
                 </div>
@@ -31,7 +31,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['amulet']['image_urls']['hd']}}"
+                                        src="{{$stuff['amulet']->image}}"
                                         alt="amulet image"
                                 >
                             </div>
@@ -47,7 +47,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['ring_1']['image_urls']['hd']}}"
+                                        src="{{$stuff['ring_1']->image}}"
                                         alt="ring 1 image"
                                 >
                             </div>
@@ -63,7 +63,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['ring_2']['image_urls']['hd']}}"
+                                        src="{{$stuff['ring_2']->image}}"
                                         alt="ring 2 image"
                                 >
                             </div>
@@ -79,7 +79,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['hat']['image_urls']['hd']}}"
+                                        src="{{$stuff['hat']->image}}"
                                         alt="hat image"
                                 >
                             </div>
@@ -95,7 +95,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['cape']['image_urls']['hd']}}"
+                                        src="{{$stuff['cape']->image}}"
                                         alt="cape image"
                                 >
                             </div>
@@ -111,7 +111,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['belt']['image_urls']['hd']}}"
+                                        src="{{$stuff['belt']->image}}"
                                         alt="belt image"
                                 >
                             </div>
@@ -127,7 +127,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['boots']['image_urls']['hd']}}"
+                                        src="{{$stuff['boots']->image}}"
                                         alt="boots image"
                                 >
                             </div>
@@ -143,7 +143,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['weapon']['image_urls']['hd']}}"
+                                        src="{{$stuff['weapon']->image}}"
                                         alt="weapon image"
                                 >
                             </div>
@@ -159,7 +159,7 @@
                         @else
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['dofus_1']['image_urls']['hd']}}"
+                                        src="{{$stuff['dofus_1']->image}}"
                                         alt="dofus 1 image"
                                         width="60px"
                                 >
@@ -176,7 +176,7 @@
                         @else
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['dofus_2']['image_urls']['hd']}}"
+                                        src="{{$stuff['dofus_2']->image}}"
                                         alt="dofus 2 image"
                                         width="60px"
                                 >
@@ -193,7 +193,7 @@
                         @else
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['dofus_3']['image_urls']['hd']}}"
+                                        src="{{$stuff['dofus_3']->image}}"
                                         alt="dofus 3 image"
                                         width="60px"
                                 >
@@ -210,7 +210,7 @@
                         @else
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['dofus_4']['image_urls']['hd']}}"
+                                        src="{{$stuff['dofus_4']->image}}"
                                         alt="dofus 4 image"
                                         width="60px"
                                 >
@@ -227,7 +227,7 @@
                         @else
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['dofus_5']['image_urls']['hd']}}"
+                                        src="{{$stuff['dofus_5']->image}}"
                                         alt="dofus 5 image"
                                         width="60px"
                                 >
@@ -244,7 +244,7 @@
                         @else
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['dofus_6']['image_urls']['hd']}}"
+                                        src="{{$stuff['dofus_6']->image}}"
                                         alt="dofus 6 image"
                                         width="60px"
                                 >
@@ -253,7 +253,7 @@
                         @if(!is_null($stuff['animal']))
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['animal']['image_urls']['hd']}}"
+                                        src="{{$stuff['animal']->image}}"
                                         alt="animal image"
                                         width="60px"
                                 >
@@ -261,7 +261,7 @@
                         @elseif(!is_null($stuff['mount']))
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
                                 <img
-                                        src="{{$stuff['mount']['image_urls']['hd']}}"
+                                        src="{{$stuff['mount']->image}}"
                                         alt="mount image"
                                         width="60px"
                                 >
@@ -286,7 +286,7 @@
                             <div class="dark:bg-gray-700 rounded-lg mb-4 mt-4 p-1 cursor-pointer">
 
                                 <img
-                                        src="{{$stuff['shield']['image_urls']['hd']}}"
+                                        src="{{$stuff['shield']->image}}"
                                         alt="shield image"
                                 >
                             </div>

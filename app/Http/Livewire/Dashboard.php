@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Items;
 use App\Models\Stuffs;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -37,20 +37,14 @@ class Dashboard extends Component
     public function render(): View
     {
         $stuffList = Stuffs::query()
-            ->select('*', 'stuffs.id as stuff_id')
+            ->with("class")
             ->where("user_id", Auth::user()->id)
-            ->join('classes', function ($join) {
-                $join->on('stuffs.class_id', '=', 'classes.id');
-            })->get();
+            ->get();
         foreach ($stuffList as $stuff) {
             foreach (array_keys($this->stuffDetail) as $aStuffItem) {
                 $item_id = $stuff->{$aStuffItem . '_id'};
                 if (!is_null($item_id)) {
-                    if ($aStuffItem === "mount") {
-                        $stuff[$aStuffItem] = $this->getItemByTypeAndId($item_id, "mounts/");
-                    } else {
-                        $stuff[$aStuffItem] = $this->getItemByTypeAndId($item_id);
-                    }
+                    $stuff[$aStuffItem] = Items::find($item_id);
                 }
             }
 
@@ -58,10 +52,6 @@ class Dashboard extends Component
         return view('livewire.dashboard', ['stuffList' => $stuffList]);
     }
 
-    private function getItemByTypeAndId(int $item_id, string $equipmentOrMounts = "items/equipment/")
-    {
-        return Http::get('https://api.dofusdu.de/dofus2/fr/' . $equipmentOrMounts . $item_id)->json();
-    }
 
     public function goToStuffEdit(int $stuff_id)
     {

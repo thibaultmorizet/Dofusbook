@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Stuffs extends Model
 {
@@ -44,7 +45,6 @@ class Stuffs extends Model
         'ring_2_id',
         'cape_id',
         'animal_id',
-        'mount_id',
         'dofus_1_id',
         'dofus_2_id',
         'dofus_3_id',
@@ -53,13 +53,13 @@ class Stuffs extends Model
         'dofus_6_id'
     ];
 
-    public function users(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Users::class);
+        return $this->belongsTo(Users::class, "user_id", "id");
     }
 
-    public function classes(): BelongsTo
+    public function class(): BelongsTo
     {
-        return $this->belongsTo(Classes::class);
+        return $this->belongsTo(Classes::class, "class_id", "id");
     }
 }

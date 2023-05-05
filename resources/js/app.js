@@ -30,7 +30,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
     );
 
     lvl_input[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(lvl_input[0].value) > 200) {
                 lvl_input[0].value = 200;
             }
@@ -50,7 +50,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
     vitality_parchment[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(vitality_parchment[0].value) > 100) {
                 vitality_parchment[0].value = 100;
             }
@@ -69,7 +69,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
     wisdom_parchment[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(wisdom_parchment[0].value) > 100) {
                 wisdom_parchment[0].value = 100;
             }
@@ -88,7 +88,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
     strength_parchment[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(strength_parchment[0].value) > 100) {
                 strength_parchment[0].value = 100;
             }
@@ -107,7 +107,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
     intel_parchment[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(intel_parchment[0].value) > 100) {
                 intel_parchment[0].value = 100;
             }
@@ -126,7 +126,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
     luck_parchment[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(luck_parchment[0].value) > 100) {
                 luck_parchment[0].value = 100;
             }
@@ -145,7 +145,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
     agility_parchment[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(agility_parchment[0].value) > 100) {
                 agility_parchment[0].value = 100;
             }
@@ -166,7 +166,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
     );
 
     vitality_boost[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(vitality_boost[0].value) > 995) {
                 vitality_boost[0].value = 995;
             }
@@ -186,7 +186,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
     );
 
     wisdom_boost[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(wisdom_boost[0].value) > 331) {
                 wisdom_boost[0].value = 331;
             }
@@ -206,7 +206,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
     );
 
     strength_boost[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(strength_boost[0].value) > 398) {
                 strength_boost[0].value = 398;
             }
@@ -227,7 +227,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
     );
 
     intel_boost[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(intel_boost[0].value) > 398) {
                 intel_boost[0].value = 398;
             }
@@ -248,7 +248,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
     );
 
     luck_boost[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(luck_boost[0].value) > 398) {
                 luck_boost[0].value = 398;
             }
@@ -269,7 +269,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
     );
 
     agility_boost[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(agility_boost[0].value) > 398) {
                 agility_boost[0].value = 398;
             }
@@ -294,15 +294,12 @@ if (window.location.pathname === "/encyclopedia") {
     );
 
     minLvl[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(minLvl[0].value) > 200) {
                 minLvl[0].value = 200;
             }
             if (parseInt(minLvl[0].value) < 1) {
                 minLvl[0].value = 1;
-            }
-            if (parseInt(minLvl[0].value) > parseInt(maxLvl[0].value)) {
-                minLvl[0].value = parseInt(maxLvl[0].value);
             }
             minLvl[0].value = isNaN(parseInt(minLvl[0].value)) || parseInt(minLvl[0].value) === 0 ? 1 : parseInt(minLvl[0].value)
         }
@@ -317,15 +314,12 @@ if (window.location.pathname === "/encyclopedia") {
     );
 
     maxLvl[0].addEventListener('keyup',
-        function (event) {
+        function () {
             if (parseInt(maxLvl[0].value) > 200) {
                 maxLvl[0].value = 200;
             }
             if (parseInt(maxLvl[0].value) < 1) {
                 maxLvl[0].value = 1;
-            }
-            if (parseInt(maxLvl[0].value) < parseInt(minLvl[0].value)) {
-                maxLvl[0].value = parseInt(minLvl[0].value);
             }
             maxLvl[0].value = isNaN(parseInt(maxLvl[0].value)) || parseInt(maxLvl[0].value) === 0 ? 1 : parseInt(maxLvl[0].value)
         }

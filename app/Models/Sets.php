@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sets extends Model
 {
@@ -16,4 +17,10 @@ class Sets extends Model
         'items',
         'level'
     ];
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(Items::class, "set_id");
+    }
+
 }

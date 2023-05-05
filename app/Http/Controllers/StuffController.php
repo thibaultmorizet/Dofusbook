@@ -16,7 +16,7 @@ class StuffController extends Controller
 
     public function show(Stuffs $stuff)
     {
-        $stuff->class_slug = Classes::query()->findOrFail($stuff->class_id)->class_slug;
+        $stuff = Stuffs::find($stuff->id)->with(['class'])->get()->first();
         session()->put('stuff', $stuff);
         return view('stuff.show', ['stuff' => $stuff]);
     }

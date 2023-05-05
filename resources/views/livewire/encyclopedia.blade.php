@@ -42,10 +42,10 @@
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
                          wire:click="updateEquipmentType('Amulette')">
                         <img
-                                src="/img/stuff/amulet.png"
-                                alt="amulet image"
-                                width="40px"
-                                class="{{$equipmentType==="Amulette"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/amulet.png"
+                            alt="amulet image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Amulette"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -54,10 +54,10 @@
                          wire:click="updateEquipmentType('Anneau')">
 
                         <img
-                                src="/img/stuff/ring.png"
-                                alt="ring image"
-                                width="40px"
-                                class="{{$equipmentType==="Anneau"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/ring.png"
+                            alt="ring image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Anneau"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -66,10 +66,10 @@
                          wire:click="updateEquipmentType('Bottes')">
 
                         <img
-                                src="/img/stuff/boots.png"
-                                alt="boots image"
-                                width="40px"
-                                class="{{$equipmentType==="Bottes"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/boots.png"
+                            alt="boots image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Bottes"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -78,10 +78,10 @@
                          wire:click="updateEquipmentType('Bouclier')">
 
                         <img
-                                src="/img/stuff/shield.png"
-                                alt="shield image"
-                                width="40px"
-                                class="{{$equipmentType==="Bouclier"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/shield.png"
+                            alt="shield image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Bouclier"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -90,10 +90,10 @@
                          wire:click="updateEquipmentType('Cape')">
 
                         <img
-                                src="/img/stuff/cape.png"
-                                alt="cape image"
-                                width="40px"
-                                class="{{$equipmentType==="Cape"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/cape.png"
+                            alt="cape image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Cape"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -102,10 +102,10 @@
                          wire:click="updateEquipmentType('Ceinture')">
 
                         <img
-                                src="/img/stuff/belt.png"
-                                alt="belt image"
-                                width="40px"
-                                class="{{$equipmentType==="Ceinture"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/belt.png"
+                            alt="belt image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Ceinture"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -114,10 +114,10 @@
                          wire:click="updateEquipmentType('Chapeau')">
 
                         <img
-                                src="/img/stuff/hat.png"
-                                alt="hat image"
-                                width="40px"
-                                class="{{$equipmentType==="Chapeau"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/hat.png"
+                            alt="hat image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Chapeau"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -126,10 +126,10 @@
                          wire:click="updateEquipmentType('Dofus')">
 
                         <img
-                                src="/img/stuff/dofus.png"
-                                alt="dofus image"
-                                width="40px"
-                                class="{{$equipmentType==="Dofus"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/dofus.png"
+                            alt="dofus image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Dofus"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -138,10 +138,10 @@
                          wire:click="updateEquipmentType('Familier')">
 
                         <img
-                                src="/img/stuff/animal.png"
-                                alt="animal image"
-                                width="40px"
-                                class="{{$equipmentType==="Familier"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/animal.png"
+                            alt="animal image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Familier"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -150,10 +150,10 @@
                          wire:click="updateEquipmentType('Montilier')">
 
                         <img
-                                src="/img/stuff/mount.png"
-                                alt="mount image"
-                                width="40px"
-                                class="{{$equipmentType==="Montilier"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/mount.png"
+                            alt="mount image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Montilier"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -162,10 +162,10 @@
                          wire:click="updateEquipmentType('Dragodinde')">
 
                         <img
-                                src="/img/stuff/dragodinde.png"
-                                alt="dragodinde image"
-                                width="40px"
-                                class="{{$equipmentType==="Dragodinde"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/dragodinde.png"
+                            alt="dragodinde image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Dragodinde"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -174,10 +174,10 @@
                          wire:click="updateEquipmentType('Muldo')">
 
                         <img
-                                src="/img/stuff/muldo.png"
-                                alt="muldo image"
-                                width="40px"
-                                class="{{$equipmentType==="Muldo"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/muldo.png"
+                            alt="muldo image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Muldo"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -186,10 +186,10 @@
                          wire:click="updateEquipmentType('Volkorne')">
 
                         <img
-                                src="/img/stuff/volkorne.png"
-                                alt="volkorne image"
-                                width="40px"
-                                class="{{$equipmentType==="Volkorne"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/volkorne.png"
+                            alt="volkorne image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Volkorne"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -198,10 +198,10 @@
                          wire:click="updateEquipmentType('Arc')">
 
                         <img
-                                src="/img/stuff/bow.png"
-                                alt="bow image"
-                                width="40px"
-                                class="{{$equipmentType==="Arc"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/bow.png"
+                            alt="bow image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Arc"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -210,10 +210,10 @@
                          wire:click="updateEquipmentType('Baguette')">
 
                         <img
-                                src="/img/stuff/rod.png"
-                                alt="rod image"
-                                width="40px"
-                                class="{{$equipmentType==="Baguette"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/rod.png"
+                            alt="rod image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Baguette"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -222,10 +222,10 @@
                          wire:click="updateEquipmentType('Bâton')">
 
                         <img
-                                src="/img/stuff/stick.png"
-                                alt="stick image"
-                                width="40px"
-                                class="{{$equipmentType==="Bâton"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/stick.png"
+                            alt="stick image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Bâton"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -234,10 +234,10 @@
                          wire:click="updateEquipmentType('Épée')">
 
                         <img
-                                src="/img/stuff/sword.png"
-                                alt="sword image"
-                                width="40px"
-                                class="{{$equipmentType==="Épée"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/sword.png"
+                            alt="sword image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Épée"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -246,10 +246,10 @@
                          wire:click="updateEquipmentType('Faux')">
 
                         <img
-                                src="/img/stuff/scythe.png"
-                                alt="scythe image"
-                                width="40px"
-                                class="{{$equipmentType==="Faux"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/scythe.png"
+                            alt="scythe image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Faux"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -258,10 +258,10 @@
                          wire:click="updateEquipmentType('Hache')">
 
                         <img
-                                src="/img/stuff/axe.png"
-                                alt="axe image"
-                                width="40px"
-                                class="{{$equipmentType==="Hache"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/axe.png"
+                            alt="axe image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Hache"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -270,10 +270,10 @@
                          wire:click="updateEquipmentType('Lance')">
 
                         <img
-                                src="/img/stuff/spear.png"
-                                alt="spear image"
-                                width="40px"
-                                class="{{$equipmentType==="Lance"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/spear.png"
+                            alt="spear image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Lance"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -282,10 +282,10 @@
                          wire:click="updateEquipmentType('Marteau')">
 
                         <img
-                                src="/img/stuff/hammer.png"
-                                alt="hammer image"
-                                width="40px"
-                                class="{{$equipmentType==="Marteau"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/hammer.png"
+                            alt="hammer image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Marteau"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -294,10 +294,10 @@
                          wire:click="updateEquipmentType('Pelle')">
 
                         <img
-                                src="/img/stuff/shovel.png"
-                                alt="shovel image"
-                                width="40px"
-                                class="{{$equipmentType==="Pelle"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/shovel.png"
+                            alt="shovel image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Pelle"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -305,10 +305,10 @@
                     <div class="dark:bg-gray-700 rounded-lg mx-1 p-1 cursor-pointer w-fit"
                          wire:click="updateEquipmentType('Pioche')">
                         <img
-                                src="/img/stuff/pickaxe.png"
-                                alt="pickaxe image"
-                                width="40px"
-                                class="{{$equipmentType==="Pioche"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/pickaxe.png"
+                            alt="pickaxe image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Pioche"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -317,10 +317,10 @@
                          wire:click="updateEquipmentType('Trophée')">
 
                         <img
-                                src="/img/stuff/trophy.png"
-                                alt="trophy image"
-                                width="40px"
-                                class="{{$equipmentType==="Trophée"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/trophy.png"
+                            alt="trophy image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Trophée"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
 
@@ -329,10 +329,10 @@
                          wire:click="updateEquipmentType('Prysmaradite')">
 
                         <img
-                                src="/img/stuff/prysmaradite.png"
-                                alt="prysmaradite image"
-                                width="40px"
-                                class="{{$equipmentType==="Prysmaradite"?'':'stuff-base-img'}} ">
+                            src="/img/stuff/prysmaradite.png"
+                            alt="prysmaradite image"
+                            width="40px"
+                            class="{{$equipmentTypeName==="Prysmaradite"?'':'stuff-base-img'}} ">
                     </div>
                 </div>
             </div>
@@ -344,7 +344,7 @@
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div>
                 <div class="grid grid-cols-3 gap-4 mb-5">
-                    @foreach($itemsToView as $index=>$item)
+                    @foreach($items as $index=>$item)
                         <div class="text-gray-900 dark:text-gray-100 dark:bg-gray-700 rounded-lg flex flex-col">
                             <div>
                                 <div class="flex bg-gray-800 p-6 rounded-t-lg">
@@ -352,31 +352,30 @@
                                         <p class="text-xl font-semibold">{{$item->name}}</p>
                                         <p>{{$item->type->name}} -
                                             Niveau {{$item->level}}</p>
-                                        @if(is_null($item->set_id)!==false)
-                                            <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$item->set_id}}</p>
+                                        @if(is_null($item->set)===false)
+                                            <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$item->set->name}}</p>
                                         @endif
                                     </div>
                                     <img
-                                            src="{{$item->item_image}}"
-                                            alt="equipment image"
-                                            width="90">
+                                        src="{{$item->image}}"
+                                        alt="equipment image"
+                                        width="90"
+                                        loading="lazy"
+                                    >
                                 </div>
                                 <div class="flex flex-col p-6">
-                                    @if(array_key_exists("effects",$item))
-                                        @foreach($item['effects'] as $itemEffects)
-                                            @if(array_key_exists($itemEffects['type']['name'],$characteristicsTranslate))
-                                                <div class="flex">
-                                                    <img
-                                                            src="{{'/img/icons/'.$characteristicsTranslate[$itemEffects['type']['name']].'.png'}}"
-                                                            alt="effect image"
-                                                            width="24"
-                                                            height="24"
-                                                            class="mr-2 h-fit self-center">
-                                                    <span class="{{substr($itemEffects['formatted'],0,1)=='-'?'text-red-600':''}}">{{$itemEffects['formatted']}}</span>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    @endif
+                                    @foreach($item->effects as $anEffects)
+                                        <div class="flex">
+                                            <img
+                                                src="{{$anEffects->image}}"
+                                                alt="effect image"
+                                                width="24"
+                                                height="24"
+                                                class="mr-2 h-fit self-center">
+                                            <span
+                                                class="{{substr($anEffects->formatted_name,0,1)=='-'?'text-red-600':''}}">{{$anEffects->formatted_name}}</span>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="flex-1 flex flex-col justify-end">
@@ -393,16 +392,16 @@
                     @endforeach
                 </div>
 
-                @if(count($items)>count($itemsToView))
-                    <div class="flex items-center justify-center">
-                        <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
-                                wire:click="updateItemsToLoad()" wire:poll.visible="updateItemsToLoad()">
-                            Voir plus
-                        </button>
-                    </div>
-                @endif
+                {{--                @if(count($items)>count($itemsToView))--}}
+                {{--                    <div class="flex items-center justify-center">--}}
+                {{--                        <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"--}}
+                {{--                                wire:click="updateItemsToLoad()" wire:poll.visible="updateItemsToLoad()">--}}
+                {{--                            Voir plus--}}
+                {{--                        </button>--}}
+                {{--                    </div>--}}
+                {{--                @endif--}}
 
-                @if(count($itemsToView)===0)
+                @if(count($items)===0)
                     <div class="dark:bg-gray-800 shadow-sm sm:rounded-lg p-2 text-white text-center font-semibold">
                         <span>Aucun équipement avec ces filtres</span>
                     </div>
