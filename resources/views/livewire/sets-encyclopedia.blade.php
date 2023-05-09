@@ -45,7 +45,7 @@
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div>
                 <div class="grid grid-cols-2 gap-4 mb-5">
-                    @foreach($sets as $index=>$set)
+                    @foreach($setsToView as $index=>$set)
                         {{--                        @dd($set->items)--}}
                         <div class="text-gray-900 dark:text-gray-100 dark:bg-gray-700 rounded-lg flex flex-col">
                             <div>
@@ -57,7 +57,11 @@
                                 </div>
                                 <div class="grid grid-cols-5 p-6">
                                     @foreach($set->items as $anItem)
-                                        <div class="flex flex-col text-center">
+                                        <div class="flex flex-col text-center cursor-pointer"
+                                             wire:click="goToItem('{{$anItem->name}}','{{$anItem->type->name}}')"
+                                             data-popover-target="popover-{{$anItem->id}}"
+                                             data-popover-placement="bottom"
+                                        >
                                             <span>{{$anItem->type->name}}</span>
                                             <img
                                                     src="{{$anItem->image}}"
@@ -67,6 +71,31 @@
                                                     class="mr-2 h-fit self-center"
                                                     loading="lazy"
                                             >
+                                        </div>
+                                        <div id="popover-{{$anItem->id}}" role="tooltip"
+                                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-800 border border-gray-600 border-2">
+                                            <p class="text-xl font-semibold">{{$anItem->name}}</p>
+                                            <p>{{$anItem->type->name}} - Niveau
+                                                {{$anItem->level}}</p>
+                                            <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                               wire:click="goToSet('{{$anItem->set->name}}')">{{$anItem->set->name}}</p>
+                                            <div class="separator"></div>
+                                            @foreach($anItem->effects as $itemEffects)
+                                                <div class="flex">
+                                                    <img
+                                                            src="{{$itemEffects->image}}"
+                                                            alt="effect image"
+                                                            width="24"
+                                                            height="24"
+                                                            class="mr-2 h-fit self-center">
+                                                    <span
+                                                            class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                </div>
+                                            @endforeach
+
+
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+
                                         </div>
                                     @endforeach
 
@@ -103,9 +132,20 @@
                     @endforeach
                 </div>
 
+                @if($totalSetsNumber>$setsLoaded)
+                    <div class="flex items-center justify-center">
+                        <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
+                                wire:click="updateSetsToLoad()"
+                                wire:poll.visible="updateSetsToLoad()"
+                        >
+                            Voir plus
+                        </button>
+                    </div>
+                @endif
 
-                @if(count($sets)===0)
-                    <div class="dark:bg-gray-800 shadow-sm sm:rounded-lg p-2 text-white text-center font-semibold">
+
+                @if(count($setsToView)===0)
+                    <div class="dark:bg-gray-800 shadow-sm sm:rounded-lg p-2 py-5 text-xl text-white text-center font-semibold">
                         <span>Aucun équipement avec ces filtres</span>
                     </div>
                 @endif

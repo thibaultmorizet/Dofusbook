@@ -4,12 +4,16 @@ namespace App\Http\Livewire;
 
 use App\Models\Items;
 use App\Models\Types;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 use Livewire\Component;
 use Illuminate\Database\Eloquent\Collection;
+use Livewire\WithPagination;
 
 class Encyclopedia extends Component
 {
+    use withPagination;
+
     public string $equipmentTypeName;
     public Types $equipmentType;
     public ?string $stuffName = null;
@@ -61,24 +65,20 @@ class Encyclopedia extends Component
 
     public Collection $items;
     public Collection $itemsToView;
-    public int $itemsToLoad = 24;
+    public int $itemsLoaded = 24;
     public int $minLvl = 1;
     public int $maxLvl = 200;
+    public int $totalItemsNumber;
 
     public function mount()
     {
         $this->equipmentTypeName = request()->query->get("equipementType") ?? "Amulette";
+        $this->stuffName = request()->query->get("itemName") ?? null;
         $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
         $this->maxLvl = request()->query->get("maxLvl") ?? 200;
-        $this->updateItems();
+        $this->itemsToView = $this->updateItems();
+        $this->totalItemsNumber = $this->countItems();
     }
-
-    public function updateItemsToLoad()
-    {
-        $this->itemsToLoad += 24;
-        $this->updateItemsToView();
-    }
-
 
     public function updateEquipmentType(string $equipmentTypeName)
     {
@@ -87,27 +87,63 @@ class Encyclopedia extends Component
             $newType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
             if ($newType !== false) {
                 $this->equipmentType = $newType;
-                $this->updateItems();
+                $this->itemsToView = $this->updateItems();
             }
         }
     }
 
-    private function updateItems()
+    public function updateItemsToLoad()
     {
-        $this->items = Items::query()
+        $this->items = $this->updateItemsToView();
+        $this->itemsLoaded += 24;
+        $this->itemsToView = $this->itemsToView->merge($this->items);
+    }
+
+    private function countItems()
+    {
+        return Items::query()
+            ->where("type_id", "=", $this->equipmentType->id)
+            ->where("name", "like", "%{$this->stuffName}%")
+            ->where("level", ">=", $this->minLvl)
+            ->where("level", "<=", $this->maxLvl)
+            ->count();
+
+    }
+
+    private function updateItemsToView()
+    {
+        return Items::query()
             ->with(['type', 'effects', 'conditions'])
             ->where("type_id", "=", $this->equipmentType->id)
             ->where("name", "like", "%{$this->stuffName}%")
             ->where("level", ">=", $this->minLvl)
             ->where("level", "<=", $this->maxLvl)
             ->orderByDesc("level")
+            ->orderBy("id")
+            ->limit(24)
+            ->offset($this->itemsLoaded)
+            ->get();
+    }
+
+    private function updateItems()
+    {
+        $this->itemsLoaded = 24;
+        return Items::query()
+            ->with(['type', 'effects', 'conditions'])
+            ->where("type_id", "=", $this->equipmentType->id)
+            ->where("name", "like", "%{$this->stuffName}%")
+            ->where("level", ">=", $this->minLvl)
+            ->where("level", "<=", $this->maxLvl)
+            ->orderByDesc("level")
+            ->orderBy("id")
+            ->limit(24)
             ->get();
     }
 
     public function updateStuffName(string $stuffName)
     {
         $this->stuffName = $stuffName;
-        $this->updateItems();
+        $this->itemsToView = $this->updateItems();
     }
 
     public function deleteFilters()
@@ -117,19 +153,19 @@ class Encyclopedia extends Component
         $this->equipmentTypeName = "Amulette";
         $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
         $this->stuffName = null;
-        $this->updateItems();
+        $this->itemsToView = $this->updateItems();
     }
 
     public function updateMinLvl(int $minLvl)
     {
         $this->minLvl = $minLvl;
-        $this->updateItems();
+        $this->itemsToView = $this->updateItems();
     }
 
     public function updateMaxLvl(int $maxLvl)
     {
         $this->maxLvl = $maxLvl;
-        $this->updateItems();
+        $this->itemsToView = $this->updateItems();
     }
 
     public function addItemToStuff(int $item_id)
@@ -150,10 +186,13 @@ class Encyclopedia extends Component
                     return redirect()->route('stuff.show', $stuff->id);
                 }
             }
-
-            return redirect()->route('stuff.show', $stuff->id);
         }
         return false;
+    }
+
+    public function goToSet(string $setName)
+    {
+        return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
     }
 
     public function render(): View

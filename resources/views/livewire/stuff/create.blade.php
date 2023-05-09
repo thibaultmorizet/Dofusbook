@@ -381,7 +381,8 @@
                                     <p>{{$stuffDetail['amulet']->type->name}} - Niveau
                                         {{$stuffDetail['amulet']->level}}</p>
                                     @if(is_null($stuffDetail['amulet']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['amulet']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['amulet']->set->name}}')">{{$stuffDetail['amulet']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['amulet']->effects as $itemEffects)
@@ -444,7 +445,8 @@
                                     <p>{{$stuffDetail['shield']->type->name}} - Niveau
                                         {{$stuffDetail['shield']->level}}</p>
                                     @if(is_null($stuffDetail['shield']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['shield']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['shield']->set->name}}')">{{$stuffDetail['shield']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['shield']->effects as $itemEffects)
@@ -507,7 +509,8 @@
                                     <p>{{$stuffDetail['ring_1']->type->name}} - Niveau
                                         {{$stuffDetail['ring_1']->level}}</p>
                                     @if(is_null($stuffDetail['ring_1']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['ring_1']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['ring_1']->set->name}}')">{{$stuffDetail['ring_1']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['ring_1']->effects as $itemEffects)
@@ -571,7 +574,8 @@
                                     <p>{{$stuffDetail['belt']->type->name}} - Niveau
                                         {{$stuffDetail['belt']->level}}</p>
                                     @if(is_null($stuffDetail['belt']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['belt']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['belt']->set->name}}')">{{$stuffDetail['belt']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['belt']->effects as $itemEffects)
@@ -634,7 +638,8 @@
                                     <p>{{$stuffDetail['boots']->type->name}} - Niveau
                                         {{$stuffDetail['boots']->level}}</p>
                                     @if(is_null($stuffDetail['boots']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['boots']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['boots']->set->name}}')">{{$stuffDetail['boots']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['boots']->effects as $itemEffects)
@@ -702,7 +707,8 @@
                                     <p>{{$stuffDetail['hat']->type->name}} - Niveau
                                         {{$stuffDetail['hat']->level}}</p>
                                     @if(is_null($stuffDetail['hat']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['hat']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['hat']->set->name}}')">{{$stuffDetail['hat']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['hat']->effects as $itemEffects)
@@ -765,7 +771,8 @@
                                     <p>{{$stuffDetail['weapon']->type->name}} - Niveau
                                         {{$stuffDetail['weapon']->level}}</p>
                                     @if(is_null($stuffDetail['weapon']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['weapon']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['weapon']->set->name}}')">{{$stuffDetail['weapon']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['weapon']->effects as $itemEffects)
@@ -828,7 +835,8 @@
                                     <p>{{$stuffDetail['ring_2']->type->name}} - Niveau
                                         {{$stuffDetail['ring_2']->level}}</p>
                                     @if(is_null($stuffDetail['ring_2']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['ring_2']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['ring_2']->set->name}}')">{{$stuffDetail['ring_2']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['ring_2']->effects as $itemEffects)
@@ -892,7 +900,8 @@
                                     <p>{{$stuffDetail['cape']->type->name}} - Niveau
                                         {{$stuffDetail['cape']->level}}</p>
                                     @if(is_null($stuffDetail['cape']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['cape']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['cape']->set->name}}')">{{$stuffDetail['cape']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['cape']->effects as $itemEffects)
@@ -955,7 +964,8 @@
                                     <p>{{$stuffDetail['animal']->type->name}} - Niveau
                                         {{$stuffDetail['animal']->level}}</p>
                                     @if(is_null($stuffDetail['animal']->set)===false)
-                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['animal']->set->name}}</p>
+                                        <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                           wire:click="goToSet('{{$stuffDetail['animal']->set->name}}')">{{$stuffDetail['animal']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
                                     @foreach($stuffDetail['animal']->effects as $itemEffects)
@@ -1022,7 +1032,8 @@
                                 <p>{{$stuffDetail['dofus_1']->type->name}} - Niveau
                                     {{$stuffDetail['dofus_1']->level}}</p>
                                 @if(is_null($stuffDetail['dofus_1']->set)===false)
-                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_1']->set->name}}</p>
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                       wire:click="goToSet('{{$stuffDetail['dofus_1']->set->name}}')">{{$stuffDetail['dofus_1']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
                                 @foreach($stuffDetail['dofus_1']->effects as $itemEffects)
@@ -1086,7 +1097,8 @@
                                 <p>{{$stuffDetail['dofus_2']->type->name}} - Niveau
                                     {{$stuffDetail['dofus_2']->level}}</p>
                                 @if(is_null($stuffDetail['dofus_2']->set)===false)
-                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_2']->set->name}}</p>
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                       wire:click="goToSet('{{$stuffDetail['dofus_2']->set->name}}')">{{$stuffDetail['dofus_2']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
                                 @foreach($stuffDetail['dofus_2']->effects as $itemEffects)
@@ -1150,7 +1162,8 @@
                                 <p>{{$stuffDetail['dofus_3']->type->name}} - Niveau
                                     {{$stuffDetail['dofus_3']->level}}</p>
                                 @if(is_null($stuffDetail['dofus_3']->set)===false)
-                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_3']->set->name}}</p>
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                       wire:click="goToSet('{{$stuffDetail['dofus_3']->set->name}}')">{{$stuffDetail['dofus_3']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
                                 @foreach($stuffDetail['dofus_3']->effects as $itemEffects)
@@ -1214,7 +1227,8 @@
                                 <p>{{$stuffDetail['dofus_4']->type->name}} - Niveau
                                     {{$stuffDetail['dofus_4']->level}}</p>
                                 @if(is_null($stuffDetail['dofus_4']->set)===false)
-                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_4']->set->name}}</p>
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                       wire:click="goToSet('{{$stuffDetail['dofus_4']->set->name}}')">{{$stuffDetail['dofus_4']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
                                 @foreach($stuffDetail['dofus_4']->effects as $itemEffects)
@@ -1278,7 +1292,8 @@
                                 <p>{{$stuffDetail['dofus_5']->type->name}} - Niveau
                                     {{$stuffDetail['dofus_5']->level}}</p>
                                 @if(is_null($stuffDetail['dofus_5']->set)===false)
-                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_5']->set->name}}</p>
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                       wire:click="goToSet('{{$stuffDetail['dofus_5']->set->name}}')">{{$stuffDetail['dofus_5']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
                                 @foreach($stuffDetail['dofus_5']->effects as $itemEffects)
@@ -1342,7 +1357,8 @@
                                 <p>{{$stuffDetail['dofus_6']->type->name}} - Niveau
                                     {{$stuffDetail['dofus_6']->level}}</p>
                                 @if(is_null($stuffDetail['dofus_6']->set)===false)
-                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400">{{$stuffDetail['dofus_6']->set->name}}</p>
+                                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
+                                       wire:click="goToSet('{{$stuffDetail['dofus_6']->set->name}}')">{{$stuffDetail['dofus_6']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
                                 @foreach($stuffDetail['dofus_6']->effects as $itemEffects)
@@ -1538,7 +1554,8 @@
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_neutral_res>=-50?($percent_neutral_res<=50?$percent_neutral_res:50):-50}} </span> <img
+                    <span class="w-10 text-right">{{$percent_neutral_res>=-50?($percent_neutral_res<=50?$percent_neutral_res:50):-50}} </span>
+                    <img
                             src="/img/icons/neutral_res.png"
                             alt="neutral_res image"
                             class="ml-2"
@@ -1547,7 +1564,8 @@
                     <span> % Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_earth_res>=-50?($percent_earth_res<=50?$percent_earth_res:50):-50}} </span> <img
+                    <span class="w-10 text-right">{{$percent_earth_res>=-50?($percent_earth_res<=50?$percent_earth_res:50):-50}} </span>
+                    <img
                             src="/img/icons/earth_res.png"
                             alt="earth_res image"
                             class="ml-2"
@@ -1555,7 +1573,8 @@
                     <span> % Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_fire_res>=-50?($percent_fire_res<=50?$percent_fire_res:50):-50}} </span> <img
+                    <span class="w-10 text-right">{{$percent_fire_res>=-50?($percent_fire_res<=50?$percent_fire_res:50):-50}} </span>
+                    <img
                             src="/img/icons/fire_res.png"
                             alt="fire_res image"
                             class="ml-2"
@@ -1563,7 +1582,8 @@
                     <span> % Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_water_res>=-50?($percent_water_res<=50?$percent_water_res:50):-50}} </span> <img
+                    <span class="w-10 text-right">{{$percent_water_res>=-50?($percent_water_res<=50?$percent_water_res:50):-50}} </span>
+                    <img
                             src="/img/icons/water_res.png"
                             alt="water_res image"
                             class="ml-2"
@@ -1572,10 +1592,11 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_air_res>=-50?($percent_air_res<=50?$percent_air_res:50):-50}} </span> <img src="/img/icons/air_res.png"
-                                                                                    alt="air_res image"
-                                                                                    class="ml-2"
-                                                                                    width="28px">
+                    <span class="w-10 text-right">{{$percent_air_res>=-50?($percent_air_res<=50?$percent_air_res:50):-50}} </span>
+                    <img src="/img/icons/air_res.png"
+                         alt="air_res image"
+                         class="ml-2"
+                         width="28px">
                     <span> % Ré Air</span>
 
                 </div>

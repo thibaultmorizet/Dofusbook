@@ -152,7 +152,6 @@ class ImportItems extends Command
         "Renvoie dommages" => "return_attack",
         "Renvoie dommage" => "return_attack",
         "Change les paroles" => "title",
-        "Attitude" => "attitude",
         "Titre :" => "title",
         "Arme de chasse" => "title",
     ];

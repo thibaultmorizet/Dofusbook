@@ -650,6 +650,11 @@ class Create extends Component
 
     }
 
+    public function goToSet(string $setName)
+    {
+        return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
+    }
+
     public function render(): View
     {
         $this->getStuffDetail();
