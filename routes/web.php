@@ -3,6 +3,7 @@
 use App\Http\Controllers\EncyclopediaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SetsEncyclopediaController;
 use App\Http\Controllers\StuffController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/dashboard', [HomeController::class, 'show'])->name('dashboard');
     Route::get('/encyclopedia', [EncyclopediaController::class, 'show'])->name('encyclopedia');
+    Route::get('/sets-encyclopedia', [SetsEncyclopediaController::class, 'show'])->name('sets-encyclopedia');
 });
 
 Route::fallback(function () {

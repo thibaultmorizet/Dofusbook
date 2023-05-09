@@ -14,7 +14,7 @@ class Sets extends Model
      */
     protected $fillable = [
         'name',
-        'items',
+        'number_of_items',
         'level'
     ];
 
@@ -23,4 +23,8 @@ class Sets extends Model
         return $this->hasMany(Items::class, "set_id");
     }
 
+    public function effects(): HasMany
+    {
+        return $this->HasMany(Effects::class, "set_id", "id");
+    }
 }

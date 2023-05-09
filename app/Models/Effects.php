@@ -32,4 +32,8 @@ class Effects extends Model
         return $this->hasOne(Items::class, "effect_id", "id");
     }
 
+    public function set(): HasOne
+    {
+        return $this->hasOne(Items::class, "effect_id", "id");
+    }
 }

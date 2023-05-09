@@ -438,7 +438,7 @@ class ImportItems extends Command
         $set = new Sets();
         $set->id = Arr::get($setResult, "ankama_id");
         $set->name = Arr::get($setResult, "name");
-        $set->items = count(Arr::get($setResult, "equipment_ids"));
+        $set->number_of_items = count(Arr::get($setResult, "equipment_ids"));
         $set->level = Arr::get($setResult, "highest_equipment_level");
 
         if ($set->save()) {
