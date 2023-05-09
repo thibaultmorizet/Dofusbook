@@ -69,6 +69,8 @@ class Encyclopedia extends Component
     public int $minLvl = 1;
     public int $maxLvl = 200;
     public int $totalItemsNumber;
+    public bool $returnReplacementModal = false;
+    public array $itemsToReplace = [];
 
     public function mount()
     {
@@ -78,6 +80,7 @@ class Encyclopedia extends Component
         $this->maxLvl = request()->query->get("maxLvl") ?? 200;
         $this->itemsToView = $this->updateItems();
         $this->totalItemsNumber = $this->countItems();
+        $this->isReturnReplacementModal();
     }
 
     public function updateEquipmentType(string $equipmentTypeName)
@@ -127,6 +130,8 @@ class Encyclopedia extends Component
 
     private function updateItems()
     {
+        $this->isReturnReplacementModal();
+
         $this->itemsLoaded = 24;
         return Items::query()
             ->with(['type', 'effects', 'conditions'])
@@ -195,10 +200,35 @@ class Encyclopedia extends Component
         return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
     }
 
+    private function isReturnReplacementModal(): void
+    {
+        $this->itemsToReplace = [];
+        $stuff = session()->get('stuff');
+        if (!is_null($stuff)) {
+            $databaseEquipmentName = $this->equipmentTranslate[$this->equipmentTypeName];
+            if (is_array($databaseEquipmentName)) {
+                foreach ($databaseEquipmentName as $itemEmplacement) {
+                    if (is_null($stuff->{$itemEmplacement})) {
+                        $this->returnReplacementModal = false;
+                        $this->itemsToReplace = [];
+                        return;
+                    }
+                }
+                foreach ($databaseEquipmentName as $itemEmplacement) {
+                    $this->itemsToReplace[$itemEmplacement] = Items::query()->find($stuff->{$itemEmplacement});
+                }
+                $this->returnReplacementModal = true;
+                return;
+
+            }
+        }
+        $this->returnReplacementModal = false;
+        $this->itemsToReplace = [];
+    }
+
     public function render(): View
     {
         return view('livewire.encyclopedia');
     }
-
 
 }

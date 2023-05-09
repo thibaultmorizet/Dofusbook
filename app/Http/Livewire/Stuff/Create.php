@@ -140,7 +140,7 @@ class Create extends Component
     {
         $this->stuff_id = $stuff_id;
         if (!is_null($this->stuff_id)) {
-            $this->stuff = Stuffs::query()->find($this->stuff_id)->first();
+            $this->stuff = Stuffs::query()->where("id",$this->stuff_id)->first();
             $this->class_slug = Classes::query()->findOrFail($class_id)->slug;
             $this->getStuffDetail();
             $this->resetItemsCharacteristics();

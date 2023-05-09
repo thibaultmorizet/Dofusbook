@@ -380,12 +380,32 @@
                                 </div>
                             </div>
                             <div class="flex-1 flex flex-col justify-end">
+                                @if(count($item->conditions)>0)
+                                    <div class="equipment-separator"></div>
+                                    <div class="flex items-center justify-center mb-2">
+                                        @foreach($item->conditions as $condition)
+                                            <span class="bg-gray-800 rounded-lg p-2">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
                                 <div class="equipment-separator"></div>
                                 <div class="flex items-center justify-center pb-4">
-                                    <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
-                                            wire:click="addItemToStuff({{$item->id}})">
-                                        +
-                                    </button>
+                                    @if($returnReplacementModal)
+                                        <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
+                                                wire:click="$emit('openModal', 'open-replacement-modal',{{ json_encode([
+    "itemType" => $item->type->name,
+    "items" => $itemsToReplace,
+    "newItemId" => $item->id,
+    ]) }})"
+                                        >
+                                            +
+                                        </button>
+                                    @else
+                                        <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
+                                                wire:click="addItemToStuff({{$item->id}})">
+                                            +
+                                        </button>
+                                    @endif
                                 </div>
 
                             </div>
