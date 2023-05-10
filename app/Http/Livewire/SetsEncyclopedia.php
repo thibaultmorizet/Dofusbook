@@ -24,8 +24,6 @@ class SetsEncyclopedia extends Component
         $this->maxLvl = request()->query->get("maxLvl") ?? 200;
         $this->setsToView = $this->updateSets();
         $this->loadEffectsBySets($this->setsToView);
-        $this->totalSetsNumber = $this->countSets();
-
     }
 
     public function updateEffectsToView(int $setId, int $effectsToView)
@@ -45,14 +43,16 @@ class SetsEncyclopedia extends Component
     public function updateSetsToLoad()
     {
         $this->sets = $this->updateSetsToView();
-        $this->loadEffectsBySets($this->sets);
         $this->setsLoaded += 24;
         $this->setsToView = $this->setsToView->merge($this->sets);
+        $this->totalSetsNumber = $this->countSets();
     }
 
     private function updateSets()
     {
-        return Sets::query()
+        $this->setsLoaded = 24;
+        $this->totalSetsNumber = $this->countSets();
+        $result = Sets::query()
             ->with(['items', 'items.type', 'effects'])
             ->where("name", "like", "%{$this->setName}%")
             ->where("level", ">=", $this->minLvl)
@@ -61,11 +61,13 @@ class SetsEncyclopedia extends Component
             ->orderBy("id")
             ->limit(24)
             ->get();
+        $this->loadEffectsBySets($result);
+        return $result;
     }
 
     private function updateSetsToView()
     {
-        return Sets::query()
+        $result = Sets::query()
             ->with(['items', 'items.type', 'effects'])
             ->where("name", "like", "%{$this->setName}%")
             ->where("level", ">=", $this->minLvl)
@@ -75,13 +77,14 @@ class SetsEncyclopedia extends Component
             ->limit(24)
             ->offset($this->setsLoaded)
             ->get();
+        $this->loadEffectsBySets($result);
+        return $result;
     }
 
     public function updateSetName(string $setName)
     {
         $this->setName = $setName;
         $this->setsToView = $this->updateSets();
-        $this->loadEffectsBySets($this->setsToView);
     }
 
     public function deleteFilters()
@@ -90,23 +93,18 @@ class SetsEncyclopedia extends Component
         $this->maxLvl = 200;
         $this->setName = null;
         $this->setsToView = $this->updateSets();
-        $this->loadEffectsBySets($this->setsToView);
-
     }
 
     public function updateMinLvl(int $minLvl)
     {
         $this->minLvl = $minLvl;
         $this->setsToView = $this->updateSets();
-        $this->loadEffectsBySets($this->setsToView);
     }
 
     public function updateMaxLvl(int $maxLvl)
     {
         $this->maxLvl = $maxLvl;
         $this->setsToView = $this->updateSets();
-        $this->loadEffectsBySets($this->setsToView);
-
     }
 
     public function loadEffectsBySets($sets)
@@ -130,6 +128,7 @@ class SetsEncyclopedia extends Component
     public function render(): View
     {
         return view('livewire.sets-encyclopedia');
+
     }
 
 

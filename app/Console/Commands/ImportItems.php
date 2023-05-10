@@ -236,6 +236,7 @@ class ImportItems extends Command
         "Lié au personnage",
         "Craft coopératif impossible.",
         "Reçu le :",
+        "Attitude",
         "Change l'apparence"
     ];
 
@@ -456,7 +457,29 @@ class ImportItems extends Command
 
         $image_name = Arr::get($this->characteristicsImageTranslate, $name);
         $translate_name = Arr::get($this->characteristicsTranslate, $name);
-
+        if ($name == "Soin") {
+            $name = "Soins";
+        }
+        if (str_contains($name, "ommage")) {
+            $name = str_replace(
+                "ommage",
+                "ommages",
+                str_replace(
+                    "ommages",
+                    "ommage",
+                    $name)
+            );
+        }
+        if (str_contains($name, "ésistance")) {
+            $name = str_replace(
+                "ésistance",
+                "ésistances",
+                str_replace(
+                    "ésistances",
+                    "ésistance",
+                    $name)
+            );
+        }
         $effect = new Effects();
         $effect->name = $name;
         $effect->image = ('/img/icons/' . $image_name . '.png');

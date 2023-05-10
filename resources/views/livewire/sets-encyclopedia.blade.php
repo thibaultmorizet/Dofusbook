@@ -45,8 +45,8 @@
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div>
                 <div class="grid grid-cols-2 gap-4 mb-5">
-                    @foreach($setsToView as $index=>$set)
-                        {{--                        @dd($set->items)--}}
+
+                @foreach($setsToView as $index=>$set)
                         <div class="text-gray-900 dark:text-gray-100 dark:bg-gray-700 rounded-lg flex flex-col">
                             <div>
                                 <div class="flex bg-gray-800 p-6 rounded-t-lg">
@@ -78,7 +78,7 @@
                                             <p>{{$anItem->type->name}} - Niveau
                                                 {{$anItem->level}}</p>
                                             <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                               wire:click="goToSet('{{$anItem->set->name}}')">{{$anItem->set->name}}</p>
+                                               wire:click="goToSet('{{$set->name}}')">{{$set->name}}</p>
                                             <div class="separator"></div>
                                             @foreach($anItem->effects as $itemEffects)
                                                 <div class="flex">
@@ -92,7 +92,6 @@
                                                             class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                                 </div>
                                             @endforeach
-
 
                                             <div class="tooltip-arrow" data-popper-arrow></div>
 

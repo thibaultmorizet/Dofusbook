@@ -5,10 +5,9 @@ namespace App\Http\Livewire\Stuff;
 use App\Models\Classes;
 use App\Models\Items;
 use App\Models\Stuffs;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 use Livewire\Component;
+use Illuminate\Database\Eloquent\Collection;
 
 class Create extends Component
 {
@@ -135,40 +134,36 @@ class Create extends Component
     public int $stuff_do_distance = 0;
     public int $stuff_do_weapon = 0;
     public int $stuff_do_spell = 0;
+    public array $setLinks = [];
 
-    public function mount(int $stuff_id = null, int $class_id = 1, bool $is_private_stuff = true, string $stuff_title = "", string $character_gender = "male", int $character_level = 1, int $is_exo_pa = 0, int $is_exo_pm = 0, int $is_exo_po = 0, int $boost_vitality = 0, int $boost_wisdom = 0, int $boost_strength = 0, int $boost_intel = 0, int $boost_luck = 0, int $boost_agility = 0, int $parchment_vitality = 0, int $parchment_wisdom = 0, int $parchment_strength = 0, int $parchment_intel = 0, int $parchment_luck = 0, int $parchment_agility = 0)
+    public function mount(Stuffs $stuff)
     {
-        $this->stuff_id = $stuff_id;
-        if (!is_null($this->stuff_id)) {
-            $this->stuff = Stuffs::query()->where("id",$this->stuff_id)->first();
-            $this->class_slug = Classes::query()->findOrFail($class_id)->slug;
-            $this->getStuffDetail();
-            $this->resetItemsCharacteristics();
-        }
+        $this->stuff = $stuff;
+        $this->stuff_id = $stuff->id;
+        $this->class_slug = $stuff->class->slug;
 
-        $this->updateIsPrivateStuff($is_private_stuff);
-        $this->updateClass($class_id);
-        $this->updateTitle($stuff_title);
-        $this->updateCharacterGender($character_gender);
-        $this->updateLevel($character_level);
-        $this->updateExoPa($is_exo_pa);
-        $this->updateExoPm($is_exo_pm);
-        $this->updateExoPo($is_exo_po);
+        $this->updateIsPrivateStuff($stuff->is_private);
+        $this->updateClass($stuff->class->id);
+        $this->updateTitle($stuff->title);
+        $this->updateCharacterGender($stuff->gender);
+        $this->updateLevel($stuff->character_level);
+        $this->updateExoPa($stuff->is_exo_pa);
+        $this->updateExoPm($stuff->is_exo_pm);
+        $this->updateExoPo($stuff->is_exo_po);
 
-        $this->updateBoostVitality($boost_vitality);
-        $this->updateBoostWisdom($boost_wisdom);
-        $this->updateBoostStrength($boost_strength);
-        $this->updateBoostIntel($boost_intel);
-        $this->updateBoostLuck($boost_luck);
-        $this->updateBoostAgility($boost_agility);
+        $this->updateBoostVitality($stuff->vitality_boost);
+        $this->updateBoostWisdom($stuff->wisdom_boost);
+        $this->updateBoostStrength($stuff->strength_boost);
+        $this->updateBoostIntel($stuff->intel_boost);
+        $this->updateBoostLuck($stuff->luck_boost);
+        $this->updateBoostAgility($stuff->agility_boost);
 
-        $this->updateParchmentVitality($parchment_vitality);
-        $this->updateParchmentWisdom($parchment_wisdom);
-        $this->updateParchmentStrength($parchment_strength);
-        $this->updateParchmentIntel($parchment_intel);
-        $this->updateParchmentLuck($parchment_luck);
-        $this->updateParchmentAgility($parchment_agility);
-
+        $this->updateParchmentVitality($stuff->vitality_parchment);
+        $this->updateParchmentWisdom($stuff->wisdom_parchment);
+        $this->updateParchmentStrength($stuff->strength_parchment);
+        $this->updateParchmentIntel($stuff->intel_parchment);
+        $this->updateParchmentLuck($stuff->luck_parchment);
+        $this->updateParchmentAgility($stuff->agility_parchment);
     }
 
     public function updateLevel(int $level)
@@ -558,11 +553,28 @@ class Create extends Component
 
     private function resetItemsCharacteristics()
     {
+
         $this->setStuffCharacteristicsToZero();
         foreach ($this->stuffDetail as $item) {
             if (is_null($item) === false) {
                 foreach ($item->effects as $effect) {
 
+                    $value = $effect->int_maximum;
+                    if ($effect->ignore_int_max) {
+                        $value = $effect->int_minimum;
+                    }
+                    if (is_null($effect->translated_name) === false) {
+                        $this->updateStuffCharacteristic($effect->translated_name, $value);
+                    }
+                }
+                if ($this->stuff_level < $item->level) {
+                    $this->stuff_level = $item->level;
+                }
+            }
+        }
+        foreach ($this->setLinks as $setLink) {
+            foreach ($setLink[0]->set->effects as $effect) {
+                if ($effect->set_number_items == count($setLink)) {
                     $value = $effect->int_maximum;
                     if ($effect->ignore_int_max) {
                         $value = $effect->int_minimum;
@@ -655,88 +667,30 @@ class Create extends Component
         return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
     }
 
-    public function render(): View
+
+    private function getSetLinks()
     {
-        $this->getStuffDetail();
+        $this->setLinks = [];
+        foreach ($this->stuffDetail as $item) {
 
-        return view('livewire.stuff.create', [
-            'stuff_title' => $this->stuff_title,
-            'character_level' => $this->character_level,
-
-            'total_vitality' => $this->total_vitality,
-            'total_prospection' => $this->total_prospection,
-            'total_pa' => $this->total_pa,
-            'total_pm' => $this->total_pm,
-            'total_po' => $this->total_po,
-            'total_initiative' => $this->total_initiative,
-            'total_critique' => $this->stuff_critic,
-            'total_invocation' => $this->stuff_invocation,
-            'total_health' => $this->stuff_health,
-
-            'subtotal_vitality' => $this->subtotal_vitality,
-            'subtotal_wisdom' => $this->subtotal_wisdom,
-            'subtotal_strength' => $this->subtotal_strength,
-            'subtotal_intel' => $this->subtotal_intel,
-            'subtotal_luck' => $this->subtotal_luck,
-            'subtotal_agility' => $this->subtotal_agility,
-            'subtotal_power' => $this->stuff_power,
-
-            'boost_vitality' => $this->boost_vitality,
-            'boost_wisdom' => $this->boost_wisdom,
-            'boost_strength' => $this->boost_strength,
-            'boost_intel' => $this->boost_intel,
-            'boost_luck' => $this->boost_luck,
-            'boost_agility' => $this->boost_agility,
-            'boost_available' => $this->boost_available,
-
-            'parchment_vitality' => $this->parchment_vitality,
-            'parchment_wisdom' => $this->parchment_wisdom,
-            'parchment_strength' => $this->parchment_strength,
-            'parchment_intel' => $this->parchment_intel,
-            'parchment_luck' => $this->parchment_luck,
-            'parchment_agility' => $this->parchment_agility,
-
-            'leak' => $this->leak,
-            'avoid_pa' => $this->avoid_pa,
-            'avoid_pm' => $this->avoid_pm,
-            'pods' => $this->pods,
-
-            'tackle' => $this->tackle,
-            'pa_recession' => $this->pa_recession,
-            'pm_recession' => $this->pm_recession,
-            'stuff_level' => $this->stuff_level,
-
-            'do_neutral' => $this->stuff_do_neutral,
-            'do_earth' => $this->stuff_do_earth,
-            'do_fire' => $this->stuff_do_fire,
-            'do_water' => $this->stuff_do_water,
-            'do_air' => $this->stuff_do_air,
-
-            'do_critique' => $this->stuff_do_critique,
-            'do_push' => $this->stuff_do_push,
-            'do_weapon' => $this->stuff_do_weapon,
-            'do_spell' => $this->stuff_do_spell,
-            'do_melee' => $this->stuff_do_melee,
-            'do_distance' => $this->stuff_do_distance,
-
-            'neutral_res' => $this->stuff_neutral_res,
-            'earth_res' => $this->stuff_earth_res,
-            'fire_res' => $this->stuff_fire_res,
-            'water_res' => $this->stuff_water_res,
-            'air_res' => $this->stuff_air_res,
-            'critique_res' => $this->stuff_critique_res,
-            'melee_res' => $this->stuff_melee_res,
-            'weapon_res' => $this->stuff_weapon_res,
-
-            'percent_neutral_res' => $this->stuff_percent_neutral_res,
-            'percent_earth_res' => $this->stuff_percent_earth_res,
-            'percent_fire_res' => $this->stuff_percent_fire_res,
-            'percent_water_res' => $this->stuff_percent_water_res,
-            'percent_air_res' => $this->stuff_percent_air_res,
-            'push_res' => $this->stuff_push_res,
-            'distance_res' => $this->stuff_distance_res,
-        ]);
+            if (!is_null($item?->set)) {
+                $this->setLinks[$item?->set->id][] = $item;
+            }
+        }
+        foreach ($this->setLinks as $index => $setLink) {
+            if (count($setLink) <= 1) {
+                unset($this->setLinks[$index]);
+            }
+        }
     }
 
 
+    public function render(): View
+    {
+        $this->getStuffDetail();
+        $this->getSetLinks();
+        $this->resetItemsCharacteristics();
+
+        return view('livewire.stuff.create');
+    }
 }

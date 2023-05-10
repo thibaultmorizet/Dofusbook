@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Items;
 use App\Models\Types;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Livewire\Component;
 use Illuminate\Database\Eloquent\Collection;
@@ -71,6 +71,11 @@ class Encyclopedia extends Component
     public int $totalItemsNumber;
     public bool $returnReplacementModal = false;
     public array $itemsToReplace = [];
+    public array $characteristicsFilters = [];
+    public bool $primaryFilterTabIsOpen = false;
+    public bool $secondaryFilterTabIsOpen = false;
+    public bool $dommagesFilterTabIsOpen = false;
+    public bool $resistancesFilterTabIsOpen = false;
 
     public function mount()
     {
@@ -79,8 +84,6 @@ class Encyclopedia extends Component
         $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
         $this->maxLvl = request()->query->get("maxLvl") ?? 200;
         $this->itemsToView = $this->updateItems();
-        $this->totalItemsNumber = $this->countItems();
-        $this->isReturnReplacementModal();
     }
 
     public function updateEquipmentType(string $equipmentTypeName)
@@ -100,22 +103,32 @@ class Encyclopedia extends Component
         $this->items = $this->updateItemsToView();
         $this->itemsLoaded += 24;
         $this->itemsToView = $this->itemsToView->merge($this->items);
+        $this->totalItemsNumber = $this->countItems();
     }
 
     private function countItems()
     {
-        return Items::query()
+        $result = Items::query()
             ->where("type_id", "=", $this->equipmentType->id)
             ->where("name", "like", "%{$this->stuffName}%")
             ->where("level", ">=", $this->minLvl)
-            ->where("level", "<=", $this->maxLvl)
-            ->count();
-
+            ->where("level", "<=", $this->maxLvl);
+        foreach ($this->characteristicsFilters as $aCharacteristicFilter) {
+            $result->whereHas('effects', function (Builder $query) use ($aCharacteristicFilter) {
+                $query
+                    ->where('name', '=', $aCharacteristicFilter)
+                    ->where(function ($q) {
+                        $q->where('int_maximum', '>=', '1')
+                            ->orWhere('int_minimum', '>=', '1');
+                    });
+            });
+        }
+        return $result->count();
     }
 
     private function updateItemsToView()
     {
-        return Items::query()
+        $result = Items::query()
             ->with(['type', 'effects', 'conditions'])
             ->where("type_id", "=", $this->equipmentType->id)
             ->where("name", "like", "%{$this->stuffName}%")
@@ -124,8 +137,20 @@ class Encyclopedia extends Component
             ->orderByDesc("level")
             ->orderBy("id")
             ->limit(24)
-            ->offset($this->itemsLoaded)
-            ->get();
+            ->offset($this->itemsLoaded);
+        foreach ($this->characteristicsFilters as $aCharacteristicFilter) {
+            $result->whereHas('effects', function (Builder $query) use ($aCharacteristicFilter) {
+                $query
+                    ->where('name', '=', $aCharacteristicFilter)
+                    ->where(function ($q) {
+                        $q->where('int_maximum', '>=', '1')
+                            ->orWhere('int_minimum', '>=', '1');
+                    });
+            });
+        }
+
+        return $result->get();
+
     }
 
     private function updateItems()
@@ -133,7 +158,8 @@ class Encyclopedia extends Component
         $this->isReturnReplacementModal();
 
         $this->itemsLoaded = 24;
-        return Items::query()
+        $this->totalItemsNumber = $this->countItems();
+        $result = Items::query()
             ->with(['type', 'effects', 'conditions'])
             ->where("type_id", "=", $this->equipmentType->id)
             ->where("name", "like", "%{$this->stuffName}%")
@@ -141,8 +167,19 @@ class Encyclopedia extends Component
             ->where("level", "<=", $this->maxLvl)
             ->orderByDesc("level")
             ->orderBy("id")
-            ->limit(24)
-            ->get();
+            ->limit(24);
+       foreach ($this->characteristicsFilters as $aCharacteristicFilter) {
+            $result->whereHas('effects', function (Builder $query) use ($aCharacteristicFilter) {
+                $query
+                    ->where('name', '=', $aCharacteristicFilter)
+                    ->where(function ($q) {
+                        $q->where('int_maximum', '>=', '1')
+                            ->orWhere('int_minimum', '>=', '1');
+                    });
+            });
+        }
+
+        return $result->get();
     }
 
     public function updateStuffName(string $stuffName)
@@ -158,6 +195,7 @@ class Encyclopedia extends Component
         $this->equipmentTypeName = "Amulette";
         $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
         $this->stuffName = null;
+        $this->characteristicsFilters = [];
         $this->itemsToView = $this->updateItems();
     }
 
@@ -224,6 +262,22 @@ class Encyclopedia extends Component
         }
         $this->returnReplacementModal = false;
         $this->itemsToReplace = [];
+    }
+
+    public function updateCharacteristicsFilters(string $characteristicName)
+    {
+
+        if (($key = array_search($characteristicName, $this->characteristicsFilters)) === false) {
+            $this->characteristicsFilters[] = $characteristicName;
+        } else {
+            unset($this->characteristicsFilters[$key]);
+        }
+        $this->itemsToView = $this->updateItems();
+    }
+
+    public function toggleFilterTab(string $tabName)
+    {
+        $this->{$tabName . "FilterTabIsOpen"} = !$this->{$tabName . "FilterTabIsOpen"};
     }
 
     public function render(): View

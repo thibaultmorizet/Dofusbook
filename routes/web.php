@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('/stuff')->group(function () {
-        Route::get('/show/{stuff}', [StuffController::class, 'show'])->name('stuff.show');
+        Route::get('/show/{id}', [StuffController::class, 'show'])->name('stuff.show');
     });
     Route::get('/dashboard', [HomeController::class, 'show'])->name('dashboard');
     Route::get('/encyclopedia', [EncyclopediaController::class, 'show'])->name('encyclopedia');

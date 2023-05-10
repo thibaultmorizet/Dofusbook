@@ -22,19 +22,19 @@
             </button>
             <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2"
                     wire:click="$emit('openModal', 'create-stuff-modal',{{ json_encode([
-    "character_level" => $character_level,
-    "stuff_title" => $stuff_title,
-    "stuff_id" => $stuff_id,
-    "selectedClass" => $class_id,
-    "gender" => $character_gender,
-    "is_private_stuff" => $is_private_stuff,
-    "is_updating_stuff" => true
-    ]) }})">
+                        "character_level" => $character_level,
+                        "stuff_title" => $stuff_title,
+                        "stuff_id" => $stuff_id,
+                        "selectedClass" => $class_id,
+                        "gender" => $character_gender,
+                        "is_private_stuff" => $is_private_stuff,
+                        "is_updating_stuff" => true
+                        ]) }})">
                 Modifier
             </button>
         </div>
     </div>
-    <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-5 pl-5 pr-20">
+    <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-5 px-7">
         <div class="flex">
             <div class="flex-1">
                 <div class="flex w-full">
@@ -100,7 +100,7 @@
                             <span> Initiative</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_critique>=0?$total_critique:0}} </span> <img
+                            <span class="w-10 text-right">{{$stuff_critic>=0?$stuff_critic:0}} </span> <img
                                     src="/img/icons/critic.png"
                                     alt="critic image"
                                     class="ml-2"
@@ -108,7 +108,7 @@
                             <span> Critique</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_invocation>=0?$total_invocation:0}} </span> <img
+                            <span class="w-10 text-right">{{$stuff_invocation>=0?$stuff_invocation:0}} </span> <img
                                     src="/img/icons/invocation.png"
                                     alt="invocation image"
                                     class="ml-2"
@@ -116,7 +116,7 @@
                             <span> Invocation</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_health>=0?$total_health:0}} </span> <img
+                            <span class="w-10 text-right">{{$stuff_health>=0?$stuff_health:0}} </span> <img
                                     src="/img/icons/health.png"
                                     alt="health image"
                                     class="ml-2"
@@ -180,7 +180,7 @@
                             <span> Agilité</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$subtotal_power}} </span> <img
+                            <span class="w-10 text-right">{{$stuff_power}} </span> <img
                                     src="/img/icons/power.png"
                                     alt="power image"
                                     class="ml-2"
@@ -358,6 +358,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Amulette',{{$character_level}})"
                             >
+
                                 @if(is_null($stuffDetail['amulet']))
                                     <img
                                             src="/img/stuff/amulet.png"
@@ -373,12 +374,13 @@
                                             width="60px"
                                     >
                                 @endif
+
                             </div>
                             <div id="popover-amulet" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['amulet']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['amulet']->name}}</p>
-                                    <p>{{$stuffDetail['amulet']->type->name}} - Niveau
+                                    <p>Amulette - Niveau
                                         {{$stuffDetail['amulet']->level}}</p>
                                     @if(is_null($stuffDetail['amulet']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -394,7 +396,7 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{(substr($itemEffects->formatted_name,0,1))=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
@@ -449,7 +451,7 @@
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['shield']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['shield']->name}}</p>
-                                    <p>{{$stuffDetail['shield']->type->name}} - Niveau
+                                    <p>Bouclier - Niveau
                                         {{$stuffDetail['shield']->level}}</p>
                                     @if(is_null($stuffDetail['shield']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -520,7 +522,7 @@
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['ring_1']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['ring_1']->name}}</p>
-                                    <p>{{$stuffDetail['ring_1']->type->name}} - Niveau
+                                    <p>Anneau - Niveau
                                         {{$stuffDetail['ring_1']->level}}</p>
                                     @if(is_null($stuffDetail['ring_1']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -592,7 +594,7 @@
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['belt']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['belt']->name}}</p>
-                                    <p>{{$stuffDetail['belt']->type->name}} - Niveau
+                                    <p>Ceinture - Niveau
                                         {{$stuffDetail['belt']->level}}</p>
                                     @if(is_null($stuffDetail['belt']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -663,7 +665,7 @@
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['boots']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['boots']->name}}</p>
-                                    <p>{{$stuffDetail['boots']->type->name}} - Niveau
+                                    <p>Bottes - Niveau
                                         {{$stuffDetail['boots']->level}}</p>
                                     @if(is_null($stuffDetail['boots']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -739,7 +741,7 @@
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['hat']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['hat']->name}}</p>
-                                    <p>{{$stuffDetail['hat']->type->name}} - Niveau
+                                    <p>Chapeau - Niveau
                                         {{$stuffDetail['hat']->level}}</p>
                                     @if(is_null($stuffDetail['hat']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -881,7 +883,7 @@
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['ring_2']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['ring_2']->name}}</p>
-                                    <p>{{$stuffDetail['ring_2']->type->name}} - Niveau
+                                    <p>Anneau - Niveau
                                         {{$stuffDetail['ring_2']->level}}</p>
                                     @if(is_null($stuffDetail['ring_2']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -953,7 +955,7 @@
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null($stuffDetail['cape']))
                                     <p class="text-xl font-semibold">{{$stuffDetail['cape']->name}}</p>
-                                    <p>{{$stuffDetail['cape']->type->name}} - Niveau
+                                    <p>Cape - Niveau
                                         {{$stuffDetail['cape']->level}}</p>
                                     @if(is_null($stuffDetail['cape']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
@@ -1513,133 +1515,133 @@
         <div class="flex">
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_neutral}} </span> <img src="/img/icons/do_neutral.png"
-                                                                               alt="do_neutral image"
-                                                                               class="ml-2"
-                                                                               width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_neutral}} </span> <img src="/img/icons/do_neutral.png"
+                                                                                     alt="do_neutral image"
+                                                                                     class="ml-2"
+                                                                                     width="28px">
 
                     <span> Do Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_earth}} </span> <img src="/img/icons/do_earth.png"
-                                                                             alt="do_earth image"
-                                                                             class="ml-2"
-                                                                             width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_earth}} </span> <img src="/img/icons/do_earth.png"
+                                                                                   alt="do_earth image"
+                                                                                   class="ml-2"
+                                                                                   width="28px">
                     <span> Do Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_fire}} </span> <img src="/img/icons/do_fire.png"
-                                                                            alt="do_fire image"
-                                                                            class="ml-2"
-                                                                            width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_fire}} </span> <img src="/img/icons/do_fire.png"
+                                                                                  alt="do_fire image"
+                                                                                  class="ml-2"
+                                                                                  width="28px">
                     <span> Do Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_water}} </span> <img src="/img/icons/do_water.png"
-                                                                             alt="do_water image"
-                                                                             class="ml-2"
-                                                                             width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_water}} </span> <img src="/img/icons/do_water.png"
+                                                                                   alt="do_water image"
+                                                                                   class="ml-2"
+                                                                                   width="28px">
                     <span> Do Eau</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_air}} </span> <img src="/img/icons/do_air.png"
-                                                                           alt="do_air image"
-                                                                           class="ml-2"
-                                                                           width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_air}} </span> <img src="/img/icons/do_air.png"
+                                                                                 alt="do_air image"
+                                                                                 class="ml-2"
+                                                                                 width="28px">
                     <span> Do Air</span>
 
                 </div>
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_critique}} </span> <img src="/img/icons/do_critique.png"
-                                                                                alt="do_critique image"
-                                                                                class="ml-2"
-                                                                                width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_critique}} </span> <img src="/img/icons/do_critique.png"
+                                                                                      alt="do_critique image"
+                                                                                      class="ml-2"
+                                                                                      width="28px">
 
                     <span> Do Critique</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_push}} </span> <img src="/img/icons/do_push.png"
-                                                                            alt="do_push image"
-                                                                            class="ml-2"
-                                                                            width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_push}} </span> <img src="/img/icons/do_push.png"
+                                                                                  alt="do_push image"
+                                                                                  class="ml-2"
+                                                                                  width="28px">
                     <span> Do Poussée</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_weapon}} </span> <img src="/img/icons/do_weapon.png"
-                                                                              alt="do_weapon image"
-                                                                              class="ml-2"
-                                                                              width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_weapon}} </span> <img src="/img/icons/do_weapon.png"
+                                                                                    alt="do_weapon image"
+                                                                                    class="ml-2"
+                                                                                    width="28px">
                     <span> % Do Armes</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_spell}} </span> <img src="/img/icons/do_spell.png"
-                                                                             alt="do_spell image"
-                                                                             class="ml-2"
-                                                                             width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_spell}} </span> <img src="/img/icons/do_spell.png"
+                                                                                   alt="do_spell image"
+                                                                                   class="ml-2"
+                                                                                   width="28px">
                     <span> % Do Sorts</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_melee}} </span> <img src="/img/icons/do_melee.png"
-                                                                             alt="do_melee image"
-                                                                             class="ml-2"
-                                                                             width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_melee}} </span> <img src="/img/icons/do_melee.png"
+                                                                                   alt="do_melee image"
+                                                                                   class="ml-2"
+                                                                                   width="28px">
                     <span> % Do Mélée</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$do_distance}} </span> <img src="/img/icons/do_distance.png"
-                                                                                alt="do_distance image"
-                                                                                class="ml-2"
-                                                                                width="28px">
+                    <span class="w-10 text-right">{{$stuff_do_distance}} </span> <img src="/img/icons/do_distance.png"
+                                                                                      alt="do_distance image"
+                                                                                      class="ml-2"
+                                                                                      width="28px">
                     <span> % Do Distance</span>
 
                 </div>
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$neutral_res}} </span> <img src="/img/icons/neutral_res.png"
-                                                                                alt="neutral_res image"
-                                                                                class="ml-2"
-                                                                                width="28px">
+                    <span class="w-10 text-right">{{$stuff_neutral_res}} </span> <img src="/img/icons/neutral_res.png"
+                                                                                      alt="neutral_res image"
+                                                                                      class="ml-2"
+                                                                                      width="28px">
 
                     <span> Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$earth_res}} </span> <img src="/img/icons/earth_res.png"
-                                                                              alt="earth_res image"
-                                                                              class="ml-2"
-                                                                              width="28px">
+                    <span class="w-10 text-right">{{$stuff_earth_res}} </span> <img src="/img/icons/earth_res.png"
+                                                                                    alt="earth_res image"
+                                                                                    class="ml-2"
+                                                                                    width="28px">
                     <span> Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$fire_res}} </span> <img src="/img/icons/fire_res.png"
-                                                                             alt="fire_res image"
-                                                                             class="ml-2"
-                                                                             width="28px">
+                    <span class="w-10 text-right">{{$stuff_fire_res}} </span> <img src="/img/icons/fire_res.png"
+                                                                                   alt="fire_res image"
+                                                                                   class="ml-2"
+                                                                                   width="28px">
                     <span> Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$water_res}} </span> <img src="/img/icons/water_res.png"
-                                                                              alt="water_res image"
-                                                                              class="ml-2"
-                                                                              width="28px">
+                    <span class="w-10 text-right">{{$stuff_water_res}} </span> <img src="/img/icons/water_res.png"
+                                                                                    alt="water_res image"
+                                                                                    class="ml-2"
+                                                                                    width="28px">
                     <span> Ré Eau</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$air_res}} </span> <img src="/img/icons/air_res.png"
-                                                                            alt="air_res image"
-                                                                            class="ml-2"
-                                                                            width="28px">
+                    <span class="w-10 text-right">{{$stuff_air_res}} </span> <img src="/img/icons/air_res.png"
+                                                                                  alt="air_res image"
+                                                                                  class="ml-2"
+                                                                                  width="28px">
                     <span> Ré Air</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$critique_res}} </span> <img
+                    <span class="w-10 text-right">{{$stuff_critique_res}} </span> <img
                             src="/img/icons/critique_res.png"
                             alt="critique_res image"
                             class="ml-2"
@@ -1648,25 +1650,25 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$melee_res}} </span> <img src="/img/icons/melee_res.png"
-                                                                              alt="melee_res image"
-                                                                              class="ml-2"
-                                                                              width="28px">
+                    <span class="w-10 text-right">{{$stuff_melee_res}} </span> <img src="/img/icons/melee_res.png"
+                                                                                    alt="melee_res image"
+                                                                                    class="ml-2"
+                                                                                    width="28px">
                     <span> % Ré Mélée</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$weapon_res}} </span> <img src="/img/icons/weapon_res.png"
-                                                                               alt="weapon_res image"
-                                                                               class="ml-2"
-                                                                               width="28px">
+                    <span class="w-10 text-right">{{$stuff_weapon_res}} </span> <img src="/img/icons/weapon_res.png"
+                                                                                     alt="weapon_res image"
+                                                                                     class="ml-2"
+                                                                                     width="28px">
                     <span> % Ré Armes</span>
 
                 </div>
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_neutral_res>=-50?($percent_neutral_res<=50?$percent_neutral_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff_percent_neutral_res>=-50?($stuff_percent_neutral_res<=50?$stuff_percent_neutral_res:50):-50}} </span>
                     <img
                             src="/img/icons/neutral_res.png"
                             alt="neutral_res image"
@@ -1676,7 +1678,7 @@
                     <span> % Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_earth_res>=-50?($percent_earth_res<=50?$percent_earth_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff_percent_earth_res>=-50?($stuff_percent_earth_res<=50?$stuff_percent_earth_res:50):-50}} </span>
                     <img
                             src="/img/icons/earth_res.png"
                             alt="earth_res image"
@@ -1685,7 +1687,7 @@
                     <span> % Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_fire_res>=-50?($percent_fire_res<=50?$percent_fire_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff_percent_fire_res>=-50?($stuff_percent_fire_res<=50?$stuff_percent_fire_res:50):-50}} </span>
                     <img
                             src="/img/icons/fire_res.png"
                             alt="fire_res image"
@@ -1694,7 +1696,7 @@
                     <span> % Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_water_res>=-50?($percent_water_res<=50?$percent_water_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff_percent_water_res>=-50?($stuff_percent_water_res<=50?$stuff_percent_water_res:50):-50}} </span>
                     <img
                             src="/img/icons/water_res.png"
                             alt="water_res image"
@@ -1704,7 +1706,7 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$percent_air_res>=-50?($percent_air_res<=50?$percent_air_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff_percent_air_res>=-50?($stuff_percent_air_res<=50?$stuff_percent_air_res:50):-50}} </span>
                     <img src="/img/icons/air_res.png"
                          alt="air_res image"
                          class="ml-2"
@@ -1713,15 +1715,15 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$push_res}} </span> <img src="/img/icons/push_res.png"
-                                                                             alt="push_res image"
-                                                                             class="ml-2"
-                                                                             width="28px">
+                    <span class="w-10 text-right">{{$stuff_push_res}} </span> <img src="/img/icons/push_res.png"
+                                                                                   alt="push_res image"
+                                                                                   class="ml-2"
+                                                                                   width="28px">
                     <span> Ré Poussée</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$distance_res}} </span> <img
+                    <span class="w-10 text-right">{{$stuff_distance_res}} </span> <img
                             src="/img/icons/distance_res.png"
                             alt="distance_res image"
                             class="ml-2"
@@ -1731,6 +1733,74 @@
                 </div>
 
             </div>
+        </div>
+        @if(count($setLinks)>=1)
+            <div class="separator"></div>
+        @endif
+        <div class="grid grid-cols-2 gap-3">
+            @foreach($setLinks as $set)
+                <div class="text-gray-900 dark:text-gray-100 dark:bg-gray-700 rounded-lg flex flex-col">
+                    <div>
+                        <div class="flex bg-gray-900 p-6 rounded-t-lg">
+                            <div class="flex-1">
+                                <p class="text-xl font-semibold">{{$set[0]->set->name}}</p>
+                                <p> Niveau {{$set[0]->set->level}}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-5 p-6">
+                            @foreach($set as $anItem)
+                                <div class="flex flex-col text-center">
+                                    <span>{{$anItem->type->name}}</span>
+                                    <img
+                                            src="{{$anItem->image}}"
+                                            alt="item image"
+                                            width="60"
+                                            height="60"
+                                            class="mr-2 h-fit self-center"
+                                            loading="lazy"
+                                    >
+                                </div>
+                            @endforeach
+
+                        </div>
+                        <div class="bg-gray-800 rounded-lg font-semibold flex py-3 mx-5 flex items-center justify-center">
+                            <span>Bonus </span>
+                            <button class="bg-gray-700 rounded-lg py-1 px-3 mx-2 bg-indigo-700">
+                                {{count($set)}}
+                            </button>
+                            <span> items</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="flex flex-auto flex-col pl-10 py-5">
+                                @php($setEffects=[])
+                                @foreach($set[0]->set->effects as $anEffects)
+                                    @if($anEffects->set_number_items===count($set))
+                                        @php($setEffects[]=$anEffects)
+                                    @endif
+                                @endforeach
+                                @foreach($setEffects as $index=>$anEffects)
+                                    <div class="flex mb-1">
+                                        <img
+                                                src="{{$anEffects->image}}"
+                                                alt="effect image"
+                                                width="24"
+                                                height="24"
+                                                class="mr-2 h-fit self-center">
+                                        <span
+                                                class="{{substr($anEffects->formatted_name,0,1)=='-'?'text-red-600':''}}">{{$anEffects->formatted_name}}</span>
+                                    </div>
+                                    @if(ceil(count($setEffects)/2)==($index+1))
+                            </div>
+                            <div class="flex flex-auto flex-col pr-10 py-5">
+                                @endif
+
+                                @endforeach
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>
