@@ -398,7 +398,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['amulet']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['amulet']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('amulet')"
@@ -462,7 +469,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['shield']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['shield']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('shield')"
@@ -526,7 +540,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['ring_1']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['ring_1']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('ring_1')"
@@ -591,7 +612,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['belt']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['belt']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('belt')"
@@ -655,7 +683,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['boots']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['boots']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('boots')"
@@ -724,7 +759,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['hat']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['hat']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('hat')"
@@ -788,7 +830,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['weapon']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['weapon']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('weapon')"
@@ -852,7 +901,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['ring_2']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['ring_2']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('ring_2')"
@@ -917,7 +973,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['cape']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['cape']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('cape')"
@@ -981,7 +1044,14 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="flex items-center justify-center pb-4 mt-4">
+                                    <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                        @if(count($stuffDetail['animal']->conditions)>0)
+                                            <div class="flex items-center justify-center mb-4">
+                                                @foreach($stuffDetail['animal']->conditions as $condition)
+                                                    <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <button
                                                 class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                                 wire:click="deleteItemToStuff('animal')"
@@ -1049,7 +1119,14 @@
                                     </div>
                                 @endforeach
 
-                                <div class="flex items-center justify-center pb-4 mt-4">
+                                <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                    @if(count($stuffDetail['dofus_1']->conditions)>0)
+                                        <div class="flex items-center justify-center mb-4">
+                                            @foreach($stuffDetail['dofus_1']->conditions as $condition)
+                                                <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <button
                                             class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                             wire:click="deleteItemToStuff('dofus_1')"
@@ -1114,7 +1191,14 @@
                                     </div>
                                 @endforeach
 
-                                <div class="flex items-center justify-center pb-4 mt-4">
+                                <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                    @if(count($stuffDetail['dofus_2']->conditions)>0)
+                                        <div class="flex items-center justify-center mb-4">
+                                            @foreach($stuffDetail['dofus_2']->conditions as $condition)
+                                                <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <button
                                             class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                             wire:click="deleteItemToStuff('dofus_2')"
@@ -1179,7 +1263,14 @@
                                     </div>
                                 @endforeach
 
-                                <div class="flex items-center justify-center pb-4 mt-4">
+                                <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                    @if(count($stuffDetail['dofus_3']->conditions)>0)
+                                        <div class="flex items-center justify-center mb-4">
+                                            @foreach($stuffDetail['dofus_3']->conditions as $condition)
+                                                <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <button
                                             class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                             wire:click="deleteItemToStuff('dofus_3')"
@@ -1244,7 +1335,14 @@
                                     </div>
                                 @endforeach
 
-                                <div class="flex items-center justify-center pb-4 mt-4">
+                                <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                    @if(count($stuffDetail['dofus_4']->conditions)>0)
+                                        <div class="flex items-center justify-center mb-4">
+                                            @foreach($stuffDetail['dofus_4']->conditions as $condition)
+                                                <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <button
                                             class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                             wire:click="deleteItemToStuff('dofus_4')"
@@ -1309,7 +1407,14 @@
                                     </div>
                                 @endforeach
 
-                                <div class="flex items-center justify-center pb-4 mt-4">
+                                <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                    @if(count($stuffDetail['dofus_5']->conditions)>0)
+                                        <div class="flex items-center justify-center mb-4">
+                                            @foreach($stuffDetail['dofus_5']->conditions as $condition)
+                                                <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <button
                                             class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                             wire:click="deleteItemToStuff('dofus_5')"
@@ -1374,7 +1479,14 @@
                                     </div>
                                 @endforeach
 
-                                <div class="flex items-center justify-center pb-4 mt-4">
+                                <div class="flex flex-col items-center justify-center pb-4 mt-4">
+                                    @if(count($stuffDetail['dofus_6']->conditions)>0)
+                                        <div class="flex items-center justify-center mb-4">
+                                            @foreach($stuffDetail['dofus_6']->conditions as $condition)
+                                                <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <button
                                             class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
                                             wire:click="deleteItemToStuff('dofus_6')"
@@ -1610,10 +1722,10 @@
                 </div>
                 <div class="text-white flex items-center">
                     <span class="w-10 text-right">{{$distance_res}} </span> <img
-                        src="/img/icons/distance_res.png"
-                        alt="distance_res image"
-                        class="ml-2"
-                        width="28px">
+                            src="/img/icons/distance_res.png"
+                            alt="distance_res image"
+                            class="ml-2"
+                            width="28px">
                     <span> % Ré Dist</span>
 
                 </div>

@@ -384,7 +384,7 @@
                                     <div class="equipment-separator"></div>
                                     <div class="flex items-center justify-center mb-2">
                                         @foreach($item->conditions as $condition)
-                                            <span class="bg-gray-800 rounded-lg p-2">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
+                                            <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                         @endforeach
                                     </div>
                                 @endif
