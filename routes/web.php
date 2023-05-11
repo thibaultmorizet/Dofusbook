@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\EncyclopediaController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OpenReplacementModalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetsEncyclopediaController;
 use App\Http\Controllers\StuffController;

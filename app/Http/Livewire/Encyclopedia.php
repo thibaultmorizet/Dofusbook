@@ -9,6 +9,8 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\WithPagination;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class Encyclopedia extends Component
 {
@@ -106,11 +108,11 @@ class Encyclopedia extends Component
         $this->totalItemsNumber = $this->countItems();
     }
 
-    private function countItems()
+    private function countItems(): int
     {
         $result = Items::query()
             ->where("type_id", "=", $this->equipmentType->id)
-            ->where("name", "like", "%{$this->stuffName}%")
+            ->where("name", "like", "%$this->stuffName%")
             ->where("level", ">=", $this->minLvl)
             ->where("level", "<=", $this->maxLvl);
         foreach ($this->characteristicsFilters as $aCharacteristicFilter) {
@@ -126,12 +128,12 @@ class Encyclopedia extends Component
         return $result->count();
     }
 
-    private function updateItemsToView()
+    private function updateItemsToView(): Collection|array
     {
         $result = Items::query()
             ->with(['type', 'effects', 'conditions'])
             ->where("type_id", "=", $this->equipmentType->id)
-            ->where("name", "like", "%{$this->stuffName}%")
+            ->where("name", "like", "%$this->stuffName%")
             ->where("level", ">=", $this->minLvl)
             ->where("level", "<=", $this->maxLvl)
             ->orderByDesc("level")
@@ -153,7 +155,7 @@ class Encyclopedia extends Component
 
     }
 
-    private function updateItems()
+    private function updateItems(): Collection|array
     {
         $this->isReturnReplacementModal();
 
@@ -162,7 +164,7 @@ class Encyclopedia extends Component
         $result = Items::query()
             ->with(['type', 'effects', 'conditions'])
             ->where("type_id", "=", $this->equipmentType->id)
-            ->where("name", "like", "%{$this->stuffName}%")
+            ->where("name", "like", "%$this->stuffName%")
             ->where("level", ">=", $this->minLvl)
             ->where("level", "<=", $this->maxLvl)
             ->orderByDesc("level")
@@ -211,6 +213,10 @@ class Encyclopedia extends Component
         $this->itemsToView = $this->updateItems();
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function addItemToStuff(int $item_id)
     {
         $stuff = session()->get('stuff');
@@ -238,6 +244,10 @@ class Encyclopedia extends Component
         return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     private function isReturnReplacementModal(): void
     {
         $this->itemsToReplace = [];

@@ -18,7 +18,7 @@ class Types extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(Items::class, "type_id", );
+        return $this->hasMany(Items::class, "type_id" );
     }
 
 }

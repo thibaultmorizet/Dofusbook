@@ -7,7 +7,7 @@
                 </h3>
             </div>
             <div class="grid  ">
-                Etes-vous sûr de vouloir supprimer l'équipement ?
+                Êtes-vous sûr de vouloir supprimer l'équipement ?
             </div>
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

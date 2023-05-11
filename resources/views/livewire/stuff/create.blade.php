@@ -17,17 +17,17 @@
         </div>
         <div>
             <button class="rounded-lg text-white bg-[#d9534f] p-1 mx-2"
-                    wire:click="$emit('openModal', 'delete-stuff-modal',{{ json_encode(["stuff_id" => $stuff_id]) }})">
+                    wire:click="$emit('openModal', 'delete-stuff-modal',{{ json_encode(["stuff_id" => $createVariable->stuff_id]) }})">
                 Supprimer
             </button>
             <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2"
                     wire:click="$emit('openModal', 'create-stuff-modal',{{ json_encode([
                         "character_level" => $character_level,
                         "stuff_title" => $stuff_title,
-                        "stuff_id" => $stuff_id,
-                        "selectedClass" => $class_id,
-                        "gender" => $character_gender,
-                        "is_private_stuff" => $is_private_stuff,
+                        "stuff_id" => $createVariable->stuff_id,
+                        "selectedClass" => $createVariable->class_id,
+                        "gender" => $createVariable->character_gender,
+                        "is_private_stuff" => $createVariable->is_private_stuff,
                         "is_updating_stuff" => true
                         ]) }})">
                 Modifier
@@ -40,7 +40,8 @@
                 <div class="flex w-full">
                     <div class="flex-1">
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_vitality>=0?$total_vitality:0}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->total_vitality>=0?$createVariable->total_vitality:0}} </span>
+                            <img
                                     src="/img/icons/vitality.png"
                                     alt="vitality image"
                                     class="ml-2"
@@ -49,7 +50,8 @@
                             <span> PdV</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_prospection>=0?$total_prospection:0}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->total_prospection>=0?$createVariable->total_prospection:0}} </span>
+                            <img
                                     src="/img/icons/prospection.png"
                                     alt="prospection image"
                                     class="ml-2"
@@ -57,41 +59,45 @@
                             <span> PP</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{($total_pa>=0)?($total_pa<=12?$total_pa:12):0}} </span> <img
+                            <span class="w-10 text-right">{{($createVariable->total_pa>=0)?($createVariable->total_pa<=12?$createVariable->total_pa:12):0}} </span>
+                            <img
                                     src="/img/icons/pa.png"
                                     alt="pa image"
                                     class="ml-2"
                                     width="28px">
                             <span class="w-5"> PA</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
-                                  wire:click="updateExoPa({{$is_exo_pa===0?1:0}})">+ {{$is_exo_pa}}</span>
+                                  wire:click="updateExoPa({{$createVariable->is_exo_pa===0?1:0}})">+ {{$createVariable->is_exo_pa}}</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{($total_pm>=0)?($total_pm<=6?$total_pm:6):0}} </span> <img
+                            <span class="w-10 text-right">{{($createVariable->total_pm>=0)?($createVariable->total_pm<=6?$createVariable->total_pm:6):0}} </span>
+                            <img
                                     src="/img/icons/pm.png"
                                     alt="pm image"
                                     class="ml-2"
                                     width="28px">
                             <span class="w-5"> PM</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
-                                  wire:click="updateExoPm({{$is_exo_pm===0?1:0}})">+ {{$is_exo_pm}}</span>
+                                  wire:click="updateExoPm({{$createVariable->is_exo_pm===0?1:0}})">+ {{$createVariable->is_exo_pm}}</span>
 
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{($total_po>=0)?($total_po<=6?$total_po:6):0}} </span> <img
+                            <span class="w-10 text-right">{{($createVariable->total_po>=0)?($createVariable->total_po<=6?$createVariable->total_po:6):0}} </span>
+                            <img
                                     src="/img/icons/po.png"
                                     alt="po image"
                                     class="ml-2"
                                     width="28px">
                             <span class="w-5"> PO</span>
                             <span class="dark:bg-gray-700 ml-3 px-1 sm:rounded-lg cursor-pointer w-9"
-                                  wire:click="updateExoPo({{$is_exo_po===0?1:0}})">+ {{$is_exo_po}}</span>
+                                  wire:click="updateExoPo({{$createVariable->is_exo_po===0?1:0}})">+ {{$createVariable->is_exo_po}}</span>
 
                         </div>
                     </div>
                     <div class="flex-1">
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$total_initiative>=0?$total_initiative:0}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->total_initiative>=0?$createVariable->total_initiative:0}} </span>
+                            <img
                                     src="/img/icons/initiative.png"
                                     alt="initiative image"
                                     class="ml-2"
@@ -100,7 +106,8 @@
                             <span> Initiative</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff_critic>=0?$stuff_critic:0}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->stuff_critic>=0?$createVariable->stuff_critic:0}} </span>
+                            <img
                                     src="/img/icons/critic.png"
                                     alt="critic image"
                                     class="ml-2"
@@ -108,7 +115,8 @@
                             <span> Critique</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff_invocation>=0?$stuff_invocation:0}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->stuff_invocation>=0?$createVariable->stuff_invocation:0}} </span>
+                            <img
                                     src="/img/icons/invocation.png"
                                     alt="invocation image"
                                     class="ml-2"
@@ -116,7 +124,8 @@
                             <span> Invocation</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff_health>=0?$stuff_health:0}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->stuff_health>=0?$createVariable->stuff_health:0}} </span>
+                            <img
                                     src="/img/icons/health.png"
                                     alt="health image"
                                     class="ml-2"
@@ -129,7 +138,7 @@
                 <div class="flex w-full">
                     <div class="flex-1" style="padding-top: 28px">
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$subtotal_vitality}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->subtotal_vitality}} </span> <img
                                     src="/img/icons/vitality.png"
                                     alt="vitality image"
                                     class="ml-2"
@@ -138,7 +147,7 @@
                             <span> Vitalité</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$subtotal_wisdom}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->subtotal_wisdom}} </span> <img
                                     src="/img/icons/wisdom.png"
                                     alt="wisdom image"
                                     class="ml-2"
@@ -146,7 +155,7 @@
                             <span> Sagesse</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$subtotal_strength}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->subtotal_strength}} </span> <img
                                     src="/img/icons/strength.png"
                                     alt="strength image"
                                     class="ml-2"
@@ -155,7 +164,7 @@
                             <span> Force</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$subtotal_intel}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->subtotal_intel}} </span> <img
                                     src="/img/icons/intel.png"
                                     alt="intel image"
                                     class="ml-2"
@@ -163,7 +172,7 @@
                             <span> Intelligence</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$subtotal_luck}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->subtotal_luck}} </span> <img
                                     src="/img/icons/luck.png"
                                     alt="luck image"
                                     class="ml-2"
@@ -172,7 +181,7 @@
                             <span> Chance</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$subtotal_agility}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->subtotal_agility}} </span> <img
                                     src="/img/icons/agility.png"
                                     alt="agility image"
                                     class="ml-2"
@@ -180,7 +189,7 @@
                             <span> Agilité</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff_power}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->stuff_power}} </span> <img
                                     src="/img/icons/power.png"
                                     alt="power image"
                                     class="ml-2"
@@ -278,15 +287,16 @@
                 <div class="flex w-full">
                     <div class="flex-1">
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$leak}} </span> <img src="/img/icons/leak.png"
-                                                                                 alt="leak image"
-                                                                                 class="ml-2"
-                                                                                 width="28px">
+                            <span class="w-10 text-right">{{$createVariable->leak}} </span> <img
+                                    src="/img/icons/leak.png"
+                                    alt="leak image"
+                                    class="ml-2"
+                                    width="28px">
 
                             <span> Fuite</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$avoid_pa}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->avoid_pa}} </span> <img
                                     src="/img/icons/avoid_pa.png"
                                     alt="avoid_pa image"
                                     class="ml-2"
@@ -294,7 +304,7 @@
                             <span> Esq. PA</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$avoid_pm}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->avoid_pm}} </span> <img
                                     src="/img/icons/avoid_pm.png"
                                     alt="avoid_pm image"
                                     class="ml-2"
@@ -302,10 +312,11 @@
                             <span> Esq. PM</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$pods}} </span> <img src="/img/icons/pods.png"
-                                                                                 alt="pods image"
-                                                                                 class="ml-2"
-                                                                                 width="28px">
+                            <span class="w-10 text-right">{{$createVariable->pods}} </span> <img
+                                    src="/img/icons/pods.png"
+                                    alt="pods image"
+                                    class="ml-2"
+                                    width="28px">
                             <span> Pods</span>
 
                         </div>
@@ -313,15 +324,16 @@
                     </div>
                     <div class="flex-1">
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$tackle}} </span> <img src="/img/icons/tackle.png"
-                                                                                   alt="tackle image"
-                                                                                   class="ml-2"
-                                                                                   width="28px">
+                            <span class="w-10 text-right">{{$createVariable->tackle}} </span> <img
+                                    src="/img/icons/tackle.png"
+                                    alt="tackle image"
+                                    class="ml-2"
+                                    width="28px">
 
                             <span> Tacle</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$pa_recession}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->pa_recession}} </span> <img
                                     src="/img/icons/pa_recession.png"
                                     alt="pa_recession image"
                                     class="ml-2"
@@ -329,7 +341,7 @@
                             <span> Ret. PA</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$pm_recession}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->pm_recession}} </span> <img
                                     src="/img/icons/pm_recession.png"
                                     alt="pm_recession image"
                                     class="ml-2"
@@ -337,7 +349,7 @@
                             <span> Ret. PM</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff_level}} </span> <img
+                            <span class="w-10 text-right">{{$createVariable->stuff_level}} </span> <img
                                     src="/img/icons/stuff_lvl.png"
                                     alt="stuff_lvl image"
                                     class="ml-2"
@@ -359,7 +371,7 @@
                             <div wire:click="openEncyclopediaWithFilters('Amulette',{{$character_level}})"
                             >
 
-                                @if(is_null($stuffDetail['amulet']))
+                                @if(is_null($createVariable->stuffDetail['amulet']))
                                     <img
                                             src="/img/stuff/amulet.png"
                                             alt="amulet image"
@@ -369,7 +381,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['amulet']->image}}"
+                                            src="{{$createVariable->stuffDetail['amulet']->image}}"
                                             alt="amulet image"
                                             width="60px"
                                     >
@@ -378,16 +390,16 @@
                             </div>
                             <div id="popover-amulet" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['amulet']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['amulet']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['amulet']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['amulet']->name}}</p>
                                     <p>Amulette - Niveau
-                                        {{$stuffDetail['amulet']->level}}</p>
-                                    @if(is_null($stuffDetail['amulet']->set)===false)
+                                        {{$createVariable->stuffDetail['amulet']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['amulet']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['amulet']->set->name}}')">{{$stuffDetail['amulet']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['amulet']->set->name}}')">{{$createVariable->stuffDetail['amulet']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['amulet']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['amulet']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -401,9 +413,9 @@
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['amulet']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['amulet']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['amulet']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['amulet']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -431,7 +443,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Bouclier',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['shield']))
+                                @if(is_null($createVariable->stuffDetail['shield']))
                                     <img
                                             src="/img/stuff/shield.png"
                                             alt="shield image"
@@ -441,7 +453,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['shield']->image}}"
+                                            src="{{$createVariable->stuffDetail['shield']->image}}"
                                             alt="shield image"
                                             width="60px"
                                     >
@@ -449,16 +461,16 @@
                             </div>
                             <div id="popover-shield" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['shield']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['shield']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['shield']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['shield']->name}}</p>
                                     <p>Bouclier - Niveau
-                                        {{$stuffDetail['shield']->level}}</p>
-                                    @if(is_null($stuffDetail['shield']->set)===false)
+                                        {{$createVariable->stuffDetail['shield']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['shield']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['shield']->set->name}}')">{{$stuffDetail['shield']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['shield']->set->name}}')">{{$createVariable->stuffDetail['shield']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['shield']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['shield']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -467,14 +479,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['shield']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['shield']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['shield']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['shield']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -502,7 +514,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Anneau',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['ring_1']))
+                                @if(is_null($createVariable->stuffDetail['ring_1']))
                                     <img
                                             src="/img/stuff/ring.png"
                                             alt="ring image"
@@ -512,7 +524,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['ring_1']->image}}"
+                                            src="{{$createVariable->stuffDetail['ring_1']->image}}"
                                             alt="ring image"
                                             width="60px"
                                     >
@@ -520,16 +532,16 @@
                             </div>
                             <div id="popover-ring-1" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['ring_1']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['ring_1']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['ring_1']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['ring_1']->name}}</p>
                                     <p>Anneau - Niveau
-                                        {{$stuffDetail['ring_1']->level}}</p>
-                                    @if(is_null($stuffDetail['ring_1']->set)===false)
+                                        {{$createVariable->stuffDetail['ring_1']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['ring_1']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['ring_1']->set->name}}')">{{$stuffDetail['ring_1']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['ring_1']->set->name}}')">{{$createVariable->stuffDetail['ring_1']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['ring_1']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['ring_1']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -538,14 +550,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['ring_1']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['ring_1']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['ring_1']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['ring_1']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -574,7 +586,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Ceinture',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['belt']))
+                                @if(is_null($createVariable->stuffDetail['belt']))
                                     <img
                                             src="/img/stuff/belt.png"
                                             alt="belt image"
@@ -584,7 +596,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['belt']->image}}"
+                                            src="{{$createVariable->stuffDetail['belt']->image}}"
                                             alt="belt image"
                                             width="60px"
                                     >
@@ -592,16 +604,16 @@
                             </div>
                             <div id="popover-belt" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['belt']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['belt']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['belt']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['belt']->name}}</p>
                                     <p>Ceinture - Niveau
-                                        {{$stuffDetail['belt']->level}}</p>
-                                    @if(is_null($stuffDetail['belt']->set)===false)
+                                        {{$createVariable->stuffDetail['belt']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['belt']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['belt']->set->name}}')">{{$stuffDetail['belt']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['belt']->set->name}}')">{{$createVariable->stuffDetail['belt']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['belt']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['belt']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -610,14 +622,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['belt']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['belt']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['belt']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['belt']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -645,7 +657,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Bottes',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['boots']))
+                                @if(is_null($createVariable->stuffDetail['boots']))
                                     <img
                                             src="/img/stuff/boots.png"
                                             alt="boots image"
@@ -655,7 +667,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['boots']->image}}"
+                                            src="{{$createVariable->stuffDetail['boots']->image}}"
                                             alt="boots image"
                                             width="60px"
                                     >
@@ -663,16 +675,16 @@
                             </div>
                             <div id="popover-boots" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['boots']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['boots']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['boots']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['boots']->name}}</p>
                                     <p>Bottes - Niveau
-                                        {{$stuffDetail['boots']->level}}</p>
-                                    @if(is_null($stuffDetail['boots']->set)===false)
+                                        {{$createVariable->stuffDetail['boots']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['boots']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['boots']->set->name}}')">{{$stuffDetail['boots']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['boots']->set->name}}')">{{$createVariable->stuffDetail['boots']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['boots']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['boots']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -681,14 +693,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['boots']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['boots']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['boots']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['boots']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -710,7 +722,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="/img/character/{{$class_slug}}-{{$character_gender}}.png"
+                    <img src="/img/character/{{$createVariable->class_slug}}-{{$createVariable->character_gender}}.png"
                          class="character-img"
                          alt="character image">
                     <div>
@@ -721,7 +733,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Chapeau',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['hat']))
+                                @if(is_null($createVariable->stuffDetail['hat']))
                                     <img
                                             src="/img/stuff/hat.png"
                                             alt="hat image"
@@ -731,7 +743,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['hat']->image}}"
+                                            src="{{$createVariable->stuffDetail['hat']->image}}"
                                             alt="hat image"
                                             width="60px"
                                     >
@@ -739,16 +751,16 @@
                             </div>
                             <div id="popover-hat" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['hat']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['hat']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['hat']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['hat']->name}}</p>
                                     <p>Chapeau - Niveau
-                                        {{$stuffDetail['hat']->level}}</p>
-                                    @if(is_null($stuffDetail['hat']->set)===false)
+                                        {{$createVariable->stuffDetail['hat']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['hat']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['hat']->set->name}}')">{{$stuffDetail['hat']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['hat']->set->name}}')">{{$createVariable->stuffDetail['hat']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['hat']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['hat']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -757,14 +769,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['hat']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['hat']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['hat']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['hat']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -792,7 +804,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Arc',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['weapon']))
+                                @if(is_null($createVariable->stuffDetail['weapon']))
                                     <img
                                             src="/img/stuff/weapon.png"
                                             alt="weapon image"
@@ -802,7 +814,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['weapon']->image}}"
+                                            src="{{$createVariable->stuffDetail['weapon']->image}}"
                                             alt="weapon image"
                                             width="60px"
                                     >
@@ -810,16 +822,16 @@
                             </div>
                             <div id="popover-weapon" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['weapon']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['weapon']->name}}</p>
-                                    <p>{{$stuffDetail['weapon']->type->name}} - Niveau
-                                        {{$stuffDetail['weapon']->level}}</p>
-                                    @if(is_null($stuffDetail['weapon']->set)===false)
+                                @if(!is_null($createVariable->stuffDetail['weapon']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['weapon']->name}}</p>
+                                    <p>{{$createVariable->stuffDetail['weapon']->type->name}} - Niveau
+                                        {{$createVariable->stuffDetail['weapon']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['weapon']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['weapon']->set->name}}')">{{$stuffDetail['weapon']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['weapon']->set->name}}')">{{$createVariable->stuffDetail['weapon']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['weapon']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['weapon']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -828,14 +840,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['weapon']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['weapon']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['weapon']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['weapon']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -863,7 +875,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Anneau',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['ring_2']))
+                                @if(is_null($createVariable->stuffDetail['ring_2']))
                                     <img
                                             src="/img/stuff/ring.png"
                                             alt="ring image"
@@ -873,7 +885,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['ring_2']->image}}"
+                                            src="{{$createVariable->stuffDetail['ring_2']->image}}"
                                             alt="ring image"
                                             width="60px"
                                     >
@@ -881,16 +893,16 @@
                             </div>
                             <div id="popover-ring-2" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['ring_2']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['ring_2']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['ring_2']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['ring_2']->name}}</p>
                                     <p>Anneau - Niveau
-                                        {{$stuffDetail['ring_2']->level}}</p>
-                                    @if(is_null($stuffDetail['ring_2']->set)===false)
+                                        {{$createVariable->stuffDetail['ring_2']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['ring_2']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['ring_2']->set->name}}')">{{$stuffDetail['ring_2']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['ring_2']->set->name}}')">{{$createVariable->stuffDetail['ring_2']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['ring_2']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['ring_2']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -899,14 +911,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['ring_2']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['ring_2']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['ring_2']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['ring_2']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -935,7 +947,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Cape',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['cape']))
+                                @if(is_null($createVariable->stuffDetail['cape']))
                                     <img
                                             src="/img/stuff/cape.png"
                                             alt="cape image"
@@ -945,7 +957,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['cape']->image}}"
+                                            src="{{$createVariable->stuffDetail['cape']->image}}"
                                             alt="cape image"
                                             width="60px"
                                     >
@@ -953,16 +965,16 @@
                             </div>
                             <div id="popover-cape" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['cape']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['cape']->name}}</p>
+                                @if(!is_null($createVariable->stuffDetail['cape']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['cape']->name}}</p>
                                     <p>Cape - Niveau
-                                        {{$stuffDetail['cape']->level}}</p>
-                                    @if(is_null($stuffDetail['cape']->set)===false)
+                                        {{$createVariable->stuffDetail['cape']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['cape']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['cape']->set->name}}')">{{$stuffDetail['cape']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['cape']->set->name}}')">{{$createVariable->stuffDetail['cape']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['cape']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['cape']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -971,14 +983,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['cape']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['cape']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['cape']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['cape']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -1006,7 +1018,7 @@
                         >
                             <div wire:click="openEncyclopediaWithFilters('Familier',{{$character_level}})"
                             >
-                                @if(is_null($stuffDetail['animal']))
+                                @if(is_null($createVariable->stuffDetail['animal']))
                                     <img
                                             src="/img/stuff/animal.png"
                                             alt="animal image"
@@ -1016,7 +1028,7 @@
 
                                 @else
                                     <img
-                                            src="{{$stuffDetail['animal']->image}}"
+                                            src="{{$createVariable->stuffDetail['animal']->image}}"
                                             alt="animal image"
                                             width="60px"
                                     >
@@ -1024,16 +1036,16 @@
                             </div>
                             <div id="popover-animal" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                                @if(!is_null($stuffDetail['animal']))
-                                    <p class="text-xl font-semibold">{{$stuffDetail['animal']->name}}</p>
-                                    <p>{{$stuffDetail['animal']->type->name}} - Niveau
-                                        {{$stuffDetail['animal']->level}}</p>
-                                    @if(is_null($stuffDetail['animal']->set)===false)
+                                @if(!is_null($createVariable->stuffDetail['animal']))
+                                    <p class="text-xl font-semibold">{{$createVariable->stuffDetail['animal']->name}}</p>
+                                    <p>{{$createVariable->stuffDetail['animal']->type->name}} - Niveau
+                                        {{$createVariable->stuffDetail['animal']->level}}</p>
+                                    @if(is_null($createVariable->stuffDetail['animal']->set)===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{$stuffDetail['animal']->set->name}}')">{{$stuffDetail['animal']->set->name}}</p>
+                                           wire:click="goToSet('{{$createVariable->stuffDetail['animal']->set->name}}')">{{$createVariable->stuffDetail['animal']->set->name}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach($stuffDetail['animal']->effects as $itemEffects)
+                                    @foreach($createVariable->stuffDetail['animal']->effects as $itemEffects)
                                         <div class="flex">
                                             <img
                                                     src="{{$itemEffects->image}}"
@@ -1042,14 +1054,14 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count($stuffDetail['animal']->conditions)>0)
+                                        @if(count($createVariable->stuffDetail['animal']->conditions)>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach($stuffDetail['animal']->conditions as $condition)
+                                                @foreach($createVariable->stuffDetail['animal']->conditions as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
@@ -1081,7 +1093,7 @@
                     >
                         <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
-                            @if(is_null($stuffDetail['dofus_1']))
+                            @if(is_null($createVariable->stuffDetail['dofus_1']))
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
@@ -1091,7 +1103,7 @@
 
                             @else
                                 <img
-                                        src="{{$stuffDetail['dofus_1']->image}}"
+                                        src="{{$createVariable->stuffDetail['dofus_1']->image}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1099,16 +1111,16 @@
                         </div>
                         <div id="popover-dofus-1" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                            @if(!is_null($stuffDetail['dofus_1']))
-                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_1']->name}}</p>
-                                <p>{{$stuffDetail['dofus_1']->type->name}} - Niveau
-                                    {{$stuffDetail['dofus_1']->level}}</p>
-                                @if(is_null($stuffDetail['dofus_1']->set)===false)
+                            @if(!is_null($createVariable->stuffDetail['dofus_1']))
+                                <p class="text-xl font-semibold">{{$createVariable->stuffDetail['dofus_1']->name}}</p>
+                                <p>{{$createVariable->stuffDetail['dofus_1']->type->name}} - Niveau
+                                    {{$createVariable->stuffDetail['dofus_1']->level}}</p>
+                                @if(is_null($createVariable->stuffDetail['dofus_1']->set)===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{$stuffDetail['dofus_1']->set->name}}')">{{$stuffDetail['dofus_1']->set->name}}</p>
+                                       wire:click="goToSet('{{$createVariable->stuffDetail['dofus_1']->set->name}}')">{{$createVariable->stuffDetail['dofus_1']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach($stuffDetail['dofus_1']->effects as $itemEffects)
+                                @foreach($createVariable->stuffDetail['dofus_1']->effects as $itemEffects)
                                     <div class="flex">
                                         <img
                                                 src="{{$itemEffects->image}}"
@@ -1117,14 +1129,14 @@
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                     </div>
                                 @endforeach
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count($stuffDetail['dofus_1']->conditions)>0)
+                                    @if(count($createVariable->stuffDetail['dofus_1']->conditions)>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach($stuffDetail['dofus_1']->conditions as $condition)
+                                            @foreach($createVariable->stuffDetail['dofus_1']->conditions as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
@@ -1153,7 +1165,7 @@
                     >
                         <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
-                            @if(is_null($stuffDetail['dofus_2']))
+                            @if(is_null($createVariable->stuffDetail['dofus_2']))
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
@@ -1163,7 +1175,7 @@
 
                             @else
                                 <img
-                                        src="{{$stuffDetail['dofus_2']->image}}"
+                                        src="{{$createVariable->stuffDetail['dofus_2']->image}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1171,16 +1183,16 @@
                         </div>
                         <div id="popover-dofus-2" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                            @if(!is_null($stuffDetail['dofus_2']))
-                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_2']->name}}</p>
-                                <p>{{$stuffDetail['dofus_2']->type->name}} - Niveau
-                                    {{$stuffDetail['dofus_2']->level}}</p>
-                                @if(is_null($stuffDetail['dofus_2']->set)===false)
+                            @if(!is_null($createVariable->stuffDetail['dofus_2']))
+                                <p class="text-xl font-semibold">{{$createVariable->stuffDetail['dofus_2']->name}}</p>
+                                <p>{{$createVariable->stuffDetail['dofus_2']->type->name}} - Niveau
+                                    {{$createVariable->stuffDetail['dofus_2']->level}}</p>
+                                @if(is_null($createVariable->stuffDetail['dofus_2']->set)===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{$stuffDetail['dofus_2']->set->name}}')">{{$stuffDetail['dofus_2']->set->name}}</p>
+                                       wire:click="goToSet('{{$createVariable->stuffDetail['dofus_2']->set->name}}')">{{$createVariable->stuffDetail['dofus_2']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach($stuffDetail['dofus_2']->effects as $itemEffects)
+                                @foreach($createVariable->stuffDetail['dofus_2']->effects as $itemEffects)
                                     <div class="flex">
                                         <img
                                                 src="{{$itemEffects->image}}"
@@ -1189,14 +1201,14 @@
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                     </div>
                                 @endforeach
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count($stuffDetail['dofus_2']->conditions)>0)
+                                    @if(count($createVariable->stuffDetail['dofus_2']->conditions)>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach($stuffDetail['dofus_2']->conditions as $condition)
+                                            @foreach($createVariable->stuffDetail['dofus_2']->conditions as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
@@ -1225,7 +1237,7 @@
                     >
                         <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
-                            @if(is_null($stuffDetail['dofus_3']))
+                            @if(is_null($createVariable->stuffDetail['dofus_3']))
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
@@ -1235,7 +1247,7 @@
 
                             @else
                                 <img
-                                        src="{{$stuffDetail['dofus_3']->image}}"
+                                        src="{{$createVariable->stuffDetail['dofus_3']->image}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1243,16 +1255,16 @@
                         </div>
                         <div id="popover-dofus-3" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                            @if(!is_null($stuffDetail['dofus_3']))
-                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_3']->name}}</p>
-                                <p>{{$stuffDetail['dofus_3']->type->name}} - Niveau
-                                    {{$stuffDetail['dofus_3']->level}}</p>
-                                @if(is_null($stuffDetail['dofus_3']->set)===false)
+                            @if(!is_null($createVariable->stuffDetail['dofus_3']))
+                                <p class="text-xl font-semibold">{{$createVariable->stuffDetail['dofus_3']->name}}</p>
+                                <p>{{$createVariable->stuffDetail['dofus_3']->type->name}} - Niveau
+                                    {{$createVariable->stuffDetail['dofus_3']->level}}</p>
+                                @if(is_null($createVariable->stuffDetail['dofus_3']->set)===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{$stuffDetail['dofus_3']->set->name}}')">{{$stuffDetail['dofus_3']->set->name}}</p>
+                                       wire:click="goToSet('{{$createVariable->stuffDetail['dofus_3']->set->name}}')">{{$createVariable->stuffDetail['dofus_3']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach($stuffDetail['dofus_3']->effects as $itemEffects)
+                                @foreach($createVariable->stuffDetail['dofus_3']->effects as $itemEffects)
                                     <div class="flex">
                                         <img
                                                 src="{{$itemEffects->image}}"
@@ -1261,14 +1273,14 @@
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                     </div>
                                 @endforeach
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count($stuffDetail['dofus_3']->conditions)>0)
+                                    @if(count($createVariable->stuffDetail['dofus_3']->conditions)>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach($stuffDetail['dofus_3']->conditions as $condition)
+                                            @foreach($createVariable->stuffDetail['dofus_3']->conditions as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
@@ -1297,7 +1309,7 @@
                     >
                         <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
-                            @if(is_null($stuffDetail['dofus_4']))
+                            @if(is_null($createVariable->stuffDetail['dofus_4']))
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
@@ -1307,7 +1319,7 @@
 
                             @else
                                 <img
-                                        src="{{$stuffDetail['dofus_4']->image}}"
+                                        src="{{$createVariable->stuffDetail['dofus_4']->image}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1315,16 +1327,16 @@
                         </div>
                         <div id="popover-dofus-4" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                            @if(!is_null($stuffDetail['dofus_4']))
-                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_4']->name}}</p>
-                                <p>{{$stuffDetail['dofus_4']->type->name}} - Niveau
-                                    {{$stuffDetail['dofus_4']->level}}</p>
-                                @if(is_null($stuffDetail['dofus_4']->set)===false)
+                            @if(!is_null($createVariable->stuffDetail['dofus_4']))
+                                <p class="text-xl font-semibold">{{$createVariable->stuffDetail['dofus_4']->name}}</p>
+                                <p>{{$createVariable->stuffDetail['dofus_4']->type->name}} - Niveau
+                                    {{$createVariable->stuffDetail['dofus_4']->level}}</p>
+                                @if(is_null($createVariable->stuffDetail['dofus_4']->set)===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{$stuffDetail['dofus_4']->set->name}}')">{{$stuffDetail['dofus_4']->set->name}}</p>
+                                       wire:click="goToSet('{{$createVariable->stuffDetail['dofus_4']->set->name}}')">{{$createVariable->stuffDetail['dofus_4']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach($stuffDetail['dofus_4']->effects as $itemEffects)
+                                @foreach($createVariable->stuffDetail['dofus_4']->effects as $itemEffects)
                                     <div class="flex">
                                         <img
                                                 src="{{$itemEffects->image}}"
@@ -1333,14 +1345,14 @@
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                     </div>
                                 @endforeach
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count($stuffDetail['dofus_4']->conditions)>0)
+                                    @if(count($createVariable->stuffDetail['dofus_4']->conditions)>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach($stuffDetail['dofus_4']->conditions as $condition)
+                                            @foreach($createVariable->stuffDetail['dofus_4']->conditions as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
@@ -1369,7 +1381,7 @@
                     >
                         <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
-                            @if(is_null($stuffDetail['dofus_5']))
+                            @if(is_null($createVariable->stuffDetail['dofus_5']))
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
@@ -1379,7 +1391,7 @@
 
                             @else
                                 <img
-                                        src="{{$stuffDetail['dofus_5']->image}}"
+                                        src="{{$createVariable->stuffDetail['dofus_5']->image}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1387,16 +1399,16 @@
                         </div>
                         <div id="popover-dofus-5" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                            @if(!is_null($stuffDetail['dofus_5']))
-                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_5']->name}}</p>
-                                <p>{{$stuffDetail['dofus_5']->type->name}} - Niveau
-                                    {{$stuffDetail['dofus_5']->level}}</p>
-                                @if(is_null($stuffDetail['dofus_5']->set)===false)
+                            @if(!is_null($createVariable->stuffDetail['dofus_5']))
+                                <p class="text-xl font-semibold">{{$createVariable->stuffDetail['dofus_5']->name}}</p>
+                                <p>{{$createVariable->stuffDetail['dofus_5']->type->name}} - Niveau
+                                    {{$createVariable->stuffDetail['dofus_5']->level}}</p>
+                                @if(is_null($createVariable->stuffDetail['dofus_5']->set)===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{$stuffDetail['dofus_5']->set->name}}')">{{$stuffDetail['dofus_5']->set->name}}</p>
+                                       wire:click="goToSet('{{$createVariable->stuffDetail['dofus_5']->set->name}}')">{{$createVariable->stuffDetail['dofus_5']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach($stuffDetail['dofus_5']->effects as $itemEffects)
+                                @foreach($createVariable->stuffDetail['dofus_5']->effects as $itemEffects)
                                     <div class="flex">
                                         <img
                                                 src="{{$itemEffects->image}}"
@@ -1405,14 +1417,14 @@
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                     </div>
                                 @endforeach
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count($stuffDetail['dofus_5']->conditions)>0)
+                                    @if(count($createVariable->stuffDetail['dofus_5']->conditions)>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach($stuffDetail['dofus_5']->conditions as $condition)
+                                            @foreach($createVariable->stuffDetail['dofus_5']->conditions as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
@@ -1441,7 +1453,7 @@
                     >
                         <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
-                            @if(is_null($stuffDetail['dofus_6']))
+                            @if(is_null($createVariable->stuffDetail['dofus_6']))
                                 <img
                                         src="/img/stuff/dofus.png"
                                         alt="dofus image"
@@ -1451,7 +1463,7 @@
 
                             @else
                                 <img
-                                        src="{{$stuffDetail['dofus_6']->image}}"
+                                        src="{{$createVariable->stuffDetail['dofus_6']->image}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1459,16 +1471,16 @@
                         </div>
                         <div id="popover-dofus-6" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
-                            @if(!is_null($stuffDetail['dofus_6']))
-                                <p class="text-xl font-semibold">{{$stuffDetail['dofus_6']->name}}</p>
-                                <p>{{$stuffDetail['dofus_6']->type->name}} - Niveau
-                                    {{$stuffDetail['dofus_6']->level}}</p>
-                                @if(is_null($stuffDetail['dofus_6']->set)===false)
+                            @if(!is_null($createVariable->stuffDetail['dofus_6']))
+                                <p class="text-xl font-semibold">{{$createVariable->stuffDetail['dofus_6']->name}}</p>
+                                <p>{{$createVariable->stuffDetail['dofus_6']->type->name}} - Niveau
+                                    {{$createVariable->stuffDetail['dofus_6']->level}}</p>
+                                @if(is_null($createVariable->stuffDetail['dofus_6']->set)===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{$stuffDetail['dofus_6']->set->name}}')">{{$stuffDetail['dofus_6']->set->name}}</p>
+                                       wire:click="goToSet('{{$createVariable->stuffDetail['dofus_6']->set->name}}')">{{$createVariable->stuffDetail['dofus_6']->set->name}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach($stuffDetail['dofus_6']->effects as $itemEffects)
+                                @foreach($createVariable->stuffDetail['dofus_6']->effects as $itemEffects)
                                     <div class="flex">
                                         <img
                                                 src="{{$itemEffects->image}}"
@@ -1477,14 +1489,14 @@
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                     </div>
                                 @endforeach
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count($stuffDetail['dofus_6']->conditions)>0)
+                                    @if(count($createVariable->stuffDetail['dofus_6']->conditions)>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach($stuffDetail['dofus_6']->conditions as $condition)
+                                            @foreach($createVariable->stuffDetail['dofus_6']->conditions as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
@@ -1515,133 +1527,149 @@
         <div class="flex">
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_neutral}} </span> <img src="/img/icons/do_neutral.png"
-                                                                                     alt="do_neutral image"
-                                                                                     class="ml-2"
-                                                                                     width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_neutral}} </span> <img
+                            src="/img/icons/do_neutral.png"
+                            alt="do_neutral image"
+                            class="ml-2"
+                            width="28px">
 
                     <span> Do Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_earth}} </span> <img src="/img/icons/do_earth.png"
-                                                                                   alt="do_earth image"
-                                                                                   class="ml-2"
-                                                                                   width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_earth}} </span> <img
+                            src="/img/icons/do_earth.png"
+                            alt="do_earth image"
+                            class="ml-2"
+                            width="28px">
                     <span> Do Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_fire}} </span> <img src="/img/icons/do_fire.png"
-                                                                                  alt="do_fire image"
-                                                                                  class="ml-2"
-                                                                                  width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_fire}} </span> <img
+                            src="/img/icons/do_fire.png"
+                            alt="do_fire image"
+                            class="ml-2"
+                            width="28px">
                     <span> Do Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_water}} </span> <img src="/img/icons/do_water.png"
-                                                                                   alt="do_water image"
-                                                                                   class="ml-2"
-                                                                                   width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_water}} </span> <img
+                            src="/img/icons/do_water.png"
+                            alt="do_water image"
+                            class="ml-2"
+                            width="28px">
                     <span> Do Eau</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_air}} </span> <img src="/img/icons/do_air.png"
-                                                                                 alt="do_air image"
-                                                                                 class="ml-2"
-                                                                                 width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_air}} </span> <img
+                            src="/img/icons/do_air.png"
+                            alt="do_air image"
+                            class="ml-2"
+                            width="28px">
                     <span> Do Air</span>
 
                 </div>
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_critique}} </span> <img src="/img/icons/do_critique.png"
-                                                                                      alt="do_critique image"
-                                                                                      class="ml-2"
-                                                                                      width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_critique}} </span> <img
+                            src="/img/icons/do_critique.png"
+                            alt="do_critique image"
+                            class="ml-2"
+                            width="28px">
 
                     <span> Do Critique</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_push}} </span> <img src="/img/icons/do_push.png"
-                                                                                  alt="do_push image"
-                                                                                  class="ml-2"
-                                                                                  width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_push}} </span> <img
+                            src="/img/icons/do_push.png"
+                            alt="do_push image"
+                            class="ml-2"
+                            width="28px">
                     <span> Do Poussée</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_weapon}} </span> <img src="/img/icons/do_weapon.png"
-                                                                                    alt="do_weapon image"
-                                                                                    class="ml-2"
-                                                                                    width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_weapon}} </span> <img
+                            src="/img/icons/do_weapon.png"
+                            alt="do_weapon image"
+                            class="ml-2"
+                            width="28px">
                     <span> % Do Armes</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_spell}} </span> <img src="/img/icons/do_spell.png"
-                                                                                   alt="do_spell image"
-                                                                                   class="ml-2"
-                                                                                   width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_spell}} </span> <img
+                            src="/img/icons/do_spell.png"
+                            alt="do_spell image"
+                            class="ml-2"
+                            width="28px">
                     <span> % Do Sorts</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_melee}} </span> <img src="/img/icons/do_melee.png"
-                                                                                   alt="do_melee image"
-                                                                                   class="ml-2"
-                                                                                   width="28px">
-                    <span> % Do Mélée</span>
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_melee}} </span> <img
+                            src="/img/icons/do_melee.png"
+                            alt="do_melee image"
+                            class="ml-2"
+                            width="28px">
+                    <span> % Do Mêlée</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_do_distance}} </span> <img src="/img/icons/do_distance.png"
-                                                                                      alt="do_distance image"
-                                                                                      class="ml-2"
-                                                                                      width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_do_distance}} </span> <img
+                            src="/img/icons/do_distance.png"
+                            alt="do_distance image"
+                            class="ml-2"
+                            width="28px">
                     <span> % Do Distance</span>
 
                 </div>
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_neutral_res}} </span> <img src="/img/icons/neutral_res.png"
-                                                                                      alt="neutral_res image"
-                                                                                      class="ml-2"
-                                                                                      width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_neutral_res}} </span> <img
+                            src="/img/icons/neutral_res.png"
+                            alt="neutral_res image"
+                            class="ml-2"
+                            width="28px">
 
                     <span> Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_earth_res}} </span> <img src="/img/icons/earth_res.png"
-                                                                                    alt="earth_res image"
-                                                                                    class="ml-2"
-                                                                                    width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_earth_res}} </span> <img
+                            src="/img/icons/earth_res.png"
+                            alt="earth_res image"
+                            class="ml-2"
+                            width="28px">
                     <span> Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_fire_res}} </span> <img src="/img/icons/fire_res.png"
-                                                                                   alt="fire_res image"
-                                                                                   class="ml-2"
-                                                                                   width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_fire_res}} </span> <img
+                            src="/img/icons/fire_res.png"
+                            alt="fire_res image"
+                            class="ml-2"
+                            width="28px">
                     <span> Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_water_res}} </span> <img src="/img/icons/water_res.png"
-                                                                                    alt="water_res image"
-                                                                                    class="ml-2"
-                                                                                    width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_water_res}} </span> <img
+                            src="/img/icons/water_res.png"
+                            alt="water_res image"
+                            class="ml-2"
+                            width="28px">
                     <span> Ré Eau</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_air_res}} </span> <img src="/img/icons/air_res.png"
-                                                                                  alt="air_res image"
-                                                                                  class="ml-2"
-                                                                                  width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_air_res}} </span> <img
+                            src="/img/icons/air_res.png"
+                            alt="air_res image"
+                            class="ml-2"
+                            width="28px">
                     <span> Ré Air</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_critique_res}} </span> <img
+                    <span class="w-10 text-right">{{$createVariable->stuff_critique_res}} </span> <img
                             src="/img/icons/critique_res.png"
                             alt="critique_res image"
                             class="ml-2"
@@ -1650,25 +1678,27 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_melee_res}} </span> <img src="/img/icons/melee_res.png"
-                                                                                    alt="melee_res image"
-                                                                                    class="ml-2"
-                                                                                    width="28px">
-                    <span> % Ré Mélée</span>
+                    <span class="w-10 text-right">{{$createVariable->stuff_melee_res}} </span> <img
+                            src="/img/icons/melee_res.png"
+                            alt="melee_res image"
+                            class="ml-2"
+                            width="28px">
+                    <span> % Ré Mêlée</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_weapon_res}} </span> <img src="/img/icons/weapon_res.png"
-                                                                                     alt="weapon_res image"
-                                                                                     class="ml-2"
-                                                                                     width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_weapon_res}} </span> <img
+                            src="/img/icons/weapon_res.png"
+                            alt="weapon_res image"
+                            class="ml-2"
+                            width="28px">
                     <span> % Ré Armes</span>
 
                 </div>
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_percent_neutral_res>=-50?($stuff_percent_neutral_res<=50?$stuff_percent_neutral_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$createVariable->stuff_percent_neutral_res>=-50?($createVariable->stuff_percent_neutral_res<=50?$createVariable->stuff_percent_neutral_res:50):-50}} </span>
                     <img
                             src="/img/icons/neutral_res.png"
                             alt="neutral_res image"
@@ -1678,7 +1708,7 @@
                     <span> % Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_percent_earth_res>=-50?($stuff_percent_earth_res<=50?$stuff_percent_earth_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$createVariable->stuff_percent_earth_res>=-50?($createVariable->stuff_percent_earth_res<=50?$createVariable->stuff_percent_earth_res:50):-50}} </span>
                     <img
                             src="/img/icons/earth_res.png"
                             alt="earth_res image"
@@ -1687,7 +1717,7 @@
                     <span> % Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_percent_fire_res>=-50?($stuff_percent_fire_res<=50?$stuff_percent_fire_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$createVariable->stuff_percent_fire_res>=-50?($createVariable->stuff_percent_fire_res<=50?$createVariable->stuff_percent_fire_res:50):-50}} </span>
                     <img
                             src="/img/icons/fire_res.png"
                             alt="fire_res image"
@@ -1696,7 +1726,7 @@
                     <span> % Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_percent_water_res>=-50?($stuff_percent_water_res<=50?$stuff_percent_water_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$createVariable->stuff_percent_water_res>=-50?($createVariable->stuff_percent_water_res<=50?$createVariable->stuff_percent_water_res:50):-50}} </span>
                     <img
                             src="/img/icons/water_res.png"
                             alt="water_res image"
@@ -1706,7 +1736,7 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_percent_air_res>=-50?($stuff_percent_air_res<=50?$stuff_percent_air_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$createVariable->stuff_percent_air_res>=-50?($createVariable->stuff_percent_air_res<=50?$createVariable->stuff_percent_air_res:50):-50}} </span>
                     <img src="/img/icons/air_res.png"
                          alt="air_res image"
                          class="ml-2"
@@ -1715,15 +1745,16 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_push_res}} </span> <img src="/img/icons/push_res.png"
-                                                                                   alt="push_res image"
-                                                                                   class="ml-2"
-                                                                                   width="28px">
+                    <span class="w-10 text-right">{{$createVariable->stuff_push_res}} </span> <img
+                            src="/img/icons/push_res.png"
+                            alt="push_res image"
+                            class="ml-2"
+                            width="28px">
                     <span> Ré Poussée</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff_distance_res}} </span> <img
+                    <span class="w-10 text-right">{{$createVariable->stuff_distance_res}} </span> <img
                             src="/img/icons/distance_res.png"
                             alt="distance_res image"
                             class="ml-2"
@@ -1734,11 +1765,11 @@
 
             </div>
         </div>
-        @if(count($setLinks)>=1)
+        @if(count($createVariable->setLinks)>=1)
             <div class="separator"></div>
         @endif
         <div class="grid grid-cols-2 gap-3">
-            @foreach($setLinks as $set)
+            @foreach($createVariable->setLinks as $set)
                 <div class="text-gray-900 dark:text-gray-100 dark:bg-gray-700 rounded-lg flex flex-col">
                     <div>
                         <div class="flex bg-gray-900 p-6 rounded-t-lg">
@@ -1787,7 +1818,7 @@
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{substr($anEffects->formatted_name,0,1)=='-'?'text-red-600':''}}">{{$anEffects->formatted_name}}</span>
+                                                class="{{(str_starts_with($anEffects->formatted_name,'-')?'text-red-600':'')}}">{{$anEffects->formatted_name}}</span>
                                     </div>
                                     @if(ceil(count($setEffects)/2)==($index+1))
                             </div>

@@ -89,7 +89,7 @@
                                                             height="24"
                                                             class="mr-2 h-fit self-center">
                                                     <span
-                                                            class="{{substr($itemEffects->formatted_name,0,1)=='-'?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
+                                                            class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
                                                 </div>
                                             @endforeach
 
@@ -120,7 +120,7 @@
                                                         height="24"
                                                         class="mr-2 h-fit self-center">
                                                 <span
-                                                        class="{{substr($anEffects->formatted_name,0,1)=='-'?'text-red-600':''}}">{{$anEffects->formatted_name}}</span>
+                                                        class="{{str_starts_with($anEffects->formatted_name,'-')?'text-red-600':''}}">{{$anEffects->formatted_name}}</span>
                                             </div>
                                         @endif
                                     @endforeach

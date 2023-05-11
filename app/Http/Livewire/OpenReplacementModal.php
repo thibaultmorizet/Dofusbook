@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use LivewireUI\Modal\ModalComponent;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class OpenReplacementModal extends ModalComponent
 {
@@ -10,6 +12,10 @@ class OpenReplacementModal extends ModalComponent
     public array $items;
     public int $newItemId;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function replaceItem(string $itemToReplace)
     {
         $stuff = session()->get('stuff');

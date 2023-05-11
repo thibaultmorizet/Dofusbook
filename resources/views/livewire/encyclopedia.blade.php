@@ -375,7 +375,7 @@
                     </div>
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('PA',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('PA',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('PA')">
                         <img
                                 src="/img/icons/pa.png"
@@ -386,7 +386,7 @@
                         <span>PA</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('PM',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('PM',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('PM')">
                         <img
                                 src="/img/icons/pm.png"
@@ -397,7 +397,7 @@
                         <span>PM</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Portée',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Portée',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Portée')">
                         <img
                                 src="/img/icons/po.png"
@@ -408,7 +408,7 @@
                         <span>PO</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Puissance',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Puissance',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Puissance')">
                         <img
                                 src="/img/icons/power.png"
@@ -419,7 +419,7 @@
                         <span>Puissance</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Critique',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Critique',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Critique')">
                         <img
                                 src="/img/icons/critic.png"
@@ -431,7 +431,7 @@
                     </div>
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Vitalité',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Vitalité',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Vitalité')">
                         <img
                                 src="/img/icons/vitality.png"
@@ -442,7 +442,7 @@
                         <span>Vitalité</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Agilité',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Agilité',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Agilité')">
                         <img
                                 src="/img/icons/agility.png"
@@ -453,7 +453,7 @@
                         <span>Agilité</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Chance',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Chance',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Chance')">
                         <img
                                 src="/img/icons/luck.png"
@@ -464,7 +464,7 @@
                         <span>Chance</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Force',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Force',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Force')">
                         <img
                                 src="/img/icons/strength.png"
@@ -475,7 +475,7 @@
                         <span>Force</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Intelligence',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Intelligence',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Intelligence')">
                         <img
                                 src="/img/icons/intel.png"
@@ -486,7 +486,7 @@
                         <span>Intelligence</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Sagesse',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Sagesse',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Sagesse')">
                         <img
                                 src="/img/icons/wisdom.png"
@@ -508,7 +508,7 @@
                     </div>
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Retrait PA',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Retrait PA',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Retrait PA')">
                         <img
                                 src="/img/icons/avoid_pa.png"
@@ -519,7 +519,7 @@
                         <span>Retrait PA</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Esquive PA',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Esquive PA',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Esquive PA')">
                         <img
                                 src="/img/icons/pa_recession.png"
@@ -530,7 +530,7 @@
                         <span>Esquive PA</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Retrait PM',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Retrait PM',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Retrait PM')">
                         <img
                                 src="/img/icons/avoid_pm.png"
@@ -541,7 +541,7 @@
                         <span>Retrait PM</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Esquive PM',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Esquive PM',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Esquive PM')">
                         <img
                                 src="/img/icons/pm_recession.png"
@@ -552,7 +552,7 @@
                         <span>Esquive PM</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Soins',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Soins',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Soins')">
                         <img
                                 src="/img/icons/health.png"
@@ -565,7 +565,7 @@
 
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Tacle',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Tacle',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Tacle')">
                         <img
                                 src="/img/icons/tackle.png"
@@ -576,7 +576,7 @@
                         <span>Tacle</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Fuite',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Fuite',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Fuite')">
                         <img
                                 src="/img/icons/leak.png"
@@ -587,7 +587,7 @@
                         <span>Fuite</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Initiative',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Initiative',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Initiative')">
                         <img
                                 src="/img/icons/initiative.png"
@@ -598,7 +598,7 @@
                         <span>Initiative</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Invocation',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Invocation',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Invocation')">
                         <img
                                 src="/img/icons/invocation.png"
@@ -609,7 +609,7 @@
                         <span>Invocation</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Prospection',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Prospection',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Prospection')">
                         <img
                                 src="/img/icons/prospection.png"
@@ -620,7 +620,7 @@
                         <span>Prospection</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Pods',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Pods',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Pods')">
                         <img
                                 src="/img/icons/pods.png"
@@ -643,7 +643,7 @@
                     </div>
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages')">
                         <img
                                 src="/img/icons/do.png"
@@ -654,7 +654,7 @@
                         <span>Dommages</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Critiques',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Critiques',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Critiques')">
                         <img
                                 src="/img/icons/do_critique.png"
@@ -665,7 +665,7 @@
                         <span>Dommages Critiques</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Renvoie dommages',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Renvoie dommages',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Renvoie dommages')">
                         <img
                                 src="/img/icons/return_attack.png"
@@ -676,7 +676,7 @@
                         <span>Renvoie dommages</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Pièges',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Pièges',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Pièges')">
                         <img
                                 src="/img/icons/do_tricks.png"
@@ -687,7 +687,7 @@
                         <span>Dommages Pièges</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Puissance (pièges)',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Puissance (pièges)',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Puissance (pièges)')">
                         <img
                                 src="/img/icons/trick_power.png"
@@ -700,7 +700,7 @@
 
                     <div></div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Neutre',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Neutre',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Neutre')">
                         <img
                                 src="/img/icons/do_neutral.png"
@@ -711,7 +711,7 @@
                         <span>Dommages Neutre</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Terre',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Terre',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Terre')">
                         <img
                                 src="/img/icons/do_earth.png"
@@ -722,7 +722,7 @@
                         <span>Dommages Terre</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Feu',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Feu',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Feu')">
                         <img
                                 src="/img/icons/do_fire.png"
@@ -733,7 +733,7 @@
                         <span>Dommages Feu</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Eau',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Eau',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Eau')">
                         <img
                                 src="/img/icons/do_water.png"
@@ -744,7 +744,7 @@
                         <span>Dommages Eau</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Air',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Air',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Air')">
                         <img
                                 src="/img/icons/do_air.png"
@@ -758,7 +758,7 @@
 
                     <div></div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Dommages aux sorts',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Dommages aux sorts',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Dommages aux sorts')">
                         <img
                                 src="/img/icons/do_spell.png"
@@ -769,7 +769,7 @@
                         <span>% Dommages sorts</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Dommages d\'armes',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Dommages d\'armes',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Dommages d\'armes')">
                         <img
                                 src="/img/icons/do_weapon.png"
@@ -781,7 +781,7 @@
                     </div>
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Dommages Poussée',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Dommages Poussée',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Dommages Poussée')">
                         <img
                                 src="/img/icons/do_push.png"
@@ -793,7 +793,7 @@
                     </div>
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Dommages distance',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Dommages distance',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Dommages distance')">
                         <img
                                 src="/img/icons/do_distance.png"
@@ -804,7 +804,7 @@
                         <span>% Dommages distance</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Dommages mêlée',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Dommages mêlée',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Dommages mêlée')">
                         <img
                                 src="/img/icons/do_melee.png"
@@ -828,7 +828,7 @@
                     </div>
 
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Résistances Neutre',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Résistances Neutre',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Résistances Neutre')">
                         <img
                                 src="/img/icons/neutral_res.png"
@@ -839,7 +839,7 @@
                         <span>Résistances Neutre</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances Neutre',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances Neutre',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances Neutre')">
                         <img
                                 src="/img/icons/neutral_res.png"
@@ -850,7 +850,7 @@
                         <span>% Résistances Neutre</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Résistances Terre',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Résistances Terre',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Résistances Terre')">
                         <img
                                 src="/img/icons/earth_res.png"
@@ -861,7 +861,7 @@
                         <span>Résistances Terre</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances Terre',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances Terre',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances Terre')">
                         <img
                                 src="/img/icons/earth_res.png"
@@ -872,7 +872,7 @@
                         <span>% Résistances Terre</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Résistances Feu',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Résistances Feu',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Résistances Feu')">
                         <img
                                 src="/img/icons/fire_res.png"
@@ -885,7 +885,7 @@
 
                     <div></div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Résistances Eau',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Résistances Eau',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Résistances Eau')">
                         <img
                                 src="/img/icons/water_res.png"
@@ -896,7 +896,7 @@
                         <span>Résistances Eau</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances Eau',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances Eau',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances Eau')">
                         <img
                                 src="/img/icons/water_res.png"
@@ -907,7 +907,7 @@
                         <span>% Résistances Eau</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Résistances Air',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Résistances Air',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Résistances Air')">
                         <img
                                 src="/img/icons/air_res.png"
@@ -918,7 +918,7 @@
                         <span>Résistances Air</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances Air',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances Air',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances Air')">
                         <img
                                 src="/img/icons/air_res.png"
@@ -929,7 +929,7 @@
                         <span>% Résistances Air</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances Feu',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances Feu',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances Feu')">
                         <img
                                 src="/img/icons/fire_res.png"
@@ -943,7 +943,7 @@
 
                     <div></div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Résistances Critiques',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Résistances Critiques',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Résistances Critiques')">
                         <img
                                 src="/img/icons/critique_res.png"
@@ -954,7 +954,7 @@
                         <span>Résistances Critiques</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('Résistances Poussée',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('Résistances Poussée',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('Résistances Poussée')">
                         <img
                                 src="/img/icons/push_res.png"
@@ -965,7 +965,7 @@
                         <span>Résistances Poussée</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances aux armes',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances aux armes',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances aux armes')">
                         <img
                                 src="/img/icons/weapon_res.png"
@@ -976,7 +976,7 @@
                         <span>% Résistances aux armes</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances distance',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances distance',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances distance')">
                         <img
                                 src="/img/icons/distance_res.png"
@@ -987,7 +987,7 @@
                         <span>% Résistances distance</span>
                     </div>
                     <div class="flex bg-gray-700 text-white rounded-lg items-center justify-center py-1 cursor-pointer
-                {{array_search('% Résistances mêlée',$characteristicsFilters)!==false?'bg-indigo-500':''}}"
+                {{in_array('% Résistances mêlée',$characteristicsFilters)?'bg-indigo-500':''}}"
                          wire:click="updateCharacteristicsFilters('% Résistances mêlée')">
                         <img
                                 src="/img/icons/melee_res.png"
@@ -1038,7 +1038,7 @@
                                                     height="24"
                                                     class="mr-2 h-fit self-center">
                                             <span
-                                                    class="{{substr($anEffects->formatted_name,0,1)=='-'?'text-red-600':''}}">{{$anEffects->formatted_name}}</span>
+                                                    class="{{str_starts_with($anEffects->formatted_name,'-')?'text-red-600':''}}">{{$anEffects->formatted_name}}</span>
                                         </div>
                                     @endforeach
                                 </div>

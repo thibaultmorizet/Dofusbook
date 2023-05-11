@@ -44,7 +44,7 @@ class Dashboard extends Component
             foreach (array_keys($this->stuffDetail) as $aStuffItem) {
                 $item_id = $stuff->{$aStuffItem . '_id'};
                 if (!is_null($item_id)) {
-                    $stuff[$aStuffItem] = Items::find($item_id);
+                    $stuff[$aStuffItem] = Items::query()->where("id", "=", $item_id)->first();
                 }
             }
 

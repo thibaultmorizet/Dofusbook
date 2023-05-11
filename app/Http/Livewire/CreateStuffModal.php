@@ -51,7 +51,7 @@ class CreateStuffModal extends ModalComponent
     public function create()
     {
         if (!$this->is_updating_stuff) {
-            if ($this->stuff_title == "" || is_null($this->stuff_title)) {
+            if ($this->stuff_title == "") {
                 return false;
             }
             $newStuff = new Stuffs();
@@ -67,7 +67,7 @@ class CreateStuffModal extends ModalComponent
             return false;
         }
         if (!is_null($this->stuff_id)) {
-            $this->stuff = Stuffs::query()->findOrFail($this->stuff_id);
+            $this->stuff = Stuffs::query()->where("id", "=", $this->stuff_id)->get()->first();
             $this->stuff->title = $this->stuff_title;
             $this->stuff->character_level = $this->character_level;
             $this->stuff->gender = $this->gender;
@@ -77,6 +77,7 @@ class CreateStuffModal extends ModalComponent
                 return Redirect::route('stuff.show', $this->stuff->id);
             }
         }
+        return false;
     }
 
     public function render()

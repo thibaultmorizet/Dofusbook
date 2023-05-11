@@ -48,7 +48,7 @@
                         );
 
                         lvl_input[0].addEventListener('keyup',
-                            function (event) {
+                            function () {
                                 if (parseInt(lvl_input[0].value) > 200) {
                                     lvl_input[0].value = 200;
                                 }

@@ -31,10 +31,10 @@ class SetsEncyclopedia extends Component
         $this->effectsToView[$setId] = $effectsToView;
     }
 
-    private function countSets()
+    private function countSets(): int
     {
         return Sets::query()
-            ->where("name", "like", "%{$this->setName}%")
+            ->where("name", "like", "%$this->setName%")
             ->where("level", ">=", $this->minLvl)
             ->where("level", "<=", $this->maxLvl)
             ->count();
@@ -48,13 +48,13 @@ class SetsEncyclopedia extends Component
         $this->totalSetsNumber = $this->countSets();
     }
 
-    private function updateSets()
+    private function updateSets(): Collection|array
     {
         $this->setsLoaded = 24;
         $this->totalSetsNumber = $this->countSets();
         $result = Sets::query()
             ->with(['items', 'items.type', 'effects'])
-            ->where("name", "like", "%{$this->setName}%")
+            ->where("name", "like", "%$this->setName%")
             ->where("level", ">=", $this->minLvl)
             ->where("level", "<=", $this->maxLvl)
             ->orderByDesc("level")
@@ -65,11 +65,11 @@ class SetsEncyclopedia extends Component
         return $result;
     }
 
-    private function updateSetsToView()
+    private function updateSetsToView(): Collection|array
     {
         $result = Sets::query()
             ->with(['items', 'items.type', 'effects'])
-            ->where("name", "like", "%{$this->setName}%")
+            ->where("name", "like", "%$this->setName%")
             ->where("level", ">=", $this->minLvl)
             ->where("level", "<=", $this->maxLvl)
             ->orderByDesc("level")

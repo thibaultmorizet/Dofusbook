@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Stuffs;
+use Exception;
 use LivewireUI\Modal\ModalComponent;
 
 class DeleteStuffModal extends ModalComponent
@@ -13,12 +14,13 @@ class DeleteStuffModal extends ModalComponent
     {
         try {
             if (!is_null($this->stuff_id)) {
-                $stuffToDelete = Stuffs::query()->findOrFail($this->stuff_id);
+                $stuffToDelete = Stuffs::query()->where("id", "=", $this->stuff_id)->first();
                 $stuffToDelete->delete();
             }
             return redirect()->route('dashboard');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             error_log($exception);
+            return false;
         }
     }
 

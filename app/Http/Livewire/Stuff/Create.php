@@ -2,40 +2,15 @@
 
 namespace App\Http\Livewire\Stuff;
 
-use App\Models\Classes;
 use App\Models\Items;
 use App\Models\Stuffs;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Livewire\Component;
-use Illuminate\Database\Eloquent\Collection;
 
 class Create extends Component
 {
-    public ?int $stuff_id = null;
-
-    public string $stuff_title = "";
-    public int $character_level = 1;
-    public string $character_gender = "male";
-    public bool $is_private_stuff = true;
-
-    public int $is_exo_pa = 0;
-    public int $is_exo_pm = 0;
-    public int $is_exo_po = 0;
-
-
-    public int $total_vitality = 55;
-    public int $total_prospection = 100;
-    public int $total_pa = 6;
-    public int $total_pm = 3;
-    public int $total_po = 0;
-    public int $total_initiative = 0;
-
-    public int $subtotal_vitality = 0;
-    public int $subtotal_wisdom = 0;
-    public int $subtotal_strength = 0;
-    public int $subtotal_intel = 0;
-    public int $subtotal_luck = 0;
-    public int $subtotal_agility = 0;
+    protected CreateVariable $createVariable;
 
     public int $boost_vitality = 0;
     public int $boost_wisdom = 0;
@@ -51,96 +26,15 @@ class Create extends Component
     public int $parchment_intel = 0;
     public int $parchment_luck = 0;
     public int $parchment_agility = 0;
-
-    public int $leak = 0;
-    public int $avoid_pa = 0;
-    public int $avoid_pm = 0;
-    public int $pods = 1000;
-
-    public int $tackle = 0;
-    public int $pa_recession = 0;
-    public int $pm_recession = 0;
-    public int $stuff_level = 0;
-
-    public Stuffs $stuff;
-    public string $class_slug = "feca";
-    public int $class_id = 1;
-
-
-    public array $stuffDetail = [
-        'amulet' => null,
-        'shield' => null,
-        'ring_1' => null,
-        'ring_2' => null,
-        'belt' => null,
-        'boots' => null,
-        'hat' => null,
-        'cape' => null,
-        'dofus_1' => null,
-        'dofus_2' => null,
-        'dofus_3' => null,
-        'dofus_4' => null,
-        'dofus_5' => null,
-        'dofus_6' => null,
-        'animal' => null,
-        'weapon' => null
-    ];
-
-    public int $stuff_vitality = 0;
-    public int $stuff_strength = 0;
-    public int $stuff_intel = 0;
-    public int $stuff_luck = 0;
-    public int $stuff_agility = 0;
-    public int $stuff_wisdom = 0;
-    public int $stuff_initiative = 0;
-    public int $stuff_leak = 0;
-    public int $stuff_avoid_pm = 0;
-    public int $stuff_avoid_pa = 0;
-    public int $stuff_pa_recession = 0;
-    public int $stuff_pm_recession = 0;
-    public int $stuff_pods = 0;
-    public int $stuff_prospection = 0;
-    public int $stuff_tackle = 0;
-    public int $stuff_invocation = 1;
-    public int $stuff_health = 0;
-    public int $stuff_power = 0;
-    public int $stuff_critic = 0;
-    public int $stuff_pa = 0;
-    public int $stuff_pm = 0;
-    public int $stuff_po = 0;
-    public int $stuff_neutral_res = 0;
-    public int $stuff_water_res = 0;
-    public int $stuff_earth_res = 0;
-    public int $stuff_fire_res = 0;
-    public int $stuff_air_res = 0;
-    public int $stuff_percent_neutral_res = 0;
-    public int $stuff_percent_water_res = 0;
-    public int $stuff_percent_earth_res = 0;
-    public int $stuff_percent_fire_res = 0;
-    public int $stuff_percent_air_res = 0;
-    public int $stuff_distance_res = 0;
-    public int $stuff_critique_res = 0;
-    public int $stuff_push_res = 0;
-    public int $stuff_melee_res = 0;
-    public int $stuff_weapon_res = 0;
-    public int $stuff_do_neutral = 0;
-    public int $stuff_do_earth = 0;
-    public int $stuff_do_fire = 0;
-    public int $stuff_do_air = 0;
-    public int $stuff_do_water = 0;
-    public int $stuff_do_critique = 0;
-    public int $stuff_do_push = 0;
-    public int $stuff_do_melee = 0;
-    public int $stuff_do_distance = 0;
-    public int $stuff_do_weapon = 0;
-    public int $stuff_do_spell = 0;
-    public array $setLinks = [];
+    public string $stuff_title = "";
+    public int $character_level = 1;
 
     public function mount(Stuffs $stuff)
     {
-        $this->stuff = $stuff;
-        $this->stuff_id = $stuff->id;
-        $this->class_slug = $stuff->class->slug;
+        $this->createVariable = new CreateVariable();
+        $this->createVariable->stuff = $stuff;
+        $this->createVariable->stuff_id = $stuff->id;
+        $this->createVariable->class_slug = $stuff->class->slug;
 
         $this->updateIsPrivateStuff($stuff->is_private);
         $this->updateClass($stuff->class->id);
@@ -172,98 +66,98 @@ class Create extends Component
         $this->setTotalVitality();
         $this->setBoostAvailable();
         if ($level >= 100) {
-            $this->total_pa = 6 + 1 + $this->is_exo_pa;
+            $this->createVariable->total_pa = 6 + 1 + $this->createVariable->is_exo_pa;
         }
-        $this->stuff->character_level = $this->character_level;
-        $this->stuff->save();
+        $this->createVariable->stuff->character_level = $this->character_level;
+        $this->createVariable->stuff->save();
     }
 
     public function updateExoPa(int $is_exo_pa)
     {
-        $this->is_exo_pa = $is_exo_pa;
-        $this->stuff->is_exo_pa = $this->is_exo_pa;
-        $this->stuff->save();
+        $this->createVariable->is_exo_pa = $is_exo_pa;
+        $this->createVariable->stuff->is_exo_pa = $this->createVariable->is_exo_pa;
+        $this->createVariable->stuff->save();
         $this->setPa();
     }
 
     public function updateExoPm(int $is_exo_pm)
     {
-        $this->is_exo_pm = $is_exo_pm;
-        $this->stuff->is_exo_pm = $this->is_exo_pm;
-        $this->stuff->save();
+        $this->createVariable->is_exo_pm = $is_exo_pm;
+        $this->createVariable->stuff->is_exo_pm = $this->createVariable->is_exo_pm;
+        $this->createVariable->stuff->save();
         $this->setPm();
     }
 
     public function updateExoPo(int $is_exo_po)
     {
-        $this->is_exo_po = $is_exo_po;
-        $this->stuff->is_exo_po = $this->is_exo_po;
-        $this->stuff->save();
+        $this->createVariable->is_exo_po = $is_exo_po;
+        $this->createVariable->stuff->is_exo_po = $this->createVariable->is_exo_po;
+        $this->createVariable->stuff->save();
         $this->setPo();
     }
 
     public function setPa()
     {
         $extraPaByLvl = $this->character_level >= 100 ? 1 : 0;
-        $this->total_pa = 6 + $extraPaByLvl + $this->is_exo_pa + $this->stuff_pa;
+        $this->createVariable->total_pa = 6 + $extraPaByLvl + $this->createVariable->is_exo_pa + $this->createVariable->stuff_pa;
     }
 
     public function setPm()
     {
-        $this->total_pm = 3 + $this->is_exo_pm + $this->stuff_pm;
+        $this->createVariable->total_pm = 3 + $this->createVariable->is_exo_pm + $this->createVariable->stuff_pm;
     }
 
     public function setPo()
     {
-        $this->total_po = $this->is_exo_po + $this->stuff_po;
+        $this->createVariable->total_po = $this->createVariable->is_exo_po + $this->createVariable->stuff_po;
     }
 
     public function updateTitle(string $title)
     {
         $this->stuff_title = $title;
 
-        $this->stuff->title = $this->stuff_title;
-        $this->stuff->save();
+        $this->createVariable->stuff->title = $this->stuff_title;
+        $this->createVariable->stuff->save();
 
     }
 
     public function updateClass(int $class_id)
     {
-        $this->class_id = $class_id;
+        $this->createVariable->class_id = $class_id;
 
-        $this->stuff->class_id = $this->class_id;
-        $this->stuff->save();
+        $this->createVariable->stuff->class_id = $this->createVariable->class_id;
+        $this->createVariable->stuff->save();
 
     }
 
     public function updateCharacterGender(string $character_gender)
     {
-        $this->character_gender = $character_gender;
+        $this->createVariable->character_gender = $character_gender;
 
-        $this->stuff->gender = $this->character_gender;
-        $this->stuff->save();
+        $this->createVariable->stuff->gender = $this->createVariable->character_gender;
+        $this->createVariable->stuff->save();
 
     }
 
     public function setInitiative()
     {
-        $this->total_initiative = $this->subtotal_strength + $this->subtotal_intel + $this->subtotal_luck + $this->subtotal_agility + $this->stuff_initiative;
+        $this->createVariable->total_initiative = $this->createVariable->subtotal_strength + $this->createVariable->subtotal_intel + $this->createVariable->subtotal_luck + $this->createVariable->subtotal_agility + $this->createVariable->stuff_initiative;
     }
 
     public function setTotalVitality()
     {
-        $this->total_vitality = 50 + ($this->character_level * 5) + $this->subtotal_vitality;
+        $this->createVariable->total_vitality = 50 + ($this->character_level * 5) + $this->createVariable->subtotal_vitality;
     }
 
     public function setSubtotalVitality()
     {
-        $this->subtotal_vitality = $this->parchment_vitality + $this->boost_vitality + $this->stuff_vitality;
+        $this->createVariable->subtotal_vitality = $this->parchment_vitality + $this->boost_vitality + $this->createVariable->stuff_vitality;
         $this->setTotalVitality();
     }
 
     public function setSubtotalWisdom()
     {
-        $this->subtotal_wisdom = $this->parchment_wisdom + $this->boost_wisdom + $this->stuff_wisdom;
+        $this->createVariable->subtotal_wisdom = $this->parchment_wisdom + $this->boost_wisdom + $this->createVariable->stuff_wisdom;
         $this->setAvoidPa();
         $this->setAvoidPm();
         $this->setPaRecession();
@@ -272,27 +166,27 @@ class Create extends Component
 
     public function setSubtotalStrength()
     {
-        $this->subtotal_strength = $this->parchment_strength + $this->boost_strength + $this->stuff_strength;
+        $this->createVariable->subtotal_strength = $this->parchment_strength + $this->boost_strength + $this->createVariable->stuff_strength;
         $this->setInitiative();
         $this->setPods();
     }
 
     public function setSubtotalIntel()
     {
-        $this->subtotal_intel = $this->parchment_intel + $this->boost_intel + $this->stuff_intel;
+        $this->createVariable->subtotal_intel = $this->parchment_intel + $this->boost_intel + $this->createVariable->stuff_intel;
         $this->setInitiative();
     }
 
     public function setSubtotalLuck()
     {
-        $this->subtotal_luck = $this->parchment_luck + $this->boost_luck + $this->stuff_luck;
+        $this->createVariable->subtotal_luck = $this->parchment_luck + $this->boost_luck + $this->createVariable->stuff_luck;
         $this->setInitiative();
         $this->setProspection();
     }
 
     public function setSubtotalAgility()
     {
-        $this->subtotal_agility = $this->parchment_agility + $this->boost_agility + $this->stuff_agility;
+        $this->createVariable->subtotal_agility = $this->parchment_agility + $this->boost_agility + $this->createVariable->stuff_agility;
         $this->setInitiative();
         $this->setLeak();
         $this->setTackle();
@@ -300,42 +194,42 @@ class Create extends Component
 
     public function setAvoidPa()
     {
-        $this->avoid_pa = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_avoid_pa;
+        $this->createVariable->avoid_pa = round(floor($this->createVariable->subtotal_wisdom / 10)) + $this->createVariable->stuff_avoid_pa;
     }
 
     public function setAvoidPm()
     {
-        $this->avoid_pm = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_avoid_pm;
+        $this->createVariable->avoid_pm = round(floor($this->createVariable->subtotal_wisdom / 10)) + $this->createVariable->stuff_avoid_pm;
     }
 
     public function setPaRecession()
     {
-        $this->pa_recession = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_pa_recession;
+        $this->createVariable->pa_recession = round(floor($this->createVariable->subtotal_wisdom / 10)) + $this->createVariable->stuff_pa_recession;
     }
 
     public function setPmRecession()
     {
-        $this->pm_recession = round(floor($this->subtotal_wisdom / 10)) + $this->stuff_pm_recession;
+        $this->createVariable->pm_recession = round(floor($this->createVariable->subtotal_wisdom / 10)) + $this->createVariable->stuff_pm_recession;
     }
 
     public function setPods()
     {
-        $this->pods = 1000 + (5 * $this->subtotal_strength) + $this->stuff_pods;
+        $this->createVariable->pods = 1000 + (5 * $this->createVariable->subtotal_strength) + $this->createVariable->stuff_pods;
     }
 
     public function setProspection()
     {
-        $this->total_prospection = 100 + round(floor($this->subtotal_luck / 10)) + $this->stuff_prospection;
+        $this->createVariable->total_prospection = 100 + round(floor($this->createVariable->subtotal_luck / 10)) + $this->createVariable->stuff_prospection;
     }
 
     public function setLeak()
     {
-        $this->leak = round(floor($this->subtotal_agility / 10)) + $this->stuff_leak;
+        $this->createVariable->leak = round(floor($this->createVariable->subtotal_agility / 10)) + $this->createVariable->stuff_leak;
     }
 
     public function setTackle()
     {
-        $this->tackle = round(floor($this->subtotal_agility / 10)) + $this->stuff_tackle;
+        $this->createVariable->tackle = round(floor($this->createVariable->subtotal_agility / 10)) + $this->createVariable->stuff_tackle;
     }
 
     public function setBoostAvailable()
@@ -355,8 +249,8 @@ class Create extends Component
     {
         $this->parchment_vitality = $parchment_vitality;
         $this->setSubtotalVitality();
-        $this->stuff->vitality_parchment = $this->parchment_vitality;
-        $this->stuff->save();
+        $this->createVariable->stuff->vitality_parchment = $this->parchment_vitality;
+        $this->createVariable->stuff->save();
 
     }
 
@@ -364,40 +258,40 @@ class Create extends Component
     {
         $this->parchment_wisdom = $parchment_wisdom;
         $this->setSubtotalWisdom();
-        $this->stuff->wisdom_parchment = $this->parchment_wisdom;
-        $this->stuff->save();
+        $this->createVariable->stuff->wisdom_parchment = $this->parchment_wisdom;
+        $this->createVariable->stuff->save();
     }
 
     public function updateParchmentStrength(int $parchment_strength)
     {
         $this->parchment_strength = $parchment_strength;
         $this->setSubtotalStrength();
-        $this->stuff->strength_parchment = $this->parchment_strength;
-        $this->stuff->save();
+        $this->createVariable->stuff->strength_parchment = $this->parchment_strength;
+        $this->createVariable->stuff->save();
     }
 
     public function updateParchmentIntel(int $parchment_intel)
     {
         $this->parchment_intel = $parchment_intel;
         $this->setSubtotalIntel();
-        $this->stuff->intel_parchment = $this->parchment_intel;
-        $this->stuff->save();
+        $this->createVariable->stuff->intel_parchment = $this->parchment_intel;
+        $this->createVariable->stuff->save();
     }
 
     public function updateParchmentLuck(int $parchment_luck)
     {
         $this->parchment_luck = $parchment_luck;
         $this->setSubtotalLuck();
-        $this->stuff->luck_parchment = $this->parchment_luck;
-        $this->stuff->save();
+        $this->createVariable->stuff->luck_parchment = $this->parchment_luck;
+        $this->createVariable->stuff->save();
     }
 
     public function updateParchmentAgility(int $parchment_agility)
     {
         $this->parchment_agility = $parchment_agility;
         $this->setSubtotalAgility();
-        $this->stuff->agility_parchment = $this->parchment_agility;
-        $this->stuff->save();
+        $this->createVariable->stuff->agility_parchment = $this->parchment_agility;
+        $this->createVariable->stuff->save();
     }
 
     public function updateBoostVitality(int $boost_vitality)
@@ -405,8 +299,8 @@ class Create extends Component
         $this->boost_vitality = $boost_vitality;
         $this->setSubtotalVitality();
         $this->setBoostAvailable();
-        $this->stuff->vitality_boost = $this->boost_vitality;
-        $this->stuff->save();
+        $this->createVariable->stuff->vitality_boost = $this->boost_vitality;
+        $this->createVariable->stuff->save();
     }
 
     public function updateBoostWisdom(int $boost_wisdom)
@@ -414,8 +308,8 @@ class Create extends Component
         $this->boost_wisdom = $boost_wisdom;
         $this->setSubtotalWisdom();
         $this->setBoostAvailable();
-        $this->stuff->wisdom_boost = $this->boost_wisdom;
-        $this->stuff->save();
+        $this->createVariable->stuff->wisdom_boost = $this->boost_wisdom;
+        $this->createVariable->stuff->save();
     }
 
     public function updateBoostStrength(int $boost_strength)
@@ -423,8 +317,8 @@ class Create extends Component
         $this->boost_strength = $boost_strength;
         $this->setSubtotalStrength();
         $this->setBoostAvailable();
-        $this->stuff->strength_boost = $this->boost_strength;
-        $this->stuff->save();
+        $this->createVariable->stuff->strength_boost = $this->boost_strength;
+        $this->createVariable->stuff->save();
     }
 
     public function updateBoostIntel(int $boost_intel)
@@ -432,8 +326,8 @@ class Create extends Component
         $this->boost_intel = $boost_intel;
         $this->setSubtotalIntel();
         $this->setBoostAvailable();
-        $this->stuff->intel_boost = $this->boost_intel;
-        $this->stuff->save();
+        $this->createVariable->stuff->intel_boost = $this->boost_intel;
+        $this->createVariable->stuff->save();
     }
 
     public function updateBoostLuck(int $boost_luck)
@@ -441,8 +335,8 @@ class Create extends Component
         $this->boost_luck = $boost_luck;
         $this->setSubtotalLuck();
         $this->setBoostAvailable();
-        $this->stuff->luck_boost = $this->boost_luck;
-        $this->stuff->save();
+        $this->createVariable->stuff->luck_boost = $this->boost_luck;
+        $this->createVariable->stuff->save();
     }
 
     public function updateBoostAgility(int $boost_agility)
@@ -450,35 +344,15 @@ class Create extends Component
         $this->boost_agility = $boost_agility;
         $this->setSubtotalAgility();
         $this->setBoostAvailable();
-        $this->stuff->agility_boost = $this->boost_agility;
-        $this->stuff->save();
+        $this->createVariable->stuff->agility_boost = $this->boost_agility;
+        $this->createVariable->stuff->save();
     }
 
     public function updateIsPrivateStuff(bool $is_private_stuff)
     {
-        $this->is_private_stuff = $is_private_stuff;
-        $this->stuff->is_private = $this->is_private_stuff;
-        $this->stuff->save();
-    }
-
-    public function updateParchmentsToZero()
-    {
-        $this->updateParchmentVitality(0);
-        $this->updateParchmentWisdom(0);
-        $this->updateParchmentStrength(0);
-        $this->updateParchmentIntel(0);
-        $this->updateParchmentLuck(0);
-        $this->updateParchmentAgility(0);
-    }
-
-    public function updateParchmentsToHundred()
-    {
-        $this->updateParchmentVitality(100);
-        $this->updateParchmentWisdom(100);
-        $this->updateParchmentStrength(100);
-        $this->updateParchmentIntel(100);
-        $this->updateParchmentLuck(100);
-        $this->updateParchmentAgility(100);
+        $this->createVariable->is_private_stuff = $is_private_stuff;
+        $this->createVariable->stuff->is_private = $this->createVariable->is_private_stuff;
+        $this->createVariable->stuff->save();
     }
 
     private function getBoostCharacteristicPoints(int $characteristic): int
@@ -493,16 +367,9 @@ class Create extends Component
         return $boost_strength;
     }
 
-    public function openEncyclopediaWithFilters(string $equipementType, int $maxLvl)
+    public function updateStuffCharacteristic(string $stuffCharacteristicName, int $stuffCharacteristicsValue)
     {
-        return redirect()->route('encyclopedia', [
-            'equipementType' => $equipementType,
-            'maxLvl' => $maxLvl]);
-    }
-
-    public function updateStuffCharacteristic(string $stuffCharacteristicName, int $stuffCharacteristicsValue, string $operator = "+")
-    {
-        $this->{"stuff_" . $stuffCharacteristicName} += $stuffCharacteristicsValue;
+        $this->createVariable->{"stuff_" . $stuffCharacteristicName} += $stuffCharacteristicsValue;
 
         $updatedCharacteristicName = "";
         foreach (explode("_", $stuffCharacteristicName) as $partOfStuffCharacteristicName) {
@@ -555,7 +422,7 @@ class Create extends Component
     {
 
         $this->setStuffCharacteristicsToZero();
-        foreach ($this->stuffDetail as $item) {
+        foreach ($this->createVariable->stuffDetail as $item) {
             if (is_null($item) === false) {
                 foreach ($item->effects as $effect) {
 
@@ -567,12 +434,12 @@ class Create extends Component
                         $this->updateStuffCharacteristic($effect->translated_name, $value);
                     }
                 }
-                if ($this->stuff_level < $item->level) {
-                    $this->stuff_level = $item->level;
+                if ($this->createVariable->stuff_level < $item->level) {
+                    $this->createVariable->stuff_level = $item->level;
                 }
             }
         }
-        foreach ($this->setLinks as $setLink) {
+        foreach ($this->createVariable->setLinks as $setLink) {
             foreach ($setLink[0]->set->effects as $effect) {
                 if ($effect->set_number_items == count($setLink)) {
                     $value = $effect->int_maximum;
@@ -589,77 +456,104 @@ class Create extends Component
 
     private function setStuffCharacteristicsToZero()
     {
-        $this->stuff_vitality = 0;
-        $this->stuff_strength = 0;
-        $this->stuff_intel = 0;
-        $this->stuff_luck = 0;
-        $this->stuff_agility = 0;
-        $this->stuff_wisdom = 0;
-        $this->stuff_initiative = 0;
-        $this->stuff_leak = 0;
-        $this->stuff_avoid_pm = 0;
-        $this->stuff_avoid_pa = 0;
-        $this->stuff_pa_recession = 0;
-        $this->stuff_pm_recession = 0;
-        $this->stuff_pods = 0;
-        $this->stuff_prospection = 0;
-        $this->stuff_tackle = 0;
-        $this->stuff_invocation = 1;
-        $this->stuff_health = 0;
-        $this->stuff_power = 0;
-        $this->stuff_critic = 0;
-        $this->stuff_pa = 0;
-        $this->stuff_pm = 0;
-        $this->stuff_po = 0;
-        $this->stuff_neutral_res = 0;
-        $this->stuff_water_res = 0;
-        $this->stuff_earth_res = 0;
-        $this->stuff_fire_res = 0;
-        $this->stuff_air_res = 0;
-        $this->stuff_percent_neutral_res = 0;
-        $this->stuff_percent_water_res = 0;
-        $this->stuff_percent_earth_res = 0;
-        $this->stuff_percent_fire_res = 0;
-        $this->stuff_percent_air_res = 0;
-        $this->stuff_distance_res = 0;
-        $this->stuff_critique_res = 0;
-        $this->stuff_push_res = 0;
-        $this->stuff_melee_res = 0;
-        $this->stuff_weapon_res = 0;
-        $this->stuff_do_neutral = 0;
-        $this->stuff_do_earth = 0;
-        $this->stuff_do_fire = 0;
-        $this->stuff_do_air = 0;
-        $this->stuff_do_water = 0;
-        $this->stuff_do_critique = 0;
-        $this->stuff_do_push = 0;
-        $this->stuff_do_melee = 0;
-        $this->stuff_do_distance = 0;
-        $this->stuff_do_weapon = 0;
-        $this->stuff_do_spell = 0;
+        $this->createVariable->stuff_vitality = 0;
+        $this->createVariable->stuff_strength = 0;
+        $this->createVariable->stuff_intel = 0;
+        $this->createVariable->stuff_luck = 0;
+        $this->createVariable->stuff_agility = 0;
+        $this->createVariable->stuff_wisdom = 0;
+        $this->createVariable->stuff_initiative = 0;
+        $this->createVariable->stuff_leak = 0;
+        $this->createVariable->stuff_avoid_pm = 0;
+        $this->createVariable->stuff_avoid_pa = 0;
+        $this->createVariable->stuff_pa_recession = 0;
+        $this->createVariable->stuff_pm_recession = 0;
+        $this->createVariable->stuff_pods = 0;
+        $this->createVariable->stuff_prospection = 0;
+        $this->createVariable->stuff_tackle = 0;
+        $this->createVariable->stuff_invocation = 1;
+        $this->createVariable->stuff_health = 0;
+        $this->createVariable->stuff_power = 0;
+        $this->createVariable->stuff_critic = 0;
+        $this->createVariable->stuff_pa = 0;
+        $this->createVariable->stuff_pm = 0;
+        $this->createVariable->stuff_po = 0;
+        $this->createVariable->stuff_neutral_res = 0;
+        $this->createVariable->stuff_water_res = 0;
+        $this->createVariable->stuff_earth_res = 0;
+        $this->createVariable->stuff_fire_res = 0;
+        $this->createVariable->stuff_air_res = 0;
+        $this->createVariable->stuff_percent_neutral_res = 0;
+        $this->createVariable->stuff_percent_water_res = 0;
+        $this->createVariable->stuff_percent_earth_res = 0;
+        $this->createVariable->stuff_percent_fire_res = 0;
+        $this->createVariable->stuff_percent_air_res = 0;
+        $this->createVariable->stuff_distance_res = 0;
+        $this->createVariable->stuff_critique_res = 0;
+        $this->createVariable->stuff_push_res = 0;
+        $this->createVariable->stuff_melee_res = 0;
+        $this->createVariable->stuff_weapon_res = 0;
+        $this->createVariable->stuff_do_neutral = 0;
+        $this->createVariable->stuff_do_earth = 0;
+        $this->createVariable->stuff_do_fire = 0;
+        $this->createVariable->stuff_do_air = 0;
+        $this->createVariable->stuff_do_water = 0;
+        $this->createVariable->stuff_do_critique = 0;
+        $this->createVariable->stuff_do_push = 0;
+        $this->createVariable->stuff_do_melee = 0;
+        $this->createVariable->stuff_do_distance = 0;
+        $this->createVariable->stuff_do_weapon = 0;
+        $this->createVariable->stuff_do_spell = 0;
 
-    }
-
-    public function deleteItemToStuff(string $columnToDelete)
-    {
-        $this->stuffDetail[$columnToDelete] = null;
-        $this->stuff->{$columnToDelete . '_id'} = null;
-        $this->stuff->save();
-        $this->getStuffDetail();
-        $this->resetItemsCharacteristics();
     }
 
     public function getStuffDetail()
     {
-        foreach (array_keys($this->stuffDetail) as $aStuffItem) {
-            $item_id = $this->stuff->{$aStuffItem . '_id'};
+        foreach (array_keys($this->createVariable->stuffDetail) as $aStuffItem) {
+            $item_id = $this->createVariable->stuff->{$aStuffItem . '_id'};
             if (!is_null($item_id)) {
-                $this->stuffDetail[$aStuffItem] = Items::query()->with(['effects'])->where("id", $item_id)->get()->first();
+                $this->createVariable->stuffDetail[$aStuffItem] = Items::query()->with(['effects'])->where("id", $item_id)->get()->first();
             } else {
-                $this->stuffDetail[$aStuffItem] = null;
+                $this->createVariable->stuffDetail[$aStuffItem] = null;
             }
         }
 
+    }
+
+    private function getSetLinks()
+    {
+        $this->createVariable->setLinks = [];
+        foreach ($this->createVariable->stuffDetail as $item) {
+
+            if (!is_null($item?->set)) {
+                $this->createVariable->setLinks[$item?->set->id][] = $item;
+            }
+        }
+        foreach ($this->createVariable->setLinks as $index => $setLink) {
+            if (count($setLink) <= 1) {
+                unset($this->createVariable->setLinks[$index]);
+            }
+        }
+    }
+
+    public function updateParchmentsToZero()
+    {
+        $this->updateParchmentVitality(0);
+        $this->updateParchmentWisdom(0);
+        $this->updateParchmentStrength(0);
+        $this->updateParchmentIntel(0);
+        $this->updateParchmentLuck(0);
+        $this->updateParchmentAgility(0);
+    }
+
+    public function updateParchmentsToHundred()
+    {
+        $this->updateParchmentVitality(100);
+        $this->updateParchmentWisdom(100);
+        $this->updateParchmentStrength(100);
+        $this->updateParchmentIntel(100);
+        $this->updateParchmentLuck(100);
+        $this->updateParchmentAgility(100);
     }
 
     public function goToSet(string $setName)
@@ -667,23 +561,21 @@ class Create extends Component
         return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
     }
 
-
-    private function getSetLinks()
+    public function deleteItemToStuff(string $columnToDelete)
     {
-        $this->setLinks = [];
-        foreach ($this->stuffDetail as $item) {
-
-            if (!is_null($item?->set)) {
-                $this->setLinks[$item?->set->id][] = $item;
-            }
-        }
-        foreach ($this->setLinks as $index => $setLink) {
-            if (count($setLink) <= 1) {
-                unset($this->setLinks[$index]);
-            }
-        }
+        $this->createVariable->stuffDetail[$columnToDelete] = null;
+        $this->createVariable->stuff->{$columnToDelete . '_id'} = null;
+        $this->createVariable->stuff->save();
+        $this->getStuffDetail();
+        $this->resetItemsCharacteristics();
     }
 
+    public function openEncyclopediaWithFilters(string $equipementType, int $maxLvl)
+    {
+        return redirect()->route('encyclopedia', [
+            'equipementType' => $equipementType,
+            'maxLvl' => $maxLvl]);
+    }
 
     public function render(): View
     {
@@ -691,6 +583,6 @@ class Create extends Component
         $this->getSetLinks();
         $this->resetItemsCharacteristics();
 
-        return view('livewire.stuff.create');
+        return view('livewire.stuff.create', ["createVariable" => $this->createVariable]);
     }
 }
