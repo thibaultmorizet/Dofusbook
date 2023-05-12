@@ -4,7 +4,6 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-exec("php artisan cache:clear");
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
