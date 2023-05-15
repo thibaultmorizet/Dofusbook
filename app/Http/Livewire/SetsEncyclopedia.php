@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Effects;
 use App\Models\Sets;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -15,7 +16,6 @@ class SetsEncyclopedia extends Component
     public int $setsLoaded = 24;
     public int $minLvl = 1;
     public int $maxLvl = 200;
-    public array $effectsToView;
     public int $totalSetsNumber;
 
     public function mount()
@@ -23,12 +23,6 @@ class SetsEncyclopedia extends Component
         $this->setName = request()->query->get("setName") ?? "";
         $this->maxLvl = request()->query->get("maxLvl") ?? 200;
         $this->setsToView = $this->updateSets();
-        $this->loadEffectsBySets($this->setsToView);
-    }
-
-    public function updateEffectsToView(int $setId, int $effectsToView)
-    {
-        $this->effectsToView[$setId] = $effectsToView;
     }
 
     private function countSets(): int
@@ -61,7 +55,6 @@ class SetsEncyclopedia extends Component
             ->orderBy("id")
             ->limit(24)
             ->get();
-        $this->loadEffectsBySets($result);
         return $result;
     }
 
@@ -77,7 +70,6 @@ class SetsEncyclopedia extends Component
             ->limit(24)
             ->offset($this->setsLoaded)
             ->get();
-        $this->loadEffectsBySets($result);
         return $result;
     }
 
@@ -107,28 +99,9 @@ class SetsEncyclopedia extends Component
         $this->setsToView = $this->updateSets();
     }
 
-    public function loadEffectsBySets($sets)
-    {
-        foreach ($sets as $set) {
-            $this->effectsToView[$set->id] = $set->number_of_items;
-        }
-    }
-
-    public function goToItem(string $itemName, string $itemTypeName)
-    {
-        return redirect()->route('encyclopedia', ['itemName' => $itemName, 'equipementType' => $itemTypeName]);
-
-    }
-
-    public function goToSet(string $setName)
-    {
-        return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
-    }
-
     public function render(): View
     {
         return view('livewire.sets-encyclopedia');
-
     }
 
 

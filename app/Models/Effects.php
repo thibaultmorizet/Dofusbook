@@ -26,6 +26,13 @@ class Effects extends Model
         'set_number_items'
     ];
 
+    /**
+     * @param string[] $fillable
+     */
+    public function __construct()
+    {
+    }
+
     public function item(): HasOne
     {
         return $this->hasOne(Items::class, "effect_id", "id");
