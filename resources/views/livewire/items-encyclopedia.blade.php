@@ -5,7 +5,12 @@
         "secondaryFilterTabIsOpen"=>$secondaryFilterTabIsOpen,
         "dommagesFilterTabIsOpen"=>$dommagesFilterTabIsOpen,
         "resistancesFilterTabIsOpen"=>$resistancesFilterTabIsOpen,
-        "characteristicsFilters"=>$characteristicsFilters
+        "characteristicsFilters"=>$characteristicsFilters,
+        "itemFilters"=>$itemFilters,
+        "primaryFilters"=>$primaryFilters,
+        "secondaryFilters"=>$secondaryFilters,
+        "dommagesFilters"=>$dommagesFilters,
+        "resistancesFilters"=>$resistancesFilters
         ])
     @endcomponent
 
