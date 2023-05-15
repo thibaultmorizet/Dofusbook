@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\EncyclopediaController;
+use App\Http\Controllers\ItemsEncyclopediaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetsEncyclopediaController;
@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}', [StuffController::class, 'show'])->name('stuff.show');
     });
     Route::get('/dashboard', [HomeController::class, 'show'])->name('dashboard');
-    Route::get('/encyclopedia', [EncyclopediaController::class, 'show'])->name('encyclopedia');
+    Route::get('/items-encyclopedia', [ItemsEncyclopediaController::class, 'show'])->name('items-encyclopedia');
     Route::get('/sets-encyclopedia', [SetsEncyclopediaController::class, 'show'])->name('sets-encyclopedia');
 });
 

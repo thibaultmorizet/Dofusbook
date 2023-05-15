@@ -570,9 +570,9 @@ class Create extends Component
         $this->resetItemsCharacteristics();
     }
 
-    public function openEncyclopediaWithFilters(string $equipementType, int $maxLvl)
+    public function openItemsEncyclopediaWithFilters(string $equipementType, int $maxLvl)
     {
-        return redirect()->route('encyclopedia', [
+        return redirect()->route('items-encyclopedia', [
             'equipementType' => $equipementType,
             'maxLvl' => $maxLvl]);
     }

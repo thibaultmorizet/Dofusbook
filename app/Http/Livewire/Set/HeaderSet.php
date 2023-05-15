@@ -21,7 +21,7 @@ class HeaderSet extends Component
     public function updateSetName(string $setName)
     {
         $this->setName = $setName;
-        $this->emit('updateNameFilter', $this->setName);
+        $this->updateFilters();
     }
 
     public function deleteFilters()
@@ -29,24 +29,28 @@ class HeaderSet extends Component
         $this->minLvl = 1;
         $this->maxLvl = 200;
         $this->setName = null;
-        $this->emit(
-            'deleteFilters',
-            $this->minLvl,
-            $this->maxLvl,
-            $this->setName
-        );
+        $this->updateFilters();
     }
 
     public function updateMinLvl(int $minLvl)
     {
         $this->minLvl = $minLvl;
-        $this->emit('updateMinLvlFilter', $this->minLvl);
+        $this->updateFilters();
     }
 
     public function updateMaxLvl(int $maxLvl)
     {
         $this->maxLvl = $maxLvl;
-        $this->emit('updateMaxLvlFilter', $this->maxLvl);
+        $this->updateFilters();
+    }
+
+    public function updateFilters()
+    {
+        $this->emit('updateFilters',
+            $this->minLvl,
+            $this->maxLvl,
+            $this->setName
+        );
     }
 
     public function render(): View

@@ -281,7 +281,7 @@ if (window.location.pathname === "/stuff/create" || window.location.pathname.inc
         }
     );
 }
-if (window.location.pathname === "/encyclopedia") {
+if (window.location.pathname === "/items-encyclopedia") {
     const minLvl = document.getElementsByName("minLvl");
     const maxLvl = document.getElementsByName("maxLvl");
 

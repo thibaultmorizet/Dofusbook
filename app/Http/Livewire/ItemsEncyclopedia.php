@@ -12,13 +12,12 @@ use Livewire\WithPagination;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class Encyclopedia extends Component
+class ItemsEncyclopedia extends Component
 {
     use withPagination;
 
     public string $equipmentTypeName;
     public Types $equipmentType;
-    public ?string $stuffName = null;
     public array $equipmentTranslate = [
         "Amulette" => "amulet_id",
         "Bouclier" => "shield_id",
@@ -65,26 +64,19 @@ class Encyclopedia extends Component
             "dofus_6_id"],
     ];
 
-    public Collection $items;
     public Collection $itemsToView;
     public int $itemsLoaded = 24;
+    public ?string $stuffName = null;
     public int $minLvl = 1;
     public int $maxLvl = 200;
     public int $totalItemsNumber;
-    public bool $returnReplacementModal = false;
     public array $itemsToReplace = [];
     public array $characteristicsFilters = [];
-    public bool $primaryFilterTabIsOpen = false;
-    public bool $secondaryFilterTabIsOpen = false;
-    public bool $dommagesFilterTabIsOpen = false;
-    public bool $resistancesFilterTabIsOpen = false;
 
     public function mount()
     {
         $this->equipmentTypeName = request()->query->get("equipementType") ?? "Amulette";
-        $this->stuffName = request()->query->get("itemName") ?? null;
         $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
-        $this->maxLvl = request()->query->get("maxLvl") ?? 200;
         $this->itemsToView = $this->updateItems();
     }
 
@@ -102,9 +94,8 @@ class Encyclopedia extends Component
 
     public function updateItemsToLoad()
     {
-        $this->items = $this->updateItemsToView();
+        $this->itemsToView = $this->itemsToView->merge($this->updateItemsToView());
         $this->itemsLoaded += 24;
-        $this->itemsToView = $this->itemsToView->merge($this->items);
         $this->totalItemsNumber = $this->countItems();
     }
 
@@ -184,34 +175,6 @@ class Encyclopedia extends Component
         return $result->get();
     }
 
-    public function updateStuffName(string $stuffName)
-    {
-        $this->stuffName = $stuffName;
-        $this->itemsToView = $this->updateItems();
-    }
-
-    public function deleteFilters()
-    {
-        $this->minLvl = 1;
-        $this->maxLvl = 200;
-        $this->equipmentTypeName = "Amulette";
-        $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
-        $this->stuffName = null;
-        $this->characteristicsFilters = [];
-        $this->itemsToView = $this->updateItems();
-    }
-
-    public function updateMinLvl(int $minLvl)
-    {
-        $this->minLvl = $minLvl;
-        $this->itemsToView = $this->updateItems();
-    }
-
-    public function updateMaxLvl(int $maxLvl)
-    {
-        $this->maxLvl = $maxLvl;
-        $this->itemsToView = $this->updateItems();
-    }
 
     /**
      * @throws ContainerExceptionInterface
@@ -239,10 +202,6 @@ class Encyclopedia extends Component
         return false;
     }
 
-    public function goToSet(string $setName)
-    {
-        return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
-    }
 
     /**
      * @throws ContainerExceptionInterface
@@ -292,7 +251,7 @@ class Encyclopedia extends Component
 
     public function render(): View
     {
-        return view('livewire.encyclopedia');
+        return view('livewire.items-encyclopedia');
     }
 
 }

@@ -17,14 +17,14 @@ class SetsEncyclopedia extends Component
     public int $maxLvl = 200;
     public int $totalSetsNumber;
     protected $listeners = [
-        'updateNameFilter',
-        'updateMinLvlFilter',
-        'updateMaxLvlFilter',
-        'deleteFilters'
+        'updateFilters'
     ];
 
     public function mount()
     {
+        $this->setName = request()->query->get("setName") ?? $this->setName;
+        $this->maxLvl = request()->query->get("maxLvl") ?? $this->maxLvl;
+
         $this->setsToView = $this->updateSets();
     }
 
@@ -74,34 +74,11 @@ class SetsEncyclopedia extends Component
             ->get();
     }
 
-    public function updateNameFilter($setName)
-    {
-        $this->setName = $setName;
-        $this->updateSetsVariable();
-    }
-
-    public function updateMinLvlFilter($minLvl)
-    {
-        $this->minLvl = $minLvl;
-        $this->updateSetsVariable();
-    }
-
-    public function updateMaxLvlFilter($maxLvl)
-    {
-        $this->maxLvl = $maxLvl;
-        $this->updateSetsVariable();
-    }
-
-    public function deleteFilters($minLvl, $maxLvl, $setName)
+    public function updateFilters($minLvl, $maxLvl, $setName)
     {
         $this->minLvl = $minLvl;
         $this->maxLvl = $maxLvl;
         $this->setName = $setName;
-        $this->updateSetsVariable();
-    }
-
-    public function updateSetsVariable()
-    {
         $this->setsToView = $this->updateSets();
     }
 

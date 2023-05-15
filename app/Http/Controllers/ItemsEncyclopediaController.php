@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 
-class EncyclopediaController extends Controller
+class ItemsEncyclopediaController extends Controller
 {
     /**
      * Display Equipements list
      */
     public function show(): View
     {
-        return view('encyclopedia');
+        return view('items-encyclopedia');
     }
 }
