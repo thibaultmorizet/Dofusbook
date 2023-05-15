@@ -10,8 +10,6 @@
             @foreach($set->items as $anItem)
                 <div class="flex flex-col text-center cursor-pointer"
                      wire:click="goToItem('{{$anItem->name}}','{{$anItem->type->name}}')"
-                     data-popover-target="popover-{{$anItem->id}}"
-                     data-popover-placement="bottom"
                 >
                     <span>{{$anItem->type->name}}</span>
                     <img
@@ -22,30 +20,6 @@
                             class="mr-2 h-fit self-center"
                             loading="lazy"
                     >
-                </div>
-                <div id="popover-{{$anItem->id}}" role="tooltip"
-                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-800 border border-gray-600 border-2">
-                    <p class="text-xl font-semibold">{{$anItem->name}}</p>
-                    <p>{{$anItem->type->name}} - Niveau
-                        {{$anItem->level}}</p>
-                    <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                       wire:click="goToSet('{{$set->name}}')">{{$set->name}}</p>
-                    <div class="separator"></div>
-                    @foreach($anItem->effects as $itemEffects)
-                        <div class="flex">
-                            <img
-                                    src="{{$itemEffects->image}}"
-                                    alt="effect image"
-                                    width="24"
-                                    height="24"
-                                    class="mr-2 h-fit self-center">
-                            <span
-                                    class="{{str_starts_with($itemEffects->formatted_name,'-')?'text-red-600':''}} max-w-xl">{{$itemEffects->formatted_name}}</span>
-                        </div>
-                    @endforeach
-
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-
                 </div>
             @endforeach
 

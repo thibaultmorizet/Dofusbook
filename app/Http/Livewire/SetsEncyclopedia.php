@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Effects;
 use App\Models\Sets;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -10,18 +9,22 @@ use Illuminate\Database\Eloquent\Collection;
 
 class SetsEncyclopedia extends Component
 {
-    public ?string $setName = null;
     public Collection $sets;
     public Collection $setsToView;
     public int $setsLoaded = 24;
+    public ?string $setName = null;
     public int $minLvl = 1;
     public int $maxLvl = 200;
     public int $totalSetsNumber;
+    protected $listeners = [
+        'updateNameFilter',
+        'updateMinLvlFilter',
+        'updateMaxLvlFilter',
+        'deleteFilters'
+    ];
 
     public function mount()
     {
-        $this->setName = request()->query->get("setName") ?? "";
-        $this->maxLvl = request()->query->get("maxLvl") ?? 200;
         $this->setsToView = $this->updateSets();
     }
 
@@ -46,7 +49,7 @@ class SetsEncyclopedia extends Component
     {
         $this->setsLoaded = 24;
         $this->totalSetsNumber = $this->countSets();
-        $result = Sets::query()
+        return Sets::query()
             ->with(['items', 'items.type', 'effects'])
             ->where("name", "like", "%$this->setName%")
             ->where("level", ">=", $this->minLvl)
@@ -55,12 +58,11 @@ class SetsEncyclopedia extends Component
             ->orderBy("id")
             ->limit(24)
             ->get();
-        return $result;
     }
 
     private function updateSetsToView(): Collection|array
     {
-        $result = Sets::query()
+        return Sets::query()
             ->with(['items', 'items.type', 'effects'])
             ->where("name", "like", "%$this->setName%")
             ->where("level", ">=", $this->minLvl)
@@ -70,32 +72,36 @@ class SetsEncyclopedia extends Component
             ->limit(24)
             ->offset($this->setsLoaded)
             ->get();
-        return $result;
     }
 
-    public function updateSetName(string $setName)
+    public function updateNameFilter($setName)
     {
         $this->setName = $setName;
-        $this->setsToView = $this->updateSets();
+        $this->updateSetsVariable();
     }
 
-    public function deleteFilters()
-    {
-        $this->minLvl = 1;
-        $this->maxLvl = 200;
-        $this->setName = null;
-        $this->setsToView = $this->updateSets();
-    }
-
-    public function updateMinLvl(int $minLvl)
+    public function updateMinLvlFilter($minLvl)
     {
         $this->minLvl = $minLvl;
-        $this->setsToView = $this->updateSets();
+        $this->updateSetsVariable();
     }
 
-    public function updateMaxLvl(int $maxLvl)
+    public function updateMaxLvlFilter($maxLvl)
     {
         $this->maxLvl = $maxLvl;
+        $this->updateSetsVariable();
+    }
+
+    public function deleteFilters($minLvl, $maxLvl, $setName)
+    {
+        $this->minLvl = $minLvl;
+        $this->maxLvl = $maxLvl;
+        $this->setName = $setName;
+        $this->updateSetsVariable();
+    }
+
+    public function updateSetsVariable()
+    {
         $this->setsToView = $this->updateSets();
     }
 

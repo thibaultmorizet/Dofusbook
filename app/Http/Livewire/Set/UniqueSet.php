@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Set;
 use App\Models\Sets;
 use Illuminate\View\View;
 use Livewire\Component;
-use Ramsey\Collection\Collection;
 
 class UniqueSet extends Component
 {
@@ -37,10 +36,6 @@ class UniqueSet extends Component
 
     }
 
-    public function goToSet(string $setName)
-    {
-        return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
-    }
 
     public function render(): View
     {
