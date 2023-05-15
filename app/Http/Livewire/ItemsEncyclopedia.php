@@ -240,6 +240,7 @@ class ItemsEncyclopedia extends Component
                     $this->stuff->save();
                     $this->lastItemAdded = Items::query()->where("id", "=", $item_id)->get()->first();
                     $this->isOpenNotification = true;
+                    $this->isReturnReplacementModal();
                     return true;
                 }
             }

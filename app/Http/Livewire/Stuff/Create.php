@@ -28,11 +28,17 @@ class Create extends Component
     public int $parchment_agility = 0;
     public string $stuff_title = "";
     public int $character_level = 1;
+    public Stuffs $stuff;
 
     public function mount(Stuffs $stuff)
     {
+        $this->stuff = $stuff;
+        $this->reloadData($this->stuff);
+    }
+
+    public function reloadData(Stuffs $stuff)
+    {
         $this->createVariable = new CreateVariable();
-        $this->createVariable->stuff = $stuff;
         $this->createVariable->stuff_id = $stuff->id;
         $this->createVariable->class_slug = $stuff->class->slug;
 
@@ -58,6 +64,7 @@ class Create extends Component
         $this->updateParchmentIntel($stuff->intel_parchment);
         $this->updateParchmentLuck($stuff->luck_parchment);
         $this->updateParchmentAgility($stuff->agility_parchment);
+
     }
 
     public function updateLevel(int $level)
@@ -68,31 +75,31 @@ class Create extends Component
         if ($level >= 100) {
             $this->createVariable->total_pa = 6 + 1 + $this->createVariable->is_exo_pa;
         }
-        $this->createVariable->stuff->character_level = $this->character_level;
-        $this->createVariable->stuff->save();
+        $this->stuff->character_level = $this->character_level;
+        $this->stuff->save();
     }
 
     public function updateExoPa(int $is_exo_pa)
     {
         $this->createVariable->is_exo_pa = $is_exo_pa;
-        $this->createVariable->stuff->is_exo_pa = $this->createVariable->is_exo_pa;
-        $this->createVariable->stuff->save();
+        $this->stuff->is_exo_pa = $this->createVariable->is_exo_pa;
+        $this->stuff->save();
         $this->setPa();
     }
 
     public function updateExoPm(int $is_exo_pm)
     {
         $this->createVariable->is_exo_pm = $is_exo_pm;
-        $this->createVariable->stuff->is_exo_pm = $this->createVariable->is_exo_pm;
-        $this->createVariable->stuff->save();
+        $this->stuff->is_exo_pm = $this->createVariable->is_exo_pm;
+        $this->stuff->save();
         $this->setPm();
     }
 
     public function updateExoPo(int $is_exo_po)
     {
         $this->createVariable->is_exo_po = $is_exo_po;
-        $this->createVariable->stuff->is_exo_po = $this->createVariable->is_exo_po;
-        $this->createVariable->stuff->save();
+        $this->stuff->is_exo_po = $this->createVariable->is_exo_po;
+        $this->stuff->save();
         $this->setPo();
     }
 
@@ -116,8 +123,8 @@ class Create extends Component
     {
         $this->stuff_title = $title;
 
-        $this->createVariable->stuff->title = $this->stuff_title;
-        $this->createVariable->stuff->save();
+        $this->stuff->title = $this->stuff_title;
+        $this->stuff->save();
 
     }
 
@@ -125,8 +132,8 @@ class Create extends Component
     {
         $this->createVariable->class_id = $class_id;
 
-        $this->createVariable->stuff->class_id = $this->createVariable->class_id;
-        $this->createVariable->stuff->save();
+        $this->stuff->class_id = $this->createVariable->class_id;
+        $this->stuff->save();
 
     }
 
@@ -134,8 +141,8 @@ class Create extends Component
     {
         $this->createVariable->character_gender = $character_gender;
 
-        $this->createVariable->stuff->gender = $this->createVariable->character_gender;
-        $this->createVariable->stuff->save();
+        $this->stuff->gender = $this->createVariable->character_gender;
+        $this->stuff->save();
 
     }
 
@@ -249,8 +256,8 @@ class Create extends Component
     {
         $this->parchment_vitality = $parchment_vitality;
         $this->setSubtotalVitality();
-        $this->createVariable->stuff->vitality_parchment = $this->parchment_vitality;
-        $this->createVariable->stuff->save();
+        $this->stuff->vitality_parchment = $this->parchment_vitality;
+        $this->stuff->save();
 
     }
 
@@ -258,40 +265,40 @@ class Create extends Component
     {
         $this->parchment_wisdom = $parchment_wisdom;
         $this->setSubtotalWisdom();
-        $this->createVariable->stuff->wisdom_parchment = $this->parchment_wisdom;
-        $this->createVariable->stuff->save();
+        $this->stuff->wisdom_parchment = $this->parchment_wisdom;
+        $this->stuff->save();
     }
 
     public function updateParchmentStrength(int $parchment_strength)
     {
         $this->parchment_strength = $parchment_strength;
         $this->setSubtotalStrength();
-        $this->createVariable->stuff->strength_parchment = $this->parchment_strength;
-        $this->createVariable->stuff->save();
+        $this->stuff->strength_parchment = $this->parchment_strength;
+        $this->stuff->save();
     }
 
     public function updateParchmentIntel(int $parchment_intel)
     {
         $this->parchment_intel = $parchment_intel;
         $this->setSubtotalIntel();
-        $this->createVariable->stuff->intel_parchment = $this->parchment_intel;
-        $this->createVariable->stuff->save();
+        $this->stuff->intel_parchment = $this->parchment_intel;
+        $this->stuff->save();
     }
 
     public function updateParchmentLuck(int $parchment_luck)
     {
         $this->parchment_luck = $parchment_luck;
         $this->setSubtotalLuck();
-        $this->createVariable->stuff->luck_parchment = $this->parchment_luck;
-        $this->createVariable->stuff->save();
+        $this->stuff->luck_parchment = $this->parchment_luck;
+        $this->stuff->save();
     }
 
     public function updateParchmentAgility(int $parchment_agility)
     {
         $this->parchment_agility = $parchment_agility;
         $this->setSubtotalAgility();
-        $this->createVariable->stuff->agility_parchment = $this->parchment_agility;
-        $this->createVariable->stuff->save();
+        $this->stuff->agility_parchment = $this->parchment_agility;
+        $this->stuff->save();
     }
 
     public function updateBoostVitality(int $boost_vitality)
@@ -299,8 +306,8 @@ class Create extends Component
         $this->boost_vitality = $boost_vitality;
         $this->setSubtotalVitality();
         $this->setBoostAvailable();
-        $this->createVariable->stuff->vitality_boost = $this->boost_vitality;
-        $this->createVariable->stuff->save();
+        $this->stuff->vitality_boost = $this->boost_vitality;
+        $this->stuff->save();
     }
 
     public function updateBoostWisdom(int $boost_wisdom)
@@ -308,8 +315,8 @@ class Create extends Component
         $this->boost_wisdom = $boost_wisdom;
         $this->setSubtotalWisdom();
         $this->setBoostAvailable();
-        $this->createVariable->stuff->wisdom_boost = $this->boost_wisdom;
-        $this->createVariable->stuff->save();
+        $this->stuff->wisdom_boost = $this->boost_wisdom;
+        $this->stuff->save();
     }
 
     public function updateBoostStrength(int $boost_strength)
@@ -317,8 +324,8 @@ class Create extends Component
         $this->boost_strength = $boost_strength;
         $this->setSubtotalStrength();
         $this->setBoostAvailable();
-        $this->createVariable->stuff->strength_boost = $this->boost_strength;
-        $this->createVariable->stuff->save();
+        $this->stuff->strength_boost = $this->boost_strength;
+        $this->stuff->save();
     }
 
     public function updateBoostIntel(int $boost_intel)
@@ -326,8 +333,8 @@ class Create extends Component
         $this->boost_intel = $boost_intel;
         $this->setSubtotalIntel();
         $this->setBoostAvailable();
-        $this->createVariable->stuff->intel_boost = $this->boost_intel;
-        $this->createVariable->stuff->save();
+        $this->stuff->intel_boost = $this->boost_intel;
+        $this->stuff->save();
     }
 
     public function updateBoostLuck(int $boost_luck)
@@ -335,8 +342,8 @@ class Create extends Component
         $this->boost_luck = $boost_luck;
         $this->setSubtotalLuck();
         $this->setBoostAvailable();
-        $this->createVariable->stuff->luck_boost = $this->boost_luck;
-        $this->createVariable->stuff->save();
+        $this->stuff->luck_boost = $this->boost_luck;
+        $this->stuff->save();
     }
 
     public function updateBoostAgility(int $boost_agility)
@@ -344,15 +351,15 @@ class Create extends Component
         $this->boost_agility = $boost_agility;
         $this->setSubtotalAgility();
         $this->setBoostAvailable();
-        $this->createVariable->stuff->agility_boost = $this->boost_agility;
-        $this->createVariable->stuff->save();
+        $this->stuff->agility_boost = $this->boost_agility;
+        $this->stuff->save();
     }
 
     public function updateIsPrivateStuff(bool $is_private_stuff)
     {
         $this->createVariable->is_private_stuff = $is_private_stuff;
-        $this->createVariable->stuff->is_private = $this->createVariable->is_private_stuff;
-        $this->createVariable->stuff->save();
+        $this->stuff->is_private = $this->createVariable->is_private_stuff;
+        $this->stuff->save();
     }
 
     private function getBoostCharacteristicPoints(int $characteristic): int
@@ -510,14 +517,13 @@ class Create extends Component
     public function getStuffDetail()
     {
         foreach (array_keys($this->createVariable->stuffDetail) as $aStuffItem) {
-            $item_id = $this->createVariable->stuff->{$aStuffItem . '_id'};
+            $item_id = $this->stuff->{$aStuffItem . '_id'};
             if (!is_null($item_id)) {
                 $this->createVariable->stuffDetail[$aStuffItem] = Items::query()->with(['effects'])->where("id", $item_id)->get()->first();
             } else {
                 $this->createVariable->stuffDetail[$aStuffItem] = null;
             }
         }
-
     }
 
     private function getSetLinks()
@@ -563,12 +569,13 @@ class Create extends Component
 
     public function deleteItemToStuff(string $columnToDelete)
     {
-        dd($this->createVariable);
+        $this->reloadData($this->stuff);
         $this->createVariable->stuffDetail[$columnToDelete] = null;
-        $this->createVariable->stuff->{$columnToDelete . '_id'} = null;
-        $this->createVariable->stuff->save();
+        $this->stuff->{$columnToDelete . '_id'} = null;
+        $this->stuff->save();
         $this->getStuffDetail();
         $this->resetItemsCharacteristics();
+        session()->put('stuff', $this->stuff);
     }
 
     public function openItemsEncyclopediaWithFilters(string $equipementType, int $maxLvl)
@@ -580,10 +587,11 @@ class Create extends Component
 
     public function render(): View
     {
-
+        $this->reloadData($this->stuff);
         $this->getStuffDetail();
         $this->getSetLinks();
         $this->resetItemsCharacteristics();
+        session()->put('stuff', $this->stuff);
 
         return view('livewire.stuff.create', ["createVariable" => $this->createVariable]);
     }
