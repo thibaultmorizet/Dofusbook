@@ -368,7 +368,7 @@
                                 data-popover-target="popover-amulet"
                                 data-popover-placement="right"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Amulette',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Amulette',{{$character_level}})"
                             >
 
                                 @if(is_null($createVariable->stuffDetail['amulet']))
@@ -441,7 +441,7 @@
                                 data-popover-target="popover-shield"
                                 data-popover-placement="right"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Bouclier',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Bouclier',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['shield']))
                                     <img
@@ -512,7 +512,7 @@
                                 data-popover-target="popover-ring-1"
                                 data-popover-placement="right"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Anneau',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Anneau',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['ring_1']))
                                     <img
@@ -584,7 +584,7 @@
                                 data-popover-target="popover-belt"
                                 data-popover-placement="right"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Ceinture',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Ceinture',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['belt']))
                                     <img
@@ -655,7 +655,7 @@
                                 data-popover-target="popover-boots"
                                 data-popover-placement="right"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Bottes',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Bottes',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['boots']))
                                     <img
@@ -731,7 +731,7 @@
                                 data-popover-target="popover-hat"
                                 data-popover-placement="left"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Chapeau',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Chapeau',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['hat']))
                                     <img
@@ -802,7 +802,7 @@
                                 data-popover-target="popover-weapon"
                                 data-popover-placement="left"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Arc',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Arc',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['weapon']))
                                     <img
@@ -873,7 +873,7 @@
                                 data-popover-target="popover-ring-2"
                                 data-popover-placement="left"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Anneau',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Anneau',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['ring_2']))
                                     <img
@@ -945,7 +945,7 @@
                                 data-popover-target="popover-cape"
                                 data-popover-placement="left"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Cape',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Cape',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['cape']))
                                     <img
@@ -1016,7 +1016,7 @@
                                 data-popover-target="popover-animal"
                                 data-popover-placement="left"
                         >
-                            <div wire:click="openEncyclopediaWithFilters('Familier',{{$character_level}})"
+                            <div wire:click="openItemsEncyclopediaWithFilters('Familier',{{$character_level}})"
                             >
                                 @if(is_null($createVariable->stuffDetail['animal']))
                                     <img
@@ -1091,7 +1091,7 @@
                             data-popover-target="popover-dofus-1"
                             data-popover-placement="top"
                     >
-                        <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
+                        <div wire:click="openItemsEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
                             @if(is_null($createVariable->stuffDetail['dofus_1']))
                                 <img
@@ -1163,7 +1163,7 @@
                             data-popover-target="popover-dofus-2"
                             data-popover-placement="top"
                     >
-                        <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
+                        <div wire:click="openItemsEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
                             @if(is_null($createVariable->stuffDetail['dofus_2']))
                                 <img
@@ -1235,7 +1235,7 @@
                             data-popover-target="popover-dofus-3"
                             data-popover-placement="top"
                     >
-                        <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
+                        <div wire:click="openItemsEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
                             @if(is_null($createVariable->stuffDetail['dofus_3']))
                                 <img
@@ -1307,7 +1307,7 @@
                             data-popover-target="popover-dofus-4"
                             data-popover-placement="top"
                     >
-                        <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
+                        <div wire:click="openItemsEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
                             @if(is_null($createVariable->stuffDetail['dofus_4']))
                                 <img
@@ -1379,7 +1379,7 @@
                             data-popover-target="popover-dofus-5"
                             data-popover-placement="top"
                     >
-                        <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
+                        <div wire:click="openItemsEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
                             @if(is_null($createVariable->stuffDetail['dofus_5']))
                                 <img
@@ -1451,7 +1451,7 @@
                             data-popover-target="popover-dofus-6"
                             data-popover-placement="top"
                     >
-                        <div wire:click="openEncyclopediaWithFilters('Dofus',{{$character_level}})"
+                        <div wire:click="openItemsEncyclopediaWithFilters('Dofus',{{$character_level}})"
                         >
                             @if(is_null($createVariable->stuffDetail['dofus_6']))
                                 <img

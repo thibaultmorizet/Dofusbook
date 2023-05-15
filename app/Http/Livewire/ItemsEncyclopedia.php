@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Items;
+use App\Models\Stuffs;
 use App\Models\Types;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -18,6 +19,7 @@ class ItemsEncyclopedia extends Component
 
     public string $equipmentTypeName;
     public Types $equipmentType;
+    public ?string $stuffName = null;
     public array $equipmentTranslate = [
         "Amulette" => "amulet_id",
         "Bouclier" => "shield_id",
@@ -64,19 +66,34 @@ class ItemsEncyclopedia extends Component
             "dofus_6_id"],
     ];
 
+    public Collection $items;
     public Collection $itemsToView;
     public int $itemsLoaded = 24;
-    public ?string $stuffName = null;
     public int $minLvl = 1;
     public int $maxLvl = 200;
     public int $totalItemsNumber;
+    public bool $returnReplacementModal = false;
     public array $itemsToReplace = [];
     public array $characteristicsFilters = [];
+    public bool $primaryFilterTabIsOpen = false;
+    public bool $secondaryFilterTabIsOpen = false;
+    public bool $dommagesFilterTabIsOpen = false;
+    public bool $resistancesFilterTabIsOpen = false;
+    public Stuffs $stuff;
+    public Items $lastItemAdded;
+    public bool $isOpenNotification = false;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function mount()
     {
         $this->equipmentTypeName = request()->query->get("equipementType") ?? "Amulette";
+        $this->stuffName = request()->query->get("itemName") ?? null;
         $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
+        $this->maxLvl = request()->query->get("maxLvl") ?? 200;
+        $this->stuff = session()->get('stuff');
         $this->itemsToView = $this->updateItems();
     }
 
@@ -94,8 +111,9 @@ class ItemsEncyclopedia extends Component
 
     public function updateItemsToLoad()
     {
-        $this->itemsToView = $this->itemsToView->merge($this->updateItemsToView());
+        $this->items = $this->updateItemsToView();
         $this->itemsLoaded += 24;
+        $this->itemsToView = $this->itemsToView->merge($this->items);
         $this->totalItemsNumber = $this->countItems();
     }
 
@@ -161,7 +179,7 @@ class ItemsEncyclopedia extends Component
             ->orderByDesc("level")
             ->orderBy("id")
             ->limit(24);
-       foreach ($this->characteristicsFilters as $aCharacteristicFilter) {
+        foreach ($this->characteristicsFilters as $aCharacteristicFilter) {
             $result->whereHas('effects', function (Builder $query) use ($aCharacteristicFilter) {
                 $query
                     ->where('name', '=', $aCharacteristicFilter)
@@ -175,54 +193,86 @@ class ItemsEncyclopedia extends Component
         return $result->get();
     }
 
+    public function updateStuffName(string $stuffName)
+    {
+        $this->stuffName = $stuffName;
+        $this->itemsToView = $this->updateItems();
+    }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
+    public function deleteFilters()
+    {
+        $this->minLvl = 1;
+        $this->maxLvl = 200;
+        $this->equipmentTypeName = "Amulette";
+        $this->equipmentType = Types::query()->where("name", "=", $this->equipmentTypeName)->get()->first();
+        $this->stuffName = null;
+        $this->characteristicsFilters = [];
+        $this->itemsToView = $this->updateItems();
+    }
+
+    public function updateMinLvl(int $minLvl)
+    {
+        $this->minLvl = $minLvl;
+        $this->itemsToView = $this->updateItems();
+    }
+
+    public function updateMaxLvl(int $maxLvl)
+    {
+        $this->maxLvl = $maxLvl;
+        $this->itemsToView = $this->updateItems();
+    }
+
+
     public function addItemToStuff(int $item_id)
     {
-        $stuff = session()->get('stuff');
-        if (!is_null($stuff)) {
+        if (!is_null($this->stuff)) {
             $databaseEquipmentName = $this->equipmentTranslate[$this->equipmentTypeName];
             if (!is_array($databaseEquipmentName)) {
-                $stuff->{$databaseEquipmentName} = $item_id;
-                $stuff->save();
-                return redirect()->route('stuff.show', $stuff->id);
+                $this->stuff->{$databaseEquipmentName} = $item_id;
+                $this->stuff->save();
+                $this->lastItemAdded = Items::query()->where("id", "=", $item_id)->get()->first();
+                return redirect()->route('stuff.show', $this->stuff->id);
             }
 
             foreach ($databaseEquipmentName as $itemEmplacement) {
-                if (is_null($stuff->{$itemEmplacement})) {
-                    $stuff->{$itemEmplacement} = $item_id;
-                    $stuff->save();
-                    return redirect()->route('stuff.show', $stuff->id);
+                if (is_null($this->stuff->{$itemEmplacement})) {
+                    $this->stuff->{$itemEmplacement} = $item_id;
+                    $this->stuff->save();
+                    $this->lastItemAdded = Items::query()->where("id", "=", $item_id)->get()->first();
+                    $this->isOpenNotification = true;
+                    return true;
                 }
             }
         }
         return false;
     }
 
+    public function goToSet(string $setName)
+    {
+        return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
+    }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
+    public function goToStuff(int $stuffId)
+    {
+        return redirect()->route('stuff.show', $stuffId);
+    }
+
+
     private function isReturnReplacementModal(): void
     {
         $this->itemsToReplace = [];
-        $stuff = session()->get('stuff');
-        if (!is_null($stuff)) {
+        if (!is_null($this->stuff)) {
             $databaseEquipmentName = $this->equipmentTranslate[$this->equipmentTypeName];
             if (is_array($databaseEquipmentName)) {
                 foreach ($databaseEquipmentName as $itemEmplacement) {
-                    if (is_null($stuff->{$itemEmplacement})) {
+                    if (is_null($this->stuff->{$itemEmplacement})) {
                         $this->returnReplacementModal = false;
                         $this->itemsToReplace = [];
                         return;
                     }
                 }
                 foreach ($databaseEquipmentName as $itemEmplacement) {
-                    $this->itemsToReplace[$itemEmplacement] = Items::query()->find($stuff->{$itemEmplacement});
+                    $this->itemsToReplace[$itemEmplacement] = Items::query()->find($this->stuff->{$itemEmplacement});
                 }
                 $this->returnReplacementModal = true;
                 return;

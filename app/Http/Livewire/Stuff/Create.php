@@ -563,6 +563,7 @@ class Create extends Component
 
     public function deleteItemToStuff(string $columnToDelete)
     {
+        dd($this->createVariable);
         $this->createVariable->stuffDetail[$columnToDelete] = null;
         $this->createVariable->stuff->{$columnToDelete . '_id'} = null;
         $this->createVariable->stuff->save();
@@ -579,6 +580,7 @@ class Create extends Component
 
     public function render(): View
     {
+
         $this->getStuffDetail();
         $this->getSetLinks();
         $this->resetItemsCharacteristics();
