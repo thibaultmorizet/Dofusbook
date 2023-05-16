@@ -585,6 +585,74 @@ class Create extends Component
             'maxLvl' => $maxLvl]);
     }
 
+//    public function generateCharacterImage()
+//    {
+//        $characterFilename = "C:\laragon\www\Dofusbook\public\img\character\sram-female.png";
+//        $shieldFilename = "https://api.dofusdu.de/dofus2/img/item/82150-800.png";
+//        $newImage = "C:\laragon\www\Dofusbook\public\img\character\cra-test.png";
+//        $characterImage = imagecreatefrompng($characterFilename);
+//        $shieldImage = imagecreatefrompng($shieldFilename);
+//
+//        imagealphablending($characterImage, false);
+//        imagesavealpha($characterImage, true);
+//        imagealphablending($shieldImage, false);
+//        imagesavealpha($shieldImage, true);
+//
+//        list($oldWidth, $oldHeight) = getimagesize($shieldFilename);
+//        $newWidth = 110;
+//        $newHeight = 110;
+//        imagecopyresized($shieldImage,
+//            $shieldImage,
+//            0,
+//            0,
+//            0,
+//            0,
+//            $newWidth,
+//            $newHeight,
+//            $oldWidth,
+//            $oldHeight
+//        );
+//
+//        function setTransparency($new_image, $image_source): void
+//        {
+//            $transparencyIndex = imagecolortransparent($image_source);
+//            $transparencyColor = array('red' => 255, 'green' => 255, 'blue' => 255);
+//            if ($transparencyIndex >= 0) {
+//                $transparencyColor = imagecolorsforindex($image_source, $transparencyIndex);
+//            }
+//            $transparencyIndex = imagecolorallocate($new_image, $transparencyColor['red'], $transparencyColor['green'], $transparencyColor['blue']);
+//            imagefill($new_image, 0, 0, $transparencyIndex);
+//            imagecolortransparent($new_image, $transparencyIndex);
+//        }
+//
+//        function imagecopymerge_alpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct): void
+//        {
+//            $cut = imagecreatetruecolor($src_w, $src_h);
+//            setTransparency($cut, $cut);
+//            imagecopy($cut, $dst_im, 0, 0, $dst_x, $dst_y, $src_w, $src_h);
+//            imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h);
+//            imagecopymerge($dst_im, $cut, $dst_x, $dst_y, 0, 0, $src_w, $src_h, $pct);
+//        }
+//
+//        imagecopymerge_alpha(
+//            $characterImage,
+//            $shieldImage,
+//            35,
+//            110,
+//            0,
+//            0,
+//            150,
+//            150,
+//            100
+//        );
+//
+//        header('Content-Type: image/png');
+//        imagepng($characterImage, $newImage);
+//
+//        imagedestroy($characterImage);
+//        imagedestroy($shieldImage);
+//    }
+
     public function render(): View
     {
         $this->reloadData($this->stuff);
