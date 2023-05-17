@@ -4,6 +4,7 @@ use App\Http\Controllers\ItemsEncyclopediaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetsEncyclopediaController;
+use App\Http\Controllers\SpellsDetailsController;
 use App\Http\Controllers\StuffController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'show'])->name('dashboard');
     Route::get('/items-encyclopedia', [ItemsEncyclopediaController::class, 'show'])->name('items-encyclopedia');
     Route::get('/sets-encyclopedia', [SetsEncyclopediaController::class, 'show'])->name('sets-encyclopedia');
+    Route::get('/spells', [SpellsDetailsController::class, 'show'])->name('spells-details');
 });
 
 Route::fallback(function () {

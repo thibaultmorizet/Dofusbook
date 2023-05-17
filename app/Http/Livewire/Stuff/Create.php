@@ -567,6 +567,11 @@ class Create extends Component
         return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
     }
 
+    public function goToSpellsPage()
+    {
+        return redirect()->route('spells');
+    }
+
     public function deleteItemToStuff(string $columnToDelete)
     {
         $this->reloadData($this->stuff);

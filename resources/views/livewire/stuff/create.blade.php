@@ -16,11 +16,15 @@
 
         </div>
         <div>
-            <button class="rounded-lg text-white bg-[#d9534f] p-1 mx-2"
+            <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2 px-2"
+                    wire:click="goToSpellsPage()">
+                Sorts
+            </button>
+            <button class="rounded-lg text-white bg-[#d9534f] p-1 mx-2 px-2"
                     wire:click="$emit('openModal', 'delete-stuff-modal',{{ json_encode(["stuff_id" => $createVariable->stuff_id]) }})">
                 Supprimer
             </button>
-            <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2"
+            <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2 px-2"
                     wire:click="$emit('openModal', 'create-stuff-modal',{{ json_encode([
                         "character_level" => $character_level,
                         "stuff_title" => $stuff_title,

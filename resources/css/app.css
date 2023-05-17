@@ -68,3 +68,12 @@
 .grid-cols-13 {
     grid-template-columns: repeat(13, minmax(0, 1fr));
 }
+
+[type='radio'] {
+    color: #6366f1;
+}
+
+[type='checkbox']:focus, [type='radio']:focus {
+    outline: none;
+    box-shadow: none;
+}

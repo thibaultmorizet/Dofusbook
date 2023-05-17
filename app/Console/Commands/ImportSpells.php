@@ -76,7 +76,22 @@ class ImportSpells extends Command
 
     private function saveNewSpell(array $spell)
     {
-        $image = "https://www.dofusbook.net/static/spells/" . Arr::get($spell, 'icon') . ".png";
+        $imageToDownload = "https://www.dofusbook.net/static/spells/" . Arr::get($spell, 'icon') . ".png";
+        $image = "/img/spells/" . Arr::get($spell, 'icon') . ".png";
+        $imagePath = "C:\laragon\www\Dofusbook\public\img\spells/" . Arr::get($spell, 'icon') . ".png";
+        if (!file_exists($imagePath)) {
+            $curl_handle = curl_init();
+            curl_setopt($curl_handle, CURLOPT_URL, $imageToDownload);
+            curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Dofusbook');
+            curl_exec($curl_handle);
+            $httpCode = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
+            curl_close($curl_handle);
+
+            if ($httpCode !== 404)
+                file_put_contents($imagePath, file_get_contents($imageToDownload));
+        }
 
         $newSpell = new Spells();
         $newSpell->id = Arr::get($spell, "official");
@@ -84,6 +99,7 @@ class ImportSpells extends Command
         $newSpell->name = Arr::get($spell, "name");
         $newSpell->summary = Arr::get($spell, "description");
         $newSpell->image = $image;
+        $newSpell->spell_group = Arr::get($spell, "id");
         $newSpell->level1 = Arr::get($spell, "level1");
         $newSpell->level2 = Arr::get($spell, "level2");
         $newSpell->level3 = Arr::get($spell, "level3");

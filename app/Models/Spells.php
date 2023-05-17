@@ -18,6 +18,7 @@ class Spells extends Model
         'name',
         'summary',
         'image',
+        'spell_group',
         'level1',
         'level2',
         'level3',

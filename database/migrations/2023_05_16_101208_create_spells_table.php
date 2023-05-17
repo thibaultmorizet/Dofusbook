@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string("name");
             $table->string("summary", 5000)->nullable();
             $table->string("image");
+            $table->integer("spell_group");
 
             $table->integer("level1")->nullable();
             $table->integer("level2")->nullable();

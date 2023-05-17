@@ -27,7 +27,7 @@
         <div class="bg-gray-800 rounded-lg font-semibold flex py-3 mx-5 flex items-center justify-center">
             <span>Bonus </span>
             @for($i = 2; $i <= $set->number_of_items; $i++)
-                <button class="bg-gray-700 rounded-lg py-1 px-3 mx-2 {{$i === $effectsToView["set_number_items"] ? "bg-indigo-700" : ""}}"
+                <button class="rounded-lg py-1 px-3 mx-2 {{$i === $effectsToView["set_number_items"] ? "bg-indigo-700" : "bg-gray-700"}}"
                         wire:click="updateEffectsToView({{$i}})">
                     {{$i}}
                 </button>

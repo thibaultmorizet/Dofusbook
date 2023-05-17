@@ -10,9 +10,9 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                            <img src="/img/logo.png"
-                                 class="nav-character-img"
-                                 alt="logo">
+                        <img src="/img/logo.png"
+                             class="nav-character-img"
+                             alt="logo">
                     </a>
                 </div>
 
@@ -46,6 +46,14 @@
                         {{ __('Panoplies') }}
                     </x-nav-link>
                 </div>
+                @if(!is_null($stuff))
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('spells-details')" :active="request()->routeIs('spells')">
+                            {{ __('Sorts') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
