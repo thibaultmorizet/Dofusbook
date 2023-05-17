@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('daily:import-items')->dailyAt("01:00");
+        $schedule->command('daily:import-spells')->dailyAt("01:00");
     }
 
     /**

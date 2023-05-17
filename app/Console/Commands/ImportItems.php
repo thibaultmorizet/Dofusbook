@@ -313,7 +313,7 @@ class ImportItems extends Command
                 foreach ($itemsToDelete as $item) {
                     $this->deleteItem($item->id);
                 }
-                $this->info('All items to deleted of ' . $anEquipmentType . ' type are deleted');
+                $this->info('All items to delete of ' . $anEquipmentType . ' type are deleted');
             }
         }
         $this->info('All items are imported');

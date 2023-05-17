@@ -1,7 +1,7 @@
 <?php return array (
   'app' => 
   array (
-    'name' => 'Laravel',
+    'name' => 'Dofusbook',
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost',

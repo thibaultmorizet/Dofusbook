@@ -13,11 +13,17 @@ class Classes extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'class_id',
         'slug'
     ];
+
     public function stuffs(): HasMany
     {
         return $this->HasMany(Stuffs::class, "class_id");
+    }
+
+    public function spells(): HasMany
+    {
+        return $this->HasMany(Spells::class, "class_id");
     }
 }
