@@ -41,6 +41,10 @@ class SpellsDetails extends Component
             ->toArray();
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     private function getStuff()
     {
         if (($stuff = session()->get("stuff")) !== null) {
@@ -69,6 +73,10 @@ class SpellsDetails extends Component
 
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function render(): View
     {
         $this->stuff = $this->getStuff();

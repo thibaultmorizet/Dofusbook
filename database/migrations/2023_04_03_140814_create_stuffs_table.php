@@ -23,13 +23,13 @@ return new class extends Migration {
             $table->boolean('is_exo_pm')->default(false);
             $table->boolean('is_exo_po')->default(false);
 
-
             $table->integer("vitality_boost")->default(0);
             $table->integer("intel_boost")->default(0);
             $table->integer("agility_boost")->default(0);
             $table->integer("strength_boost")->default(0);
             $table->integer("luck_boost")->default(0);
             $table->integer("wisdom_boost")->default(0);
+            $table->integer("boost_available")->default(0);
 
             $table->integer("vitality_parchment")->default(0);
             $table->integer("intel_parchment")->default(0);
@@ -57,6 +57,78 @@ return new class extends Migration {
             $table->integer("dofus_5_id")->nullable();
             $table->integer("dofus_6_id")->nullable();
 
+            $table->integer("total_vitality")->default(55);
+            $table->integer("total_prospection")->default(100);
+            $table->integer("total_pa")->default(6);
+            $table->integer("total_pm")->default(3);
+            $table->integer("total_po")->default(0);
+            $table->integer("total_initiative")->default(0);
+
+            $table->integer("subtotal_vitality")->default(0);
+            $table->integer("subtotal_intel")->default(0);
+            $table->integer("subtotal_agility")->default(0);
+            $table->integer("subtotal_strength")->default(0);
+            $table->integer("subtotal_luck")->default(0);
+            $table->integer("subtotal_wisdom")->default(0);
+
+            $table->integer("leak")->default(0);
+            $table->integer("avoid_pa")->default(0);
+            $table->integer("avoid_pm")->default(0);
+            $table->integer("pods")->default(1000);
+
+            $table->integer("tackle")->default(0);
+            $table->integer("pa_recession")->default(0);
+            $table->integer("pm_recession")->default(0);
+            $table->integer("stuff_level")->default(0);
+
+            $table->integer("stuff_vitality")->default(0);
+            $table->integer("stuff_strength")->default(0);
+            $table->integer("stuff_intel")->default(0);
+            $table->integer("stuff_luck")->default(0);
+            $table->integer("stuff_agility")->default(0);
+            $table->integer("stuff_wisdom")->default(0);
+            $table->integer("stuff_initiative")->default(0);
+            $table->integer("stuff_leak")->default(0);
+            $table->integer("stuff_avoid_pm")->default(0);
+            $table->integer("stuff_avoid_pa")->default(0);
+            $table->integer("stuff_pa_recession")->default(0);
+            $table->integer("stuff_pm_recession")->default(0);
+            $table->integer("stuff_pods")->default(0);
+            $table->integer("stuff_prospection")->default(0);
+            $table->integer("stuff_tackle")->default(0);
+            $table->integer("stuff_invocation")->default(1);
+            $table->integer("stuff_health")->default(0);
+            $table->integer("stuff_power")->default(0);
+            $table->integer("stuff_critic")->default(0);
+            $table->integer("stuff_pa")->default(0);
+            $table->integer("stuff_pm")->default(0);
+            $table->integer("stuff_po")->default(0);
+            $table->integer("stuff_neutral_res")->default(0);
+            $table->integer("stuff_water_res")->default(0);
+            $table->integer("stuff_earth_res")->default(0);
+            $table->integer("stuff_fire_res")->default(0);
+            $table->integer("stuff_air_res")->default(0);
+            $table->integer("stuff_percent_neutral_res")->default(0);
+            $table->integer("stuff_percent_water_res")->default(0);
+            $table->integer("stuff_percent_earth_res")->default(0);
+            $table->integer("stuff_percent_fire_res")->default(0);
+            $table->integer("stuff_percent_air_res")->default(0);
+            $table->integer("stuff_distance_res")->default(0);
+            $table->integer("stuff_critique_res")->default(0);
+            $table->integer("stuff_push_res")->default(0);
+            $table->integer("stuff_melee_res")->default(0);
+            $table->integer("stuff_weapon_res")->default(0);
+            $table->integer("stuff_do_neutral")->default(0);
+            $table->integer("stuff_do_earth")->default(0);
+            $table->integer("stuff_do_fire")->default(0);
+            $table->integer("stuff_do_air")->default(0);
+            $table->integer("stuff_do_water")->default(0);
+            $table->integer("stuff_do_critique")->default(0);
+            $table->integer("stuff_do_push")->default(0);
+            $table->integer("stuff_do_melee")->default(0);
+            $table->integer("stuff_do_distance")->default(0);
+            $table->integer("stuff_do_weapon")->default(0);
+            $table->integer("stuff_do_spell")->default(0);
 
             $table->timestamps();
         });

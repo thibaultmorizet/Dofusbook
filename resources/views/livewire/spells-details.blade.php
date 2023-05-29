@@ -59,7 +59,7 @@
         </div>
 
         @foreach($spellsToView as $spell)
-            <livewire:spell.unique-spell :spell="$spell" :wire:key="$spell->id"/>
+            <livewire:spell.unique-spell :spell="$spell" :stuff="$stuff" :dommageEffectType="$dommageEffectType" :wire:key="$spell->id"/>
         @endforeach
     </div>
 </div>
