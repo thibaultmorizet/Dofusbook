@@ -41,25 +41,27 @@
                 @endforeach
             </div>
         @endif
-        <div class="equipment-separator"></div>
-        <div class="flex items-center justify-center pb-4">
-            @if($returnReplacementModal)
-                <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
-                        wire:click="$emit('openModal', 'open-replacement-modal',{{ json_encode([
-    "itemType" => $item->type->name,
-    "items" => $itemsToReplace,
-    "newItemId" => $item->id,
-    ]) }})"
-                >
-                    +
-                </button>
-            @else
-                <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
-                        wire:click="addItemToStuff({{$item->id}})">
-                    +
-                </button>
-            @endif
-        </div>
+        @if(isset($stuff))
+            <div class="equipment-separator"></div>
+            <div class="flex items-center justify-center pb-4">
+                @if($returnReplacementModal)
+                    <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
+                            wire:click="$emit('openModal', 'open-replacement-modal',{{ json_encode([
+                                    "itemType" => $item->type->name,
+                                    "items" => $itemsToReplace,
+                                    "newItemId" => $item->id,
+                                    ]) }})"
+                    >
+                        +
+                    </button>
+                @else
+                    <button class="rounded-lg text-white bg-indigo-500 px-3 py-1 mx-2"
+                            wire:click="addItemToStuff({{$item->id}})">
+                        +
+                    </button>
+                @endif
+            </div>
+        @endif
 
     </div>
 </div>

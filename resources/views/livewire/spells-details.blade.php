@@ -30,7 +30,7 @@
     </div>
 
 
-    <div class="bg-gray-800 rounded-lg py-5 px-7 grid grid-cols-3 gap-2">
+    <div class="bg-gray-800 rounded-lg py-5 px-7 grid grid-cols-3 gap-4 gap-y-6">
         <div class="bg-gray-700 rounded-lg">
             <div class="bg-gray-900 font-semibold text-xl text-white p-3 rounded-t-lg">
                 OPTIONS DE SORTS
@@ -59,7 +59,7 @@
         </div>
 
         @foreach($spellsToView as $spell)
-            <livewire:spell.unique-spell :spell="$spell" :stuff="$stuff" :dommageEffectType="$dommageEffectType" :wire:key="$spell->id"/>
+            <livewire:spell.unique-spell key="{{ now() }}" :spell="$spell" :stuff="$stuff" :meleeOrDistance="$meleeOrDistance" :dommageEffectType="$dommageEffectType" :wire:key="$spell->id"/>
         @endforeach
     </div>
 </div>

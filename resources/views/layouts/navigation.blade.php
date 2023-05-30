@@ -49,7 +49,7 @@
                 @if(!is_null($stuff))
 
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('spells-details')" :active="request()->routeIs('spells')">
+                        <x-nav-link :href="route('spells-details')" :active="request()->routeIs('spells-details')">
                             {{ __('Sorts') }}
                         </x-nav-link>
                     </div>

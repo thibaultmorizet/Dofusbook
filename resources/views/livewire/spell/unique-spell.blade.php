@@ -45,8 +45,8 @@
             </div>
             <div class="ml-2">
                 <label class="text-white font-medium flex items-center mx-2"> <input type="radio"
-                                                                                     wire:model="spellInfo.cac_or_dist"
-                                                                                     value="cac">
+                                                                                     wire:click="updateMeleeOrDistance('melee')"
+                                                                                     {{$meleeOrDistance==="melee"?"checked":""}}>
                     <span class="mx-2 flex-1">Mêlée</span>
                     <img
                             src="/img/icons/do_melee.png"
@@ -55,8 +55,9 @@
                     >
                 </label>
                 <label class="text-white font-medium flex items-center mx-2"> <input type="radio"
-                                                                                     wire:model="spellInfo.cac_or_dist"
-                                                                                     value="dist">
+                                                                                     wire:click="updateMeleeOrDistance('distance')"
+                                                                                     {{$meleeOrDistance==="distance"?"checked":""}}>
+
                     <span class="mx-2 flex-1">Distance</span>
                     <img
                             src="/img/icons/do_distance.png"
@@ -79,13 +80,29 @@
                 <div class="flex items-center">
 
                     @endif
-                    <div class="flex flex-1 ml-2">
+                    <div class="flex flex-1 ml-2 items-center">
                         <img
                                 src="/img/icons/{{Arr::get($effect,'effect')}}.png"
                                 alt="{{Arr::get($effect,'effect')}} image"
-                                width="20"
+                                class="img-20-by-20"
                         >
-                        <span class="text-white font-semibold">{{Arr::get($effect,'min')}} - {{Arr::get($effect,'max')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}</span>
+                        @if($dommageEffectType==="baseEffects")
+                            <span class="text-white font-semibold">{{Arr::get($effect,'min')}} - {{Arr::get($effect,'max')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}
+                                <span> {{(Arr::get($effect,'duration')>0)?("(".Arr::get($effect,'duration')." tour".(Arr::get($effect,'duration')>1?"s)":")")):""}} </span>
+                            </span>
+                        @endif
+                        @if($dommageEffectType==="calculatedEffects")
+                            @if($meleeOrDistance==="melee")
+                                <span class="text-white font-semibold">{{Arr::get($effect,'calculatedMeleeMin')}} - {{Arr::get($effect,'calculatedMeleeMax')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}
+                                <span> {{(Arr::get($effect,'duration')>0)?("(".Arr::get($effect,'duration')." tour".(Arr::get($effect,'duration')>1?"s)":")")):""}} </span>
+                            </span>
+                            @endif
+                            @if($meleeOrDistance==="distance")
+                                <span class="text-white font-semibold">{{Arr::get($effect,'calculatedDistanceMin')}} - {{Arr::get($effect,'calculatedDistanceMax')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}
+                                <span> {{(Arr::get($effect,'duration')>0)?("(".Arr::get($effect,'duration')." tour".(Arr::get($effect,'duration')>1?"s)":")")):""}} </span>
+                            </span>
+                            @endif
+                        @endif
                     </div>
 
                     @endif
@@ -96,10 +113,30 @@
             @endforeach
         </div>
         <div class="separator"></div>
-        <div class="text-white">
+        <div class="text-white flex flex-wrap">
+
             @foreach(Arr::get(Arr::get($spellInfo,'characteristics') ?? [],Arr::get($spellInfo,'spell_level'))??[] as $title=>$characteristic)
                 @if(!is_null($characteristic))
-                    {{$title !== 'PA' ? '-' : ''}}  {{$characteristic !== 'oui' ? $characteristic : ''}} {{$title}}
+                    @if($title!=="zone_img")
+                        <span class="mx-1">
+                            {{($title !== 'PA' && !str_contains($title,'case')) ? '•' : ''}}
+                        </span>
+                        <span>
+                            {{$characteristic !== 'oui'&&$characteristic !== 'non' ? $characteristic : ''}} {{$title}}
+                        </span>
+                    @else
+                        <span class="mx-1">
+                            •
+                        </span>
+
+                        <span class="flex items-center">
+                            <img
+                                    src="/img/icons/{{$characteristic}}.png"
+                                    alt="{{$characteristic}} image"
+                                    class="img-15-by-30"
+                            >
+                        </span>
+                    @endif
                 @endif
             @endforeach
         </div>

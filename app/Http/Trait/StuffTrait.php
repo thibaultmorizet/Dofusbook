@@ -4,6 +4,7 @@ namespace App\Http\Trait;
 
 use App\Models\Items;
 use App\Models\Stuffs;
+use Illuminate\Support\Arr;
 
 trait StuffTrait
 {
@@ -31,27 +32,36 @@ trait StuffTrait
     public array $setLinks = [
     ];
 
+    public function getStuffDetail(): void
+    {
+        foreach (array_keys($this->stuffDetail) as $aStuffItem) {
+            $item_id = $this->stuff->{$aStuffItem . '_id'};
+            if (!is_null($item_id)) {
+                $this->stuffDetail[$aStuffItem] = Items::query()->with(['effects', 'set', 'set.effects'])->where("id", $item_id)->get()->first()->toArray();
+            } else {
+                $this->stuffDetail[$aStuffItem] = null;
+            }
+        }
+    }
+
+    private function getSetLinks(): void
+    {
+        $this->setLinks = [];
+        foreach ($this->stuffDetail as $item) {
+            if (!is_null(Arr::get($item, "set"))) {
+                $this->setLinks[Arr::get(Arr::get($item, "set") ?? [], 'id')][] = $item;
+            }
+        }
+        foreach ($this->setLinks as $index => $setLink) {
+            if (count($setLink) <= 1) {
+                unset($this->setLinks[$index]);
+            }
+        }
+    }
+
     public function getStuff(int $stuff_id)
     {
         return $this->stuff = Stuffs::query()->where('id', '=', $stuff_id)->get()->first();
-    }
-
-
-    public function goToSet(string $setName)
-    {
-        return redirect()->route('sets-encyclopedia', ['setName' => $setName]);
-    }
-
-    public function goToSpellsPage()
-    {
-        return redirect()->route('spells');
-    }
-
-    public function openItemsEncyclopediaWithFilters(string $equipementType, int $maxLvl)
-    {
-        return redirect()->route('items-encyclopedia', [
-            'equipementType' => $equipementType,
-            'maxLvl' => $maxLvl]);
     }
 
     public function updateLevel(int $level): void
@@ -361,6 +371,16 @@ trait StuffTrait
         session()->put('stuff', $this->stuff);
     }
 
+    public function updateCaracteristics()
+    {
+        $this->setSubtotalVitality();
+        $this->setSubtotalWisdom();
+        $this->setSubtotalStrength();
+        $this->setSubtotalIntel();
+        $this->setSubtotalLuck();
+        $this->setSubtotalAgility();
+        $this->saveStuff();
+    }
 
     public function updateStuffCharacteristic(string $stuffCharacteristicName, int $stuffCharacteristicsValue): void
     {
@@ -378,25 +398,25 @@ trait StuffTrait
             "health",
             "invocation",
             "neutral_res",
-            "water_res",
-            "earth_res",
-            "fire_res",
-            "air_res",
+            "luck_res",
+            "strength_res",
+            "intel_res",
+            "agility_res",
             "percent_neutral_res",
-            "percent_water_res",
-            "percent_earth_res",
-            "percent_fire_res",
-            "percent_air_res",
+            "percent_luck_res",
+            "percent_strength_res",
+            "percent_intel_res",
+            "percent_agility_res",
             "distance_res",
             "critique_res",
             "push_res",
             "melee_res",
             "weapon_res",
             "do_neutral",
-            "do_earth",
-            "do_fire",
-            "do_air",
-            "do_water",
+            "do_strength",
+            "do_intel",
+            "do_agility",
+            "do_luck",
             "do_critique",
             "do_push",
             "do_melee",
@@ -417,44 +437,47 @@ trait StuffTrait
     {
         $this->stuffDetail[$columnToDelete] = null;
         $this->stuff->{$columnToDelete . '_id'} = null;
-        $this->saveStuff();
         $this->resetItemsCharacteristics();
     }
 
     private function resetItemsCharacteristics(): void
     {
+        $this->getStuffDetail();
+        $this->getSetLinks();
+
         $this->setStuffCharacteristicsToZero();
         foreach ($this->stuffDetail as $item) {
             if (is_null($item) === false) {
-                foreach ($item->effects as $effect) {
+                foreach (Arr::get($item, "effects") as $effect) {
 
-                    $value = $effect->int_maximum;
-                    if ($effect->ignore_int_max) {
-                        $value = $effect->int_minimum;
+                    $value = Arr::get($effect, "int_maximum");
+                    if (Arr::get($effect, "ignore_int_max")) {
+                        $value = Arr::get($effect, "int_minimum");
                     }
-                    if (is_null($effect->translated_name) === false) {
-                        $this->updateStuffCharacteristic($effect->translated_name, $value);
+                    if (is_null(Arr::get($effect, "translated_name")) === false) {
+                        $this->updateStuffCharacteristic(Arr::get($effect, "translated_name"), $value);
                     }
                 }
-                if ($this->stuff->stuff_level < $item->level) {
-                    $this->stuff->stuff_level = $item->level;
+                if ($this->stuff->stuff_level < Arr::get($item, "level")) {
+                    $this->stuff->stuff_level = Arr::get($item, "level");
                 }
             }
         }
         foreach ($this->setLinks as $setLink) {
-            foreach ($setLink[0]->set->effects as $effect) {
-                if ($effect->set_number_items == count($setLink)) {
-                    $value = $effect->int_maximum;
-                    if ($effect->ignore_int_max) {
-                        $value = $effect->int_minimum;
+            foreach (Arr::get(Arr::get(Arr::get($setLink, 0), "set"), "effects") as $effect) {
+                if (Arr::get($effect, "set_number_items") == count($setLink)) {
+                    $value = Arr::get($effect, "int_maximum");
+                    if (Arr::get($effect, "ignore_int_max")) {
+                        $value = Arr::get($effect, "int_minimum");
                     }
-                    if (is_null($effect->translated_name) === false) {
-                        $this->updateStuffCharacteristic($effect->translated_name, $value);
+                    if (is_null(Arr::get($effect, "translated_name")) === false) {
+                        $this->updateStuffCharacteristic(Arr::get($effect, "translated_name"), $value);
                     }
                 }
             }
         }
-        $this->saveStuff();
+        $this->updateCaracteristics();
+
     }
 
     private function setStuffCharacteristicsToZero(): void
@@ -502,25 +525,25 @@ trait StuffTrait
         $this->stuff->stuff_pm = 0;
         $this->stuff->stuff_po = 0;
         $this->stuff->stuff_neutral_res = 0;
-        $this->stuff->stuff_water_res = 0;
-        $this->stuff->stuff_earth_res = 0;
-        $this->stuff->stuff_fire_res = 0;
-        $this->stuff->stuff_air_res = 0;
+        $this->stuff->stuff_luck_res = 0;
+        $this->stuff->stuff_strength_res = 0;
+        $this->stuff->stuff_intel_res = 0;
+        $this->stuff->stuff_agility_res = 0;
         $this->stuff->stuff_percent_neutral_res = 0;
-        $this->stuff->stuff_percent_water_res = 0;
-        $this->stuff->stuff_percent_earth_res = 0;
-        $this->stuff->stuff_percent_fire_res = 0;
-        $this->stuff->stuff_percent_air_res = 0;
+        $this->stuff->stuff_percent_luck_res = 0;
+        $this->stuff->stuff_percent_strength_res = 0;
+        $this->stuff->stuff_percent_intel_res = 0;
+        $this->stuff->stuff_percent_agility_res = 0;
         $this->stuff->stuff_distance_res = 0;
         $this->stuff->stuff_critique_res = 0;
         $this->stuff->stuff_push_res = 0;
         $this->stuff->stuff_melee_res = 0;
         $this->stuff->stuff_weapon_res = 0;
         $this->stuff->stuff_do_neutral = 0;
-        $this->stuff->stuff_do_earth = 0;
-        $this->stuff->stuff_do_fire = 0;
-        $this->stuff->stuff_do_air = 0;
-        $this->stuff->stuff_do_water = 0;
+        $this->stuff->stuff_do_strength = 0;
+        $this->stuff->stuff_do_intel = 0;
+        $this->stuff->stuff_do_agility = 0;
+        $this->stuff->stuff_do_luck = 0;
         $this->stuff->stuff_do_critique = 0;
         $this->stuff->stuff_do_push = 0;
         $this->stuff->stuff_do_melee = 0;

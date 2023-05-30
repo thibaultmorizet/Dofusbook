@@ -18,18 +18,20 @@ class SpellsDetails extends Component
     public Stuffs $stuff;
     public ?int $selectedSpellsGroup = null;
     public string $dommageEffectType = "calculatedEffects";
+    public string $meleeOrDistance = "melee";
     public Collection $allSpells;
     public Collection $spellsToView;
-
+    protected $listeners = [
+        'updateMeleeOrDistance'
+    ];
 
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function mount()
-    {
+    {;
         $this->stuff = $this->getStuff();
-//        $allSpells = ;
         $this->allSpells = Spells::query()
             ->where("class_id", "=", $this->stuff->class_id)
             ->orWhereNull("class_id")
@@ -39,7 +41,7 @@ class SpellsDetails extends Component
         $this->spellsGroups = $this->allSpells
             ->groupBy("spell_group")
             ->toArray();
-    }
+       }
 
     /**
      * @throws ContainerExceptionInterface
@@ -72,6 +74,13 @@ class SpellsDetails extends Component
         }
 
     }
+
+
+    public function updateMeleeOrDistance($meleeOrDistance)
+    {
+        $this->meleeOrDistance = $meleeOrDistance;
+    }
+
 
     /**
      * @throws ContainerExceptionInterface

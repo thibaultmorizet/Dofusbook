@@ -467,7 +467,7 @@
                             <div id="popover-shield" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"shield")))
-                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"shield")->name}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"shield"),"name")}}</p>
                                     <p>Bouclier - Niveau
                                         {{Arr::get(Arr::get($stuffDetail,"shield")??[],"level")}}</p>
                                     @if(is_null(Arr::get(Arr::get($stuffDetail,"shield")??[],"set"))===false)
@@ -1549,34 +1549,34 @@
                     <span> Do Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_do_earth}} </span> <img
-                            src="/img/icons/do_earth.png"
-                            alt="do_earth image"
+                    <span class="w-10 text-right">{{$stuff->stuff_do_strength}} </span> <img
+                            src="/img/icons/do_strength.png"
+                            alt="do_strength image"
                             class="ml-2"
                             width="28px">
                     <span> Do Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_do_fire}} </span> <img
-                            src="/img/icons/do_fire.png"
-                            alt="do_fire image"
+                    <span class="w-10 text-right">{{$stuff->stuff_do_intel}} </span> <img
+                            src="/img/icons/do_intel.png"
+                            alt="do_intel image"
                             class="ml-2"
                             width="28px">
                     <span> Do Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_do_water}} </span> <img
-                            src="/img/icons/do_water.png"
-                            alt="do_water image"
+                    <span class="w-10 text-right">{{$stuff->stuff_do_luck}} </span> <img
+                            src="/img/icons/do_luck.png"
+                            alt="do_luck image"
                             class="ml-2"
                             width="28px">
                     <span> Do Eau</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_do_air}} </span> <img
-                            src="/img/icons/do_air.png"
-                            alt="do_air image"
+                    <span class="w-10 text-right">{{$stuff->stuff_do_agility}} </span> <img
+                            src="/img/icons/do_agility.png"
+                            alt="do_agility image"
                             class="ml-2"
                             width="28px">
                     <span> Do Air</span>
@@ -1648,34 +1648,34 @@
                     <span> Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_earth_res}} </span> <img
-                            src="/img/icons/earth_res.png"
-                            alt="earth_res image"
+                    <span class="w-10 text-right">{{$stuff->stuff_strength_res}} </span> <img
+                            src="/img/icons/strength_res.png"
+                            alt="strength_res image"
                             class="ml-2"
                             width="28px">
                     <span> Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_fire_res}} </span> <img
-                            src="/img/icons/fire_res.png"
-                            alt="fire_res image"
+                    <span class="w-10 text-right">{{$stuff->stuff_intel_res}} </span> <img
+                            src="/img/icons/intel_res.png"
+                            alt="intel_res image"
                             class="ml-2"
                             width="28px">
                     <span> Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_water_res}} </span> <img
-                            src="/img/icons/water_res.png"
-                            alt="water_res image"
+                    <span class="w-10 text-right">{{$stuff->stuff_luck_res}} </span> <img
+                            src="/img/icons/luck_res.png"
+                            alt="luck_res image"
                             class="ml-2"
                             width="28px">
                     <span> Ré Eau</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_air_res}} </span> <img
-                            src="/img/icons/air_res.png"
-                            alt="air_res image"
+                    <span class="w-10 text-right">{{$stuff->stuff_agility_res}} </span> <img
+                            src="/img/icons/agility_res.png"
+                            alt="agility_res image"
                             class="ml-2"
                             width="28px">
                     <span> Ré Air</span>
@@ -1721,37 +1721,37 @@
                     <span> % Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_earth_res>=-50?($stuff->stuff_percent_earth_res<=50?$stuff->stuff_percent_earth_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff->stuff_percent_strength_res>=-50?($stuff->stuff_percent_strength_res<=50?$stuff->stuff_percent_strength_res:50):-50}} </span>
                     <img
-                            src="/img/icons/earth_res.png"
-                            alt="earth_res image"
+                            src="/img/icons/strength_res.png"
+                            alt="strength_res image"
                             class="ml-2"
                             width="28px">
                     <span> % Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_fire_res>=-50?($stuff->stuff_percent_fire_res<=50?$stuff->stuff_percent_fire_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff->stuff_percent_intel_res>=-50?($stuff->stuff_percent_intel_res<=50?$stuff->stuff_percent_intel_res:50):-50}} </span>
                     <img
-                            src="/img/icons/fire_res.png"
-                            alt="fire_res image"
+                            src="/img/icons/intel_res.png"
+                            alt="intel_res image"
                             class="ml-2"
                             width="28px">
                     <span> % Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_water_res>=-50?($stuff->stuff_percent_water_res<=50?$stuff->stuff_percent_water_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{$stuff->stuff_percent_luck_res>=-50?($stuff->stuff_percent_luck_res<=50?$stuff->stuff_percent_luck_res:50):-50}} </span>
                     <img
-                            src="/img/icons/water_res.png"
-                            alt="water_res image"
+                            src="/img/icons/luck_res.png"
+                            alt="luck_res image"
                             class="ml-2"
                             width="28px">
                     <span> % Ré Eau</span>
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_air_res>=-50?($stuff->stuff_percent_air_res<=50?$stuff->stuff_percent_air_res:50):-50}} </span>
-                    <img src="/img/icons/air_res.png"
-                         alt="air_res image"
+                    <span class="w-10 text-right">{{$stuff->stuff_percent_agility_res>=-50?($stuff->stuff_percent_agility_res<=50?$stuff->stuff_percent_agility_res:50):-50}} </span>
+                    <img src="/img/icons/agility_res.png"
+                         alt="agility_res image"
                          class="ml-2"
                          width="28px">
                     <span> % Ré Air</span>
@@ -1820,20 +1820,20 @@
                             <div class="flex flex-auto flex-col pl-10 py-5">
                                 @php($setEffects=[])
                                 @foreach(Arr::get(Arr::get(Arr::get($set,0),"set"),"effects")??[] as $anEffects)
-                                    @if($anEffects->set_number_items===count($set))
+                                    @if(Arr::get($anEffects,"set_number_items")===count($set))
                                         @php($setEffects[]=$anEffects)
                                     @endif
                                 @endforeach
                                 @foreach($setEffects as $index=>$anEffects)
                                     <div class="flex mb-1">
                                         <img
-                                                src="{{$anEffects->image}}"
+                                                src="{{Arr::get($anEffects,"image")}}"
                                                 alt="effect image"
                                                 width="24"
                                                 height="24"
                                                 class="mr-2 h-fit self-center">
                                         <span
-                                                class="{{(str_starts_with($anEffects->formatted_name,'-')?'text-red-600':'')}}">{{$anEffects->formatted_name}}</span>
+                                                class="{{(str_starts_with(Arr::get($anEffects,"formatted_name"),'-')?'text-red-600':'')}}">{{Arr::get($anEffects,"formatted_name")}}</span>
                                     </div>
                                     @if(ceil(count($setEffects)/2)==($index+1))
                             </div>

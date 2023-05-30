@@ -30,11 +30,13 @@
                         <span class="sr-only">Check icon</span>
                     </div>
                     <div class="ml-3 flex flex-1 justify-between items-center">
-                        <span class="font-semibold  text-white">L'équipement {{$lastItemAdded?->name}} a été ajouté au stuff "{{$stuff->title}}"</span>
+                        <span class="font-semibold  text-white">L'équipement {{$lastItemAdded?->name}} a été ajouté au stuff {{isset($stuff)?'"'.$stuff->title.'"':''}}</span>
                         <div class="flex items-center">
-                            <a wire:click="goToStuff({{$stuff->id}})"
-                               class="mr-3 py-1 px-2 flex text-center text-white rounded-lg hover:bg-indigo-400 bg-indigo-500 cursor-pointer">Aller
-                                à l'équipement</a>
+                            @if(isset($stuff))
+                                <a wire:click="goToStuff({{$stuff->id}})"
+                                   class="mr-3 py-1 px-2 flex text-center text-white rounded-lg hover:bg-indigo-400 bg-indigo-500 cursor-pointer">Aller
+                                    à l'équipement</a>
+                            @endif
                             <button type="button"
                                     class="rounded-lg p-1.5 h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
                                     data-dismiss-target="#toast-back-to-stuff" aria-label="Close">
@@ -57,6 +59,7 @@
                     @foreach($itemsToView as $item)
 
                         @component('livewire.item.unique-item',[
+                            "stuff"=>$stuff,
                             "item"=>$item,
                             "returnReplacementModal"=>$returnReplacementModal,
                             "itemsToReplace"=>$itemsToReplace,

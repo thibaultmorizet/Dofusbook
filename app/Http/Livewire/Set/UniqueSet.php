@@ -32,7 +32,7 @@ class UniqueSet extends Component
 
     public function goToItem(string $itemName, string $itemTypeName)
     {
-        return redirect()->route('encyclopedia', ['itemName' => $itemName, 'equipementType' => $itemTypeName]);
+        return redirect()->route('items-encyclopedia', ['itemName' => $itemName, 'equipementType' => $itemTypeName]);
 
     }
 

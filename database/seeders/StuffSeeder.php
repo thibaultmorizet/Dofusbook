@@ -20,7 +20,7 @@ class StuffSeeder extends Seeder
             "is_private" => 1,
             "character_level" => 200,
             "gender" => "female",
-            "title" => "stuff air",
+            "title" => "stuff agility",
             "is_exo_pa" => 1,
             "is_exo_pm" => 0,
             "is_exo_po" => 0,

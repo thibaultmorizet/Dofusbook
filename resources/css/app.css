@@ -77,3 +77,13 @@
     outline: none;
     box-shadow: none;
 }
+
+.img-20-by-20 {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.img-15-by-30 {
+    width: 30px !important;
+    height: 15px !important;
+}
