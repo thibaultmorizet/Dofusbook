@@ -93,12 +93,12 @@
                         @endif
                         @if($dommageEffectType==="calculatedEffects")
                             @if($meleeOrDistance==="melee")
-                                <span class="text-white font-semibold">{{Arr::get($effect,'calculatedMeleeMin')}} - {{Arr::get($effect,'calculatedMeleeMax')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}
+                                <span class="text-white font-semibold">{{Arr::get($effect,'min_melee')}} - {{Arr::get($effect,'max_melee')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}
                                 <span> {{(Arr::get($effect,'duration')>0)?("(".Arr::get($effect,'duration')." tour".(Arr::get($effect,'duration')>1?"s)":")")):""}} </span>
                             </span>
                             @endif
                             @if($meleeOrDistance==="distance")
-                                <span class="text-white font-semibold">{{Arr::get($effect,'calculatedDistanceMin')}} - {{Arr::get($effect,'calculatedDistanceMax')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}
+                                <span class="text-white font-semibold">{{Arr::get($effect,'min_distance')}} - {{Arr::get($effect,'max_distance')}}  {{Arr::get($effect,'cc')===1? 'CC':''}}
                                 <span> {{(Arr::get($effect,'duration')>0)?("(".Arr::get($effect,'duration')." tour".(Arr::get($effect,'duration')>1?"s)":")")):""}} </span>
                             </span>
                             @endif

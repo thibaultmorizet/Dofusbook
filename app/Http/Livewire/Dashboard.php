@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Items;
 use App\Models\Stuffs;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -29,6 +30,8 @@ class Dashboard extends Component
         'mount' => null,
         'weapon' => null
     ];
+    private array $itemLoaded = [
+    ];
 
     public function mount()
     {
@@ -44,7 +47,10 @@ class Dashboard extends Component
             foreach (array_keys($this->stuffDetail) as $aStuffItem) {
                 $item_id = $stuff->{$aStuffItem . '_id'};
                 if (!is_null($item_id)) {
-                    $stuff[$aStuffItem] = Items::query()->where("id", "=", $item_id)->first();
+                    if (is_null(Arr::get($this->itemLoaded, $item_id))) {
+                        $this->itemLoaded[$item_id] = Items::query()->where("id", "=", $item_id)->first();
+                    }
+                    $stuff[$aStuffItem] = $this->itemLoaded[$item_id];
                 }
             }
 

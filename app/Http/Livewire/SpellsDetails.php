@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Trait\SpellTrait;
 use App\Models\Spells;
 use App\Models\Stuffs;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,12 +26,14 @@ class SpellsDetails extends Component
         'updateMeleeOrDistance'
     ];
 
+    use SpellTrait;
+
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function mount()
-    {;
+    {
         $this->stuff = $this->getStuff();
         $this->allSpells = Spells::query()
             ->where("class_id", "=", $this->stuff->class_id)
@@ -41,7 +44,7 @@ class SpellsDetails extends Component
         $this->spellsGroups = $this->allSpells
             ->groupBy("spell_group")
             ->toArray();
-       }
+    }
 
     /**
      * @throws ContainerExceptionInterface

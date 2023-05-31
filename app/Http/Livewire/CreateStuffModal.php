@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Trait\SpellTrait;
+use App\Http\Trait\StuffTrait;
 use App\Models\Classes;
 use App\Models\Stuffs;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,7 +13,9 @@ use LivewireUI\Modal\ModalComponent;
 
 class CreateStuffModal extends ModalComponent
 {
-    public ?int $stuff_id = null;
+    use SpellTrait;
+
+    public int $stuff_id;
 
     public Collection $classes;
     public int $selectedClass = 1;
@@ -22,6 +26,17 @@ class CreateStuffModal extends ModalComponent
     public bool $is_updating_stuff = false;
 
     public Stuffs $stuff;
+
+    public function mount()
+    {
+        $this->stuff = Stuffs::query()->where("id", "=", $this->stuff_id)->get()->first();
+        $this->selectedClass = $this->stuff->class_id;
+        $this->character_level = $this->stuff->character_level;
+        $this->stuff_title = $this->stuff->title;
+        $this->gender = $this->stuff->gender;
+        $this->is_private_stuff = $this->stuff->is_private;
+    }
+
 
     public function updateLevel(int $level)
     {
@@ -62,6 +77,8 @@ class CreateStuffModal extends ModalComponent
             $newStuff->gender = $this->gender;
             $newStuff->title = $this->stuff_title;
             if ($newStuff->save()) {
+                session()->put('stuff', $newStuff);
+                $this->loadEffectsBySpell($newStuff);
                 return Redirect::route('stuff.show', $newStuff->id);
             }
             return false;
@@ -74,6 +91,8 @@ class CreateStuffModal extends ModalComponent
             $this->stuff->is_private = $this->is_private_stuff;
             $this->stuff->class_id = $this->selectedClass === 0 ? 1 : $this->selectedClass;
             if ($this->stuff->save()) {
+                session()->put('stuff', $this->stuff);
+                $this->loadEffectsBySpell($this->stuff);
                 return Redirect::route('stuff.show', $this->stuff->id);
             }
         }

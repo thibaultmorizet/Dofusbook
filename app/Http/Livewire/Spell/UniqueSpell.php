@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Spell;
 
+use App\Models\CalculatedSpellEffects;
 use App\Models\Sets;
 use App\Models\Spells;
 use App\Models\Stuffs;
@@ -67,51 +68,14 @@ class UniqueSpell extends Component
             $this->spellInfo["dommage_groups"][$index]["order"] = $dommageGroup->order;
             $this->spellInfo["dommage_groups"][$index]["title"] = $dommageGroup->title === "" ? "Dégâts" : $dommageGroup->title;
 
-
             foreach ($dommageGroup->spellEffects as $effectIndex => $spellEffect) {
-
-                if (is_null(Arr::get($this->effectTranslation, $spellEffect->effect))) {
-                    dd($spell->name, $spellEffect->effect, $dommageGroup->spellEffects);
-                }
-
-                $effect = Arr::get($this->effectTranslation, $spellEffect->effect);
-                $cc = $spellEffect->cc;
-                $doCrit = 0;
-                if ($cc === 1) {
-                    $doCrit = $this->stuff->stuff_do_critique;
-                }
-                $min = $spellEffect->min;
-                $max = $spellEffect->max;
-                $subResMin = $min +
-                    ($min * (($this->stuff->{"subtotal_" . $effect} + $this->stuff->stuff_power) / 100)) + $doCrit +
-                    $this->stuff->{"stuff_do_" . $effect};
-                $subResMax = $max +
-                    ($max * (($this->stuff->{"subtotal_" . $effect} + $this->stuff->stuff_power) / 100)) + $doCrit +
-                    $this->stuff->{"stuff_do_" . $effect};
-
-                $meleeMin = floor(
-                    $subResMin + ((($this->stuff->stuff_do_melee) * $subResMin) / 100)
-                );
-                $meleeMax = floor(
-                    $subResMax + (($this->stuff->stuff_do_melee * $subResMax) / 100)
-                );
-                $distanceMin = floor(
-                    $subResMin + ((($this->stuff->stuff_do_distance) * $subResMin) / 100)
-                );
-                $distanceMax = floor(
-                    $subResMax + (($this->stuff->stuff_do_distance * $subResMax) / 100)
-                );
-
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["level"] = $spellEffect->level;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["effect"] = $effect;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["cc"] = $cc;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["min"] = $min;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["max"] = $max;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["duration"] = $spellEffect->duration;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["calculatedMeleeMin"] = $meleeMin;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["calculatedMeleeMax"] = $meleeMax;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["calculatedDistanceMin"] = $distanceMin;
-                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex]["calculatedDistanceMax"] = $distanceMax;
+                $calculatedSpellEffect =
+                    CalculatedSpellEffects::query()
+                        ->where("stuff_id", "=", $this->stuff->id)
+                        ->where("spell_effect_id", "=", $spellEffect->id)
+                        ->first()
+                        ->toArray();
+                $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex] = $calculatedSpellEffect;
             }
         }
 
@@ -140,8 +104,6 @@ class UniqueSpell extends Component
 
 
         }
-
-
     }
 
     public function updateMeleeOrDistance(string $meleeOrDistance)

@@ -8,6 +8,8 @@ use Illuminate\Support\Arr;
 
 trait StuffTrait
 {
+    use SpellTrait;
+
     public Stuffs $stuff;
 
     public array $stuffDetail = [
@@ -369,6 +371,7 @@ trait StuffTrait
     {
         $this->stuff->save();
         session()->put('stuff', $this->stuff);
+        $this->loadEffectsBySpell($this->stuff);
     }
 
     public function updateCaracteristics()

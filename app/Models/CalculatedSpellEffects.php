@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SpellEffects extends Model
+class CalculatedSpellEffects extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -19,17 +19,16 @@ class SpellEffects extends Model
         'cc',
         'min',
         'max',
+        'min_melee',
+        'max_melee',
+        'min_distance',
+        'max_distance',
         'duration',
-        'dommage_group_id'
+        'spell_effect_id',
+        'stuff_id'
     ];
-
-    public function dommageGroup(): BelongsTo
+    public function spellEffect(): BelongsTo
     {
-        return $this->belongsTo(DommageGroups::class, "dommage_group_id", "id");
-    }
-
-    public function calculatedSpellEffects(): HasMany
-    {
-        return $this->HasMany(CalculatedSpellEffects::class, "spell_effect_id");
+        return $this->belongsTo(SpellEffects::class, "spell_effect_id", "id");
     }
 }

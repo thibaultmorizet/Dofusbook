@@ -28,7 +28,7 @@
             </button>
             <button class="rounded-lg text-white bg-[#675d51] p-1 mx-2 px-2"
                     wire:click="$emit('openModal', 'create-stuff-modal',{{ json_encode([
-                        "stuff" => $stuff,
+                        "stuff_id" => $stuff->id,
                         "is_updating_stuff" => true
                         ]) }})">
                 Modifier

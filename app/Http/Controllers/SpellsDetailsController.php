@@ -11,6 +11,9 @@ class SpellsDetailsController extends Controller
      */
     public function show(): View
     {
+        if (is_null(session()->get('stuff'))) {
+            return view('dashboard');
+        }
         return view('spells-details');
     }
 }

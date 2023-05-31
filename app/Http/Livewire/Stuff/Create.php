@@ -19,7 +19,6 @@ class Create extends Component
         $this->stuff = $stuff;
     }
 
-
     public function render(): View
     {
         $this->getStuffDetail();
