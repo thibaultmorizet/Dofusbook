@@ -47,6 +47,11 @@ class Items extends Model
         return $this->HasMany(Effects::class, "item_id", "id");
     }
 
+    public function ressources(): HasMany
+    {
+        return $this->HasMany(Ressources::class, "item_id", "id");
+    }
+
     public function conditions(): HasMany
     {
         return $this->HasMany(Conditions::class, "item_id", "id");

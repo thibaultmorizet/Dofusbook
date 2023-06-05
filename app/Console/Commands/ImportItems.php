@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\Conditions;
 use App\Models\Effects;
+use App\Models\ItemRessources;
 use App\Models\Items;
+use App\Models\Ressources;
 use App\Models\Sets;
 use App\Models\Types;
 use Illuminate\Console\Command;
@@ -401,6 +403,10 @@ class ImportItems extends Command
             if (is_null($effects) === false) {
                 $this->saveItemEffects($newItem->id, $effects);
             }
+            $ressources = Arr::get($item, "recipe");
+            if (is_null($ressources) === false) {
+                $this->saveItemRecipeRessources($newItem->id, $ressources);
+            }
             $conditions = Arr::get($item, "conditions");
             if (is_null($conditions) === false) {
                 $this->saveItemConditions($newItem->id, $conditions);
@@ -447,9 +453,9 @@ class ImportItems extends Command
 
     }
 
-    private function saveEffect(array $effectDatas, int $itemsNumber = null, int $itemId = null, int $setId = null): void
+    private function saveEffect(array $effectData, int $itemsNumber = null, int $itemId = null, int $setId = null): void
     {
-        $name = Arr::get(Arr::get($effectDatas, "type"), "name");
+        $name = Arr::get(Arr::get($effectData, "type"), "name");
 
         if (array_search($name, $this->characteristicsToIgnore) !== false) {
             return;
@@ -484,11 +490,11 @@ class ImportItems extends Command
         $effect->name = $name;
         $effect->image = ('/img/icons/' . $image_name . '.png');
         $effect->translated_name = $translate_name;
-        $effect->int_minimum = Arr::get($effectDatas, "int_minimum");
-        $effect->int_maximum = Arr::get($effectDatas, "int_maximum");
-        $effect->ignore_int_min = Arr::get($effectDatas, "ignore_int_min");
-        $effect->ignore_int_max = Arr::get($effectDatas, "ignore_int_max");
-        $effect->formatted_name = Arr::get($effectDatas, "formatted");
+        $effect->int_minimum = Arr::get($effectData, "int_minimum");
+        $effect->int_maximum = Arr::get($effectData, "int_maximum");
+        $effect->ignore_int_min = Arr::get($effectData, "ignore_int_min");
+        $effect->ignore_int_max = Arr::get($effectData, "ignore_int_max");
+        $effect->formatted_name = Arr::get($effectData, "formatted");
         $effect->item_id = $itemId;
         $effect->set_id = $setId;
         $effect->set_number_items = $itemsNumber;
@@ -522,10 +528,34 @@ class ImportItems extends Command
         $condition->id;
     }
 
+
     private function deleteItem(int $itemId)
     {
         $itemToDelete = Items::query()->find($itemId);
         $itemToDelete->delete();
+    }
+
+    private function saveItemRecipeRessources(int $itemId, array $ressources)
+    {
+        foreach ($ressources as $ressource) {
+            $this->saveStuffRessource($itemId, $ressource);
+        }
+    }
+
+    private function saveStuffRessource(int $itemId, array $ressourceData): void
+    {
+        $ressource = Ressources::query()->where("id", "=", Arr::get($ressourceData, "item_ankama_id"))->first();
+        $item = Items::query()->where("id", "=", Arr::get($ressourceData, "item_ankama_id"))->first();
+
+        $itemRessource = new ItemRessources();
+        $itemRessource->item_id = $itemId;
+        $itemRessource->ressource_id = $ressource->id ?? null;
+        $itemRessource->item_ressource_id = $item->id ?? null;
+        $itemRessource->quantity = Arr::get($ressourceData, "quantity");
+        if ($itemRessource->save() === false) {
+            return;
+        }
+        $itemRessource->id;
     }
 
     function pluck($array, $field): array
@@ -554,5 +584,6 @@ class ImportItems extends Command
         }
         return $ids;
     }
+
 
 }

@@ -25,7 +25,7 @@ class OpenReplacementModal extends ModalComponent
         $stuff->{$itemToReplace} = $this->newItemId;
         $stuff->save();
         session()->put('stuff', $stuff);
-        $this->loadEffectsBySpell($stuff);
+        $this->loadEffectsByStuff($stuff);
 
         return redirect()->route('stuff.show', $stuff->id);
     }

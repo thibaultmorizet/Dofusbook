@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Spell;
 
+use App\Http\Trait\SpellTrait;
 use App\Models\CalculatedSpellEffects;
 use App\Models\Sets;
 use App\Models\Spells;
@@ -70,10 +71,10 @@ class UniqueSpell extends Component
 
             foreach ($dommageGroup->spellEffects as $effectIndex => $spellEffect) {
                 $calculatedSpellEffect =
-                    CalculatedSpellEffects::query()
+                    (CalculatedSpellEffects::query()
                         ->where("stuff_id", "=", $this->stuff->id)
                         ->where("spell_effect_id", "=", $spellEffect->id)
-                        ->first()
+                        ->first() ?? new CalculatedSpellEffects())
                         ->toArray();
                 $this->spellInfo["dommage_groups"][$index]["effects"][$effectIndex] = $calculatedSpellEffect;
             }

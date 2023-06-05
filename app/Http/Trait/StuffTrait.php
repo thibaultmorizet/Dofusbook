@@ -39,7 +39,7 @@ trait StuffTrait
         foreach (array_keys($this->stuffDetail) as $aStuffItem) {
             $item_id = $this->stuff->{$aStuffItem . '_id'};
             if (!is_null($item_id)) {
-                $this->stuffDetail[$aStuffItem] = Items::query()->with(['effects', 'set', 'set.effects'])->where("id", $item_id)->get()->first()->toArray();
+                $this->stuffDetail[$aStuffItem] = Items::query()->with(['effects', 'set', 'set.effects'])->where("id", $item_id)->get()->first()?->toArray();
             } else {
                 $this->stuffDetail[$aStuffItem] = null;
             }
@@ -371,7 +371,7 @@ trait StuffTrait
     {
         $this->stuff->save();
         session()->put('stuff', $this->stuff);
-        $this->loadEffectsBySpell($this->stuff);
+        $this->loadEffectsByStuff($this->stuff);
     }
 
     public function updateCaracteristics()

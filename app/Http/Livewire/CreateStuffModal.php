@@ -78,7 +78,7 @@ class CreateStuffModal extends ModalComponent
             $newStuff->title = $this->stuff_title;
             if ($newStuff->save()) {
                 session()->put('stuff', $newStuff);
-                $this->loadEffectsBySpell($newStuff);
+                $this->loadEffectsByStuff($newStuff);
                 return Redirect::route('stuff.show', $newStuff->id);
             }
             return false;
@@ -92,7 +92,7 @@ class CreateStuffModal extends ModalComponent
             $this->stuff->class_id = $this->selectedClass === 0 ? 1 : $this->selectedClass;
             if ($this->stuff->save()) {
                 session()->put('stuff', $this->stuff);
-                $this->loadEffectsBySpell($this->stuff);
+                $this->loadEffectsByStuff($this->stuff);
                 return Redirect::route('stuff.show', $this->stuff->id);
             }
         }

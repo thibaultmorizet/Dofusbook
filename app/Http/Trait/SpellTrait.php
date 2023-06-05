@@ -38,7 +38,7 @@ trait SpellTrait
         "dv" => "vitality",
     ];
 
-    public function loadEffectsBySpell($stuff): void
+    public function loadEffectsByStuff($stuff): void
     {
         CalculatedSpellEffects::query()
             ->where("stuff_id", "=", $stuff->id)
