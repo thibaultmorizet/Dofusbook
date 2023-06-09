@@ -41,7 +41,7 @@
                 <div class="flex w-full">
                     <div class="flex-1">
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff->total_vitality>=0?$stuff->total_vitality:0}} </span>
+                            <span class="w-10 text-right">{{max($stuff->total_vitality,0)}} </span>
                             <img
                                     src="/img/icons/vitality.png"
                                     alt="vitality image"
@@ -51,7 +51,7 @@
                             <span> PdV</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff->total_prospection>=0?$stuff->total_prospection:0}} </span>
+                            <span class="w-10 text-right">{{max($stuff->total_prospection,0)}} </span>
                             <img
                                     src="/img/icons/prospection.png"
                                     alt="prospection image"
@@ -60,7 +60,7 @@
                             <span> PP</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{($stuff->total_pa>=0)?($stuff->total_pa<=12?$stuff->total_pa:12):0}} </span>
+                            <span class="w-10 text-right">{{max(min($stuff->total_pa,12),0)}} </span>
                             <img
                                     src="/img/icons/pa.png"
                                     alt="pa image"
@@ -71,7 +71,7 @@
                                   wire:click="updateExoPa({{$stuff->is_exo_pa===0?1:0}})">+ {{$stuff->is_exo_pa}}</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{($stuff->total_pm>=0)?($stuff->total_pm<=6?$stuff->total_pm:6):0}} </span>
+                            <span class="w-10 text-right">{{max(min($stuff->total_pm,6),0)}} </span>
                             <img
                                     src="/img/icons/pm.png"
                                     alt="pm image"
@@ -83,7 +83,7 @@
 
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{($stuff->total_po>=0)?($stuff->total_po<=6?$stuff->total_po:6):0}} </span>
+                            <span class="w-10 text-right">{{max(min($stuff->total_po,6),0)}} </span>
                             <img
                                     src="/img/icons/po.png"
                                     alt="po image"
@@ -97,7 +97,7 @@
                     </div>
                     <div class="flex-1">
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff->total_initiative>=0?$stuff->total_initiative:0}} </span>
+                            <span class="w-10 text-right">{{max($stuff->total_initiative,0)}} </span>
                             <img
                                     src="/img/icons/initiative.png"
                                     alt="initiative image"
@@ -116,7 +116,7 @@
                             <span> Critique</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff->stuff_invocation>=0?$stuff->stuff_invocation:0}} </span>
+                            <span class="w-10 text-right">{{max($stuff->stuff_invocation,0)}} </span>
                             <img
                                     src="/img/icons/invocation.png"
                                     alt="invocation image"
@@ -125,7 +125,7 @@
                             <span> Invocation</span>
                         </div>
                         <div class="text-white flex items-center">
-                            <span class="w-10 text-right">{{$stuff->stuff_health>=0?$stuff->stuff_health:0}} </span>
+                            <span class="w-10 text-right">{{max($stuff->stuff_health,0)}} </span>
                             <img
                                     src="/img/icons/health.png"
                                     alt="health image"
@@ -386,7 +386,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"amulet")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"amulet.image")}}"
                                             alt="amulet image"
                                             width="60px"
                                     >
@@ -396,42 +396,67 @@
                             <div id="popover-amulet" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"amulet")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"amulet")??[],"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"amulet.name")}}</p>
                                     <p>Amulette - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"amulet")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"amulet")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"amulet.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"amulet.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"amulet")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"amulet")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"amulet.set.name")}}')">{{Arr::get($stuffDetail,"amulet.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"amulet")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"amulet.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"amulet.ressources") as $itemRessources)
 
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"amulet")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"amulet.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"amulet")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"amulet.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('amulet')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('amulet')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
+
                                     </div>
                                 @else
                                     Ajouter une amulette
@@ -458,7 +483,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"shield")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"shield.image")}}"
                                             alt="shield image"
                                             width="60px"
                                     >
@@ -467,42 +492,66 @@
                             <div id="popover-shield" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"shield")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"shield"),"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"shield.name")}}</p>
                                     <p>Bouclier - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"shield")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"shield")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"shield.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"shield.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"shield")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"shield")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"shield.set.name")}}')">{{Arr::get($stuffDetail,"shield.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"shield")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"shield.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"shield.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"shield")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"shield.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"shield")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"shield.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('shield')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('shield')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter un bouclier
@@ -529,7 +578,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"ring_1")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"ring_1.image")}}"
                                             alt="ring image"
                                             width="60px"
                                     >
@@ -538,42 +587,66 @@
                             <div id="popover-ring-1" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"ring_1")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"ring_1")??[],"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"ring_1.name")}}</p>
                                     <p>Anneau - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"ring_1")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"ring_1")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"ring_1.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"ring_1.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"ring_1")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"ring_1")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"ring_1.set.name")}}')">{{Arr::get($stuffDetail,"ring_1.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"ring_1")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"ring_1.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"ring_1.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"ring_1")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"ring_1.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"ring_1")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"ring_1.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('ring_1')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('ring_1')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter un anneau
@@ -601,7 +674,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"belt")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"belt.image")}}"
                                             alt="belt image"
                                             width="60px"
                                     >
@@ -610,42 +683,66 @@
                             <div id="popover-belt" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"belt")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"belt")??[],"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"belt.name")}}</p>
                                     <p>Ceinture - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"belt")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"belt")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"belt.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"belt.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"belt")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"belt")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"belt.set.name")}}')">{{Arr::get($stuffDetail,"belt.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"belt")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"belt.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"belt.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"belt")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"belt.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"belt")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"belt.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('belt')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('belt')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter une ceinture
@@ -672,7 +769,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"boots")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"boots.image")}}"
                                             alt="boots image"
                                             width="60px"
                                     >
@@ -681,42 +778,66 @@
                             <div id="popover-boots" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"boots")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"boots")??[],"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"boots.name")}}</p>
                                     <p>Bottes - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"boots")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"boots")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"boots.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"boots.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"boots")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"boots")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"boots.set.name")}}')">{{Arr::get($stuffDetail,"boots.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"boots")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"boots.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"boots.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"boots")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"boots.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"boots")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"boots.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('boots')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('boots')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter des bottes
@@ -748,7 +869,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"hat")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"hat.image")}}"
                                             alt="hat image"
                                             width="60px"
                                     >
@@ -757,42 +878,66 @@
                             <div id="popover-hat" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"hat")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"hat")??[],"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"hat.name")}}</p>
                                     <p>Chapeau - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"hat")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"hat")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"hat.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"hat.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"hat")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"hat")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"hat.set.name")}}')">{{Arr::get($stuffDetail,"hat.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"hat")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"hat.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"hat.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"hat")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"hat.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"hat")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"hat.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('hat')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('hat')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter un chapeau
@@ -819,7 +964,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"weapon")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"weapon.image")}}"
                                             alt="weapon image"
                                             width="60px"
                                     >
@@ -828,43 +973,67 @@
                             <div id="popover-weapon" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"weapon")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"weapon")??[],"name")}}</p>
-                                    <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"weapon")??[],"type")??[],"name")}} -
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"weapon.name")}}</p>
+                                    <p>{{Arr::get($stuffDetail,"weapon.type.name")}} -
                                         Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"weapon")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"weapon")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"weapon.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"weapon.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"weapon")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"weapon")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"weapon.set.name")}}')">{{Arr::get($stuffDetail,"weapon.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"weapon")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"weapon.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"weapon.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"weapon")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"weapon.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"weapon")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"weapon.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('weapon')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('weapon')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter une arme
@@ -891,7 +1060,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"ring_2")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"ring_2.image")}}"
                                             alt="ring image"
                                             width="60px"
                                     >
@@ -900,42 +1069,66 @@
                             <div id="popover-ring-2" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"ring_2")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"ring_2")??[],"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"ring_2.name")}}</p>
                                     <p>Anneau - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"ring_2")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"ring_2")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"ring_2.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"ring_2.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"ring_2")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"ring_2")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"ring_2.set.name")}}')">{{Arr::get($stuffDetail,"ring_2.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"ring_2")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"ring_2.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"ring_2.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"ring_2")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"ring_2.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"ring_2")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"ring_2.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('ring_2')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('ring_2')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter un anneau
@@ -963,7 +1156,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"cape")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"cape.image")}}"
                                             alt="cape image"
                                             width="60px"
                                     >
@@ -972,42 +1165,66 @@
                             <div id="popover-cape" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"cape")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"cape")??[],"name")}}</p>
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"cape.name")}}</p>
                                     <p>Cape - Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"cape")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"cape")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"cape.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"cape.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"cape")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"cape")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"cape.set.name")}}')">{{Arr::get($stuffDetail,"cape.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"cape")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"cape.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"cape.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"cape")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"cape.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"cape")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"cape.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('cape')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('cape')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter une cape
@@ -1034,7 +1251,7 @@
 
                                 @else
                                     <img
-                                            src="{{Arr::get(Arr::get($stuffDetail,"animal")??[],'image')}}"
+                                            src="{{Arr::get($stuffDetail,"animal.image")}}"
                                             alt="animal image"
                                             width="60px"
                                     >
@@ -1043,43 +1260,67 @@
                             <div id="popover-animal" role="tooltip"
                                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                                 @if(!is_null(Arr::get($stuffDetail,"animal")))
-                                    <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"animal")??[],"name")}}</p>
-                                    <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"animal")??[],"type")??[],"name")}} -
+                                    <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"animal.name")}}</p>
+                                    <p>{{Arr::get($stuffDetail,"animal.type.name")}} -
                                         Niveau
-                                        {{Arr::get(Arr::get($stuffDetail,"animal")??[],"level")}}</p>
-                                    @if(is_null(Arr::get(Arr::get($stuffDetail,"animal")??[],"set"))===false)
+                                        {{Arr::get($stuffDetail,"animal.level")}}</p>
+                                    @if(is_null(Arr::get($stuffDetail,"animal.set"))===false)
                                         <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                           wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"animal")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"animal")??[],"set")??[],"name")}}</p>
+                                           wire:click="goToSet('{{Arr::get($stuffDetail,"animal.set.name")}}')">{{Arr::get($stuffDetail,"animal.set.name")}}</p>
                                     @endif
                                     <div class="separator"></div>
-                                    @foreach(Arr::get(Arr::get($stuffDetail,"animal")??[],"effects") as $itemEffects)
-                                        <div class="flex">
-                                            <img
-                                                    src="{{Arr::get($itemEffects,"image")}}"
-                                                    alt="effect image"
-                                                    width="24"
-                                                    height="24"
-                                                    class="mr-2 h-fit self-center">
-                                            <span
-                                                    class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                        </div>
-                                    @endforeach
+                                    @if($viewEffects==="Voir la recette")
+                                        @foreach(Arr::get($stuffDetail,"animal.effects") as $itemEffects)
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemEffects,"image")}}"
+                                                        alt="effect image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                            </div>
+                                        @endforeach
+                                    @elseif($viewEffects==="Voir les effets")
+                                        @foreach(Arr::get($stuffDetail,"animal.ressources") as $itemRessources)
+
+                                            <div class="flex">
+                                                <img
+                                                        src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                        alt="ressource image"
+                                                        width="24"
+                                                        height="24"
+                                                        class="mr-2 h-fit self-center">
+                                                <span
+                                                        class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                        @if(count(Arr::get(Arr::get($stuffDetail,"animal")??[],"conditions")??[])>0)
+                                        @if(count(Arr::get($stuffDetail,"animal.conditions")??[])>0)
                                             <div class="flex items-center justify-center mb-4">
-                                                @foreach(Arr::get(Arr::get($stuffDetail,"animal")??[],"conditions") as $condition)
+                                                @foreach(Arr::get($stuffDetail,"animal.conditions") as $condition)
                                                     <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <button
-                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                                wire:click="deleteItemToStuff('animal')"
-                                        >
-                                            <x-heroicon-m-trash
-                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                        </button>
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                    class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                    wire:click="updateViewEffects('{{$viewEffects}}')"
+                                            >
+                                                {{$viewEffects}}
+                                            </button>
+                                            <button
+                                                    class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                    wire:click="deleteItemToStuff('animal')"
+                                            >
+                                                <x-heroicon-m-trash
+                                                        class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 @else
                                     Ajouter un familier ou une monture
@@ -1110,7 +1351,7 @@
 
                             @else
                                 <img
-                                        src="{{Arr::get(Arr::get($stuffDetail,"dofus_1")??[],'image')}}"
+                                        src="{{Arr::get($stuffDetail,"dofus_1.image")}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1119,43 +1360,67 @@
                         <div id="popover-dofus-1" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                             @if(!is_null(Arr::get($stuffDetail,"dofus_1")))
-                                <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"name")}}</p>
-                                <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"type")??[],"name")}} -
+                                <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"dofus_1.name")}}</p>
+                                <p>{{Arr::get($stuffDetail,"dofus_1.type.name")}} -
                                     Niveau
-                                    {{Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"level")}}</p>
-                                @if(is_null(Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"set"))===false)
+                                    {{Arr::get($stuffDetail,"dofus_1.level")}}</p>
+                                @if(is_null(Arr::get($stuffDetail,"dofus_1.set"))===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"set")??[],"name")}}</p>
+                                       wire:click="goToSet('{{Arr::get($stuffDetail,"dofus_1.set.name")}}')">{{Arr::get($stuffDetail,"dofus_1.set.name")}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach(Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"effects") as $itemEffects)
-                                    <div class="flex">
-                                        <img
-                                                src="{{Arr::get($itemEffects,"image")}}"
-                                                alt="effect image"
-                                                width="24"
-                                                height="24"
-                                                class="mr-2 h-fit self-center">
-                                        <span
-                                                class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                    </div>
-                                @endforeach
+                                @if($viewEffects==="Voir la recette")
+                                    @foreach(Arr::get($stuffDetail,"dofus_1.effects") as $itemEffects)
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemEffects,"image")}}"
+                                                    alt="effect image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                        </div>
+                                    @endforeach
+                                @elseif($viewEffects==="Voir les effets")
+                                    @foreach(Arr::get($stuffDetail,"dofus_1.ressources") as $itemRessources)
+
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                    alt="ressource image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                        </div>
+                                    @endforeach
+                                @endif
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count(Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"conditions")??[])>0)
+                                    @if(count(Arr::get($stuffDetail,"dofus_1.conditions")??[])>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach(Arr::get(Arr::get($stuffDetail,"dofus_1")??[],"conditions") as $condition)
+                                            @foreach(Arr::get($stuffDetail,"dofus_1.conditions") as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
                                     @endif
-                                    <button
-                                            class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                            wire:click="deleteItemToStuff('dofus_1')"
-                                    >
-                                        <x-heroicon-m-trash
-                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                    </button>
+                                    <div class="flex items-center justify-center">
+                                        <button
+                                                class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                wire:click="updateViewEffects('{{$viewEffects}}')"
+                                        >
+                                            {{$viewEffects}}
+                                        </button>
+                                        <button
+                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                wire:click="deleteItemToStuff('dofus_1')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
                                 </div>
                             @else
                                 Ajouter un dofus ou un trophée
@@ -1183,7 +1448,7 @@
 
                             @else
                                 <img
-                                        src="{{Arr::get(Arr::get($stuffDetail,"dofus_2")??[],'image')}}"
+                                        src="{{Arr::get($stuffDetail,"dofus_2.image")}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1192,43 +1457,67 @@
                         <div id="popover-dofus-2" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                             @if(!is_null(Arr::get($stuffDetail,"dofus_2")))
-                                <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"name")}}</p>
-                                <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"type")??[],"name")}} -
+                                <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"dofus_2.name")}}</p>
+                                <p>{{Arr::get($stuffDetail,"dofus_2.type.name")}} -
                                     Niveau
-                                    {{Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"level")}}</p>
-                                @if(is_null(Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"set"))===false)
+                                    {{Arr::get($stuffDetail,"dofus_2.level")}}</p>
+                                @if(is_null(Arr::get($stuffDetail,"dofus_2.set"))===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"set")??[],"name")}}</p>
+                                       wire:click="goToSet('{{Arr::get($stuffDetail,"dofus_2.set.name")}}')">{{Arr::get($stuffDetail,"dofus_2.set.name")}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach(Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"effects") as $itemEffects)
-                                    <div class="flex">
-                                        <img
-                                                src="{{Arr::get($itemEffects,"image")}}"
-                                                alt="effect image"
-                                                width="24"
-                                                height="24"
-                                                class="mr-2 h-fit self-center">
-                                        <span
-                                                class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                    </div>
-                                @endforeach
+                                @if($viewEffects==="Voir la recette")
+                                    @foreach(Arr::get($stuffDetail,"dofus_2.effects") as $itemEffects)
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemEffects,"image")}}"
+                                                    alt="effect image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                        </div>
+                                    @endforeach
+                                @elseif($viewEffects==="Voir les effets")
+                                    @foreach(Arr::get($stuffDetail,"dofus_2.ressources") as $itemRessources)
+
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                    alt="ressource image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                        </div>
+                                    @endforeach
+                                @endif
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count(Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"conditions")??[])>0)
+                                    @if(count(Arr::get($stuffDetail,"dofus_2.conditions")??[])>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach(Arr::get(Arr::get($stuffDetail,"dofus_2")??[],"conditions") as $condition)
+                                            @foreach(Arr::get($stuffDetail,"dofus_2.conditions") as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
                                     @endif
-                                    <button
-                                            class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                            wire:click="deleteItemToStuff('dofus_2')"
-                                    >
-                                        <x-heroicon-m-trash
-                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                    </button>
+                                    <div class="flex items-center justify-center">
+                                        <button
+                                                class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                wire:click="updateViewEffects('{{$viewEffects}}')"
+                                        >
+                                            {{$viewEffects}}
+                                        </button>
+                                        <button
+                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                wire:click="deleteItemToStuff('dofus_2')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
                                 </div>
                             @else
                                 Ajouter un dofus ou un trophée
@@ -1256,7 +1545,7 @@
 
                             @else
                                 <img
-                                        src="{{Arr::get(Arr::get($stuffDetail,"dofus_3")??[],'image')}}"
+                                        src="{{Arr::get($stuffDetail,"dofus_3.image")}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1265,43 +1554,67 @@
                         <div id="popover-dofus-3" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                             @if(!is_null(Arr::get($stuffDetail,"dofus_3")))
-                                <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"name")}}</p>
-                                <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"type")??[],"name")}} -
+                                <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"dofus_3.name")}}</p>
+                                <p>{{Arr::get($stuffDetail,"dofus_3.type.name")}} -
                                     Niveau
-                                    {{Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"level")}}</p>
-                                @if(is_null(Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"set"))===false)
+                                    {{Arr::get($stuffDetail,"dofus_3.level")}}</p>
+                                @if(is_null(Arr::get($stuffDetail,"dofus_3.set"))===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"set")??[],"name")}}</p>
+                                       wire:click="goToSet('{{Arr::get($stuffDetail,"dofus_3.set.name")}}')">{{Arr::get($stuffDetail,"dofus_3.set.name")}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach(Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"effects") as $itemEffects)
-                                    <div class="flex">
-                                        <img
-                                                src="{{Arr::get($itemEffects,"image")}}"
-                                                alt="effect image"
-                                                width="24"
-                                                height="24"
-                                                class="mr-2 h-fit self-center">
-                                        <span
-                                                class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                    </div>
-                                @endforeach
+                                @if($viewEffects==="Voir la recette")
+                                    @foreach(Arr::get($stuffDetail,"dofus_3.effects") as $itemEffects)
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemEffects,"image")}}"
+                                                    alt="effect image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                        </div>
+                                    @endforeach
+                                @elseif($viewEffects==="Voir les effets")
+                                    @foreach(Arr::get($stuffDetail,"dofus_3.ressources") as $itemRessources)
+
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                    alt="ressource image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                        </div>
+                                    @endforeach
+                                @endif
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count(Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"conditions")??[])>0)
+                                    @if(count(Arr::get($stuffDetail,"dofus_3.conditions")??[])>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach(Arr::get(Arr::get($stuffDetail,"dofus_3")??[],"conditions") as $condition)
+                                            @foreach(Arr::get($stuffDetail,"dofus_3.conditions") as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
                                     @endif
-                                    <button
-                                            class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                            wire:click="deleteItemToStuff('dofus_3')"
-                                    >
-                                        <x-heroicon-m-trash
-                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                    </button>
+                                    <div class="flex items-center justify-center">
+                                        <button
+                                                class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                wire:click="updateViewEffects('{{$viewEffects}}')"
+                                        >
+                                            {{$viewEffects}}
+                                        </button>
+                                        <button
+                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                wire:click="deleteItemToStuff('dofus_3')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
                                 </div>
                             @else
                                 Ajouter un dofus ou un trophée
@@ -1329,7 +1642,7 @@
 
                             @else
                                 <img
-                                        src="{{Arr::get(Arr::get($stuffDetail,"dofus_4")??[],'image')}}"
+                                        src="{{Arr::get($stuffDetail,"dofus_4.image")}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1338,43 +1651,66 @@
                         <div id="popover-dofus-4" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                             @if(!is_null(Arr::get($stuffDetail,"dofus_4")))
-                                <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"name")}}</p>
-                                <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"type")??[],"name")}} -
+                                <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"dofus_4.name")}}</p>
+                                <p>{{Arr::get($stuffDetail,"dofus_4.type.name")}} -
                                     Niveau
-                                    {{Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"level")}}</p>
-                                @if(is_null(Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"set"))===false)
+                                    {{Arr::get($stuffDetail,"dofus_4.level")}}</p>
+                                @if(is_null(Arr::get($stuffDetail,"dofus_4.set"))===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"set")??[],"name")}}</p>
+                                       wire:click="goToSet('{{Arr::get($stuffDetail,"dofus_4.set.name")}}')">{{Arr::get($stuffDetail,"dofus_4.set.name")}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach(Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"effects") as $itemEffects)
-                                    <div class="flex">
-                                        <img
-                                                src="{{Arr::get($itemEffects,"image")}}"
-                                                alt="effect image"
-                                                width="24"
-                                                height="24"
-                                                class="mr-2 h-fit self-center">
-                                        <span
-                                                class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                    </div>
-                                @endforeach
+                                @if($viewEffects==="Voir la recette")
+                                    @foreach(Arr::get($stuffDetail,"dofus_4.effects") as $itemEffects)
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemEffects,"image")}}"
+                                                    alt="effect image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                        </div>
+                                    @endforeach
+                                @elseif($viewEffects==="Voir les effets")
+                                    @foreach(Arr::get($stuffDetail,"dofus_4.ressources") as $itemRessources)
 
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                    alt="ressource image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                        </div>
+                                    @endforeach
+                                @endif
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count(Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"conditions")??[])>0)
+                                    @if(count(Arr::get($stuffDetail,"dofus_4.conditions")??[])>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach(Arr::get(Arr::get($stuffDetail,"dofus_4")??[],"conditions") as $condition)
+                                            @foreach(Arr::get($stuffDetail,"dofus_4.conditions") as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
                                     @endif
-                                    <button
-                                            class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                            wire:click="deleteItemToStuff('dofus_4')"
-                                    >
-                                        <x-heroicon-m-trash
-                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                    </button>
+                                    <div class="flex items-center justify-center">
+                                        <button
+                                                class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                wire:click="updateViewEffects('{{$viewEffects}}')"
+                                        >
+                                            {{$viewEffects}}
+                                        </button>
+                                        <button
+                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                wire:click="deleteItemToStuff('dofus_4')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
                                 </div>
                             @else
                                 Ajouter un dofus ou un trophée
@@ -1402,7 +1738,7 @@
 
                             @else
                                 <img
-                                        src="{{Arr::get(Arr::get($stuffDetail,"dofus_5")??[],'image')}}"
+                                        src="{{Arr::get($stuffDetail,"dofus_5.image")}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1411,43 +1747,66 @@
                         <div id="popover-dofus-5" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                             @if(!is_null(Arr::get($stuffDetail,"dofus_5")))
-                                <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"name")}}</p>
-                                <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"type")??[],"name")}} -
+                                <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"dofus_5.name")}}</p>
+                                <p>{{Arr::get($stuffDetail,"dofus_5.type.name")}} -
                                     Niveau
-                                    {{Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"level")}}</p>
-                                @if(is_null(Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"set"))===false)
+                                    {{Arr::get($stuffDetail,"dofus_5.level")}}</p>
+                                @if(is_null(Arr::get($stuffDetail,"dofus_5.set"))===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"set")??[],"name")}}</p>
+                                       wire:click="goToSet('{{Arr::get($stuffDetail,"dofus_5.set.name")}}')">{{Arr::get($stuffDetail,"dofus_5.set.name")}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach(Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"effects") as $itemEffects)
-                                    <div class="flex">
-                                        <img
-                                                src="{{Arr::get($itemEffects,"image")}}"
-                                                alt="effect image"
-                                                width="24"
-                                                height="24"
-                                                class="mr-2 h-fit self-center">
-                                        <span
-                                                class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                    </div>
-                                @endforeach
+                                @if($viewEffects==="Voir la recette")
+                                    @foreach(Arr::get($stuffDetail,"dofus_5.effects") as $itemEffects)
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemEffects,"image")}}"
+                                                    alt="effect image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                        </div>
+                                    @endforeach
+                                @elseif($viewEffects==="Voir les effets")
+                                    @foreach(Arr::get($stuffDetail,"dofus_5.ressources") as $itemRessources)
 
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                    alt="ressource image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                        </div>
+                                    @endforeach
+                                @endif
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count(Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"conditions")??[])>0)
+                                    @if(count(Arr::get($stuffDetail,"dofus_5.conditions")??[])>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach(Arr::get(Arr::get($stuffDetail,"dofus_5")??[],"conditions") as $condition)
+                                            @foreach(Arr::get($stuffDetail,"dofus_5.conditions") as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
                                     @endif
-                                    <button
-                                            class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                            wire:click="deleteItemToStuff('dofus_5')"
-                                    >
-                                        <x-heroicon-m-trash
-                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                    </button>
+                                    <div class="flex items-center justify-center">
+                                        <button
+                                                class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                wire:click="updateViewEffects('{{$viewEffects}}')"
+                                        >
+                                            {{$viewEffects}}
+                                        </button>
+                                        <button
+                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                wire:click="deleteItemToStuff('dofus_5')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
                                 </div>
                             @else
                                 Ajouter un dofus ou un trophée
@@ -1475,7 +1834,7 @@
 
                             @else
                                 <img
-                                        src="{{Arr::get(Arr::get($stuffDetail,"dofus_6")??[],'image')}}"
+                                        src="{{Arr::get($stuffDetail,"dofus_6.image")}}"
                                         alt="dofus image"
                                         width="60px"
                                 >
@@ -1484,43 +1843,67 @@
                         <div id="popover-dofus-6" role="tooltip"
                              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 border border-gray-600 border-2">
                             @if(!is_null(Arr::get($stuffDetail,"dofus_6")))
-                                <p class="text-xl font-semibold">{{Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"name")}}</p>
-                                <p>{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"type")??[],"name")}} -
+                                <p class="text-xl font-semibold">{{Arr::get($stuffDetail,"dofus_6.name")}}</p>
+                                <p>{{Arr::get($stuffDetail,"dofus_6.type.name")}} -
                                     Niveau
-                                    {{Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"level")}}</p>
-                                @if(is_null(Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"set"))===false)
+                                    {{Arr::get($stuffDetail,"dofus_6.level")}}</p>
+                                @if(is_null(Arr::get($stuffDetail,"dofus_6.set"))===false)
                                     <p class="cursor-pointer text-indigo-500 hover:text-indigo-400"
-                                       wire:click="goToSet('{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"set")??[],"name")}}')">{{Arr::get(Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"set")??[],"name")}}</p>
+                                       wire:click="goToSet('{{Arr::get($stuffDetail,"dofus_6.set.name")}}')">{{Arr::get($stuffDetail,"dofus_6.set.name")}}</p>
                                 @endif
                                 <div class="separator"></div>
-                                @foreach(Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"effects") as $itemEffects)
-                                    <div class="flex">
-                                        <img
-                                                src="{{Arr::get($itemEffects,"image")}}"
-                                                alt="effect image"
-                                                width="24"
-                                                height="24"
-                                                class="mr-2 h-fit self-center">
-                                        <span
-                                                class="{{str_starts_with(Arr::get($itemEffects,"formatted_name"),'-')?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
-                                    </div>
-                                @endforeach
+
+                                @if($viewEffects==="Voir la recette")
+                                    @foreach(Arr::get($stuffDetail,"dofus_6.effects") as $itemEffects)
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemEffects,"image")}}"
+                                                    alt="effect image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr(Arr::get($itemEffects,"formatted_name"),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemEffects,"formatted_name")}}</span>
+                                        </div>
+                                    @endforeach
+                                @elseif($viewEffects==="Voir les effets")
+                                    @foreach(Arr::get($stuffDetail,"dofus_6.ressources") as $itemRessources)
+                                        <div class="flex">
+                                            <img
+                                                    src="{{Arr::get($itemRessources,"ressource.image") ?? Arr::get($itemRessources,"item_ressource.image")}}"
+                                                    alt="ressource image"
+                                                    width="24"
+                                                    height="24"
+                                                    class="mr-2 h-fit self-center">
+                                            <span
+                                                    class="{{(substr((Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name")),0,1))=='-'?'text-red-600':''}} max-w-xl">{{Arr::get($itemRessources,"quantity")}} {{(Arr::get($itemRessources,"ressource.name") ?? Arr::get($itemRessources,"item_ressource.name"))}}</span>
+                                        </div>
+                                    @endforeach
+                                @endif
 
                                 <div class="flex flex-col items-center justify-center pb-4 mt-4">
-                                    @if(count(Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"conditions")??[])>0)
+                                    @if(count(Arr::get($stuffDetail,"dofus_6.conditions")??[])>0)
                                         <div class="flex items-center justify-center mb-4">
-                                            @foreach(Arr::get(Arr::get($stuffDetail,"dofus_6")??[],"conditions") as $condition)
+                                            @foreach(Arr::get($stuffDetail,"dofus_6.conditions") as $condition)
                                                 <span class="bg-gray-800 rounded-lg p-2 mx-1">{{$condition->name}} {{$condition->operator}} {{$condition->int_value}}</span>
                                             @endforeach
                                         </div>
                                     @endif
-                                    <button
-                                            class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
-                                            wire:click="deleteItemToStuff('dofus_6')"
-                                    >
-                                        <x-heroicon-m-trash
-                                                class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
-                                    </button>
+                                    <div class="flex items-center justify-center">
+                                        <button
+                                                class="group rounded-lg text-white border border-1  border-white p-1 mx-2 hover:border-gray-300 hover:text-gray-300"
+                                                wire:click="updateViewEffects('{{$viewEffects}}')"
+                                        >
+                                            {{$viewEffects}}
+                                        </button>
+                                        <button
+                                                class="group rounded-lg text-[#d9534f] border border-1  border-[#d9534f] p-1 mx-2 hover:bg-[#d9534f]"
+                                                wire:click="deleteItemToStuff('dofus_6')"
+                                        >
+                                            <x-heroicon-m-trash
+                                                    class="w-5 h-5 m-1 text-[#d9534f] group-hover:text-white"/>
+                                        </button>
+                                    </div>
                                 </div>
                             @else
                                 Ajouter un dofus ou un trophée
@@ -1711,7 +2094,7 @@
             </div>
             <div class="flex-1">
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_neutral_res>=-50?($stuff->stuff_percent_neutral_res<=50?$stuff->stuff_percent_neutral_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{max(min($stuff->stuff_percent_neutral_res,50),-50)}} </span>
                     <img
                             src="/img/icons/neutral_res.png"
                             alt="neutral_res image"
@@ -1721,7 +2104,7 @@
                     <span> % Ré Neutre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_strength_res>=-50?($stuff->stuff_percent_strength_res<=50?$stuff->stuff_percent_strength_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{max(min($stuff->stuff_percent_strength_res,50),-50)}} </span>
                     <img
                             src="/img/icons/strength_res.png"
                             alt="strength_res image"
@@ -1730,7 +2113,7 @@
                     <span> % Ré Terre</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_intel_res>=-50?($stuff->stuff_percent_intel_res<=50?$stuff->stuff_percent_intel_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{max(min($stuff->stuff_percent_intel_res,50),-50)}} </span>
                     <img
                             src="/img/icons/intel_res.png"
                             alt="intel_res image"
@@ -1739,7 +2122,7 @@
                     <span> % Ré Feu</span>
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_luck_res>=-50?($stuff->stuff_percent_luck_res<=50?$stuff->stuff_percent_luck_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{max(min($stuff->stuff_percent_luck_res,50),-50)}} </span>
                     <img
                             src="/img/icons/luck_res.png"
                             alt="luck_res image"
@@ -1749,7 +2132,7 @@
 
                 </div>
                 <div class="text-white flex items-center">
-                    <span class="w-10 text-right">{{$stuff->stuff_percent_agility_res>=-50?($stuff->stuff_percent_agility_res<=50?$stuff->stuff_percent_agility_res:50):-50}} </span>
+                    <span class="w-10 text-right">{{max(min($stuff->stuff_percent_agility_res,50),-50)}} </span>
                     <img src="/img/icons/agility_res.png"
                          alt="agility_res image"
                          class="ml-2"
@@ -1788,15 +2171,15 @@
                         <div class="flex bg-gray-900 p-6 rounded-t-lg">
                             <div class="flex-1">
                                 <p class="text-xl font-semibold">
-                                    {{Arr::get(Arr::get(Arr::get($set,0),"set"),"name")}}
+                                    {{Arr::get($set,"0.set.name")}}
                                 </p>
-                                <p> Niveau {{Arr::get(Arr::get($set,0),"level")}}</p>
+                                <p> Niveau {{Arr::get($set,"0.level")}}</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-5 p-6">
                             @foreach($set as $anItem)
                                 <div class="flex flex-col text-center">
-                                    <span>{{Arr::get(Arr::get($anItem,"type"),"name")}}</span>
+                                    <span>{{Arr::get($anItem,"type.name")}}</span>
                                     <img
                                             src="{{Arr::get($anItem,"image")}}"
                                             alt="item image"
@@ -1819,7 +2202,7 @@
                         <div class="grid grid-cols-2 gap-3">
                             <div class="flex flex-auto flex-col pl-10 py-5">
                                 @php($setEffects=[])
-                                @foreach(Arr::get(Arr::get(Arr::get($set,0),"set"),"effects")??[] as $anEffects)
+                                @foreach(Arr::get($set,"0.set.effects") ?? [] as $anEffects)
                                     @if(Arr::get($anEffects,"set_number_items")===count($set))
                                         @php($setEffects[]=$anEffects)
                                     @endif

@@ -15,6 +15,7 @@ class ItemRessources extends Model
     protected $fillable = [
         'item_id',
         'ressource_id',
+        'item_ressource_id',
         'quantity'
     ];
 
@@ -32,6 +33,11 @@ class ItemRessources extends Model
 
     public function ressource(): HasOne
     {
-        return $this->hasOne(Items::class, "ressource_id", "id");
+        return $this->hasOne(Ressources::class, "id", "ressource_id");
+    }
+
+    public function itemRessource(): HasOne
+    {
+        return $this->hasOne(Items::class, "id", "item_ressource_id");
     }
 }

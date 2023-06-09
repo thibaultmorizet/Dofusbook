@@ -34,12 +34,22 @@ trait StuffTrait
     public array $setLinks = [
     ];
 
+    public string $viewEffects = "Voir la recette";
+
+    public function updateViewEffects(string $viewEffects): void
+    {
+        $this->viewEffects = match ($viewEffects) {
+            "Voir la recette" => "Voir les effets",
+            default => "Voir la recette",
+        };
+    }
+
     public function getStuffDetail(): void
     {
         foreach (array_keys($this->stuffDetail) as $aStuffItem) {
             $item_id = $this->stuff->{$aStuffItem . '_id'};
             if (!is_null($item_id)) {
-                $this->stuffDetail[$aStuffItem] = Items::query()->with(['effects', 'set', 'set.effects'])->where("id", $item_id)->get()->first()?->toArray();
+                $this->stuffDetail[$aStuffItem] = Items::query()->with(['effects', 'ressources', 'ressources.ressource', 'ressources.itemRessource', 'type', 'set', 'set.effects'])->where("id", $item_id)->get()->first()?->toArray();
             } else {
                 $this->stuffDetail[$aStuffItem] = null;
             }

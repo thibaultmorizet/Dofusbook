@@ -294,7 +294,7 @@ class ImportItems extends Command
 
             $this->info('Start import of ' . $anEquipmentType . ' items');
 
-            $equipmentRequest = "https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=desc&filter%5Btype_name%5D=$anEquipmentType&filter%5Bmin_level%5D=0&filter%5Bmax_level%5D=200&page%5Bsize%5D=-1&fields%5Bitem%5D=recipe,description,conditions,effects,is_weapon,pods,parent_set,critical_hit_probability,critical_hit_bonus,is_two_handed,max_cast_per_turn,ap_cost,range";
+            $equipmentRequest = "https://api.dofusdu.de/dofus2/fr/items/equipment?sort%5Blevel%5D=asc&filter%5Btype_name%5D=$anEquipmentType&filter%5Bmin_level%5D=0&filter%5Bmax_level%5D=200&page%5Bsize%5D=-1&fields%5Bitem%5D=recipe,description,conditions,effects,is_weapon,pods,parent_set,critical_hit_probability,critical_hit_bonus,is_two_handed,max_cast_per_turn,ap_cost,range";
             $equipmentList = Http::get($equipmentRequest);
             foreach ($equipmentList["items"] as $anEquipment) {
                 $item = Items::query()->find($anEquipment["ankama_id"]);
@@ -544,6 +544,11 @@ class ImportItems extends Command
 
     private function saveStuffRessource(int $itemId, array $ressourceData): void
     {
+if ($itemId===13827){
+    dump($itemId);
+    dump($ressourceData);
+    dump(Items::query()->where("id", "=", Arr::get($ressourceData, "item_ankama_id"))->first());
+}
         $ressource = Ressources::query()->where("id", "=", Arr::get($ressourceData, "item_ankama_id"))->first();
         $item = Items::query()->where("id", "=", Arr::get($ressourceData, "item_ankama_id"))->first();
 

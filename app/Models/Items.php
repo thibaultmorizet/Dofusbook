@@ -49,7 +49,7 @@ class Items extends Model
 
     public function ressources(): HasMany
     {
-        return $this->HasMany(Ressources::class, "item_id", "id");
+        return $this->HasMany(ItemRessources::class, "item_id", "id");
     }
 
     public function conditions(): HasMany

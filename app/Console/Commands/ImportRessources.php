@@ -55,21 +55,21 @@ class ImportRessources extends Command
         $ressourceList = Http::get($ressourceRequest);
         $ressourceTypeList = [];
         foreach ($ressourceList["items"] as $aRessource) {
-            $ressourceTypeName = Arr::get(Arr::get($aRessource, "type") ?? [], "name");
+            $ressourceTypeName = Arr::get($aRessource, "type.name");
             if (!in_array($ressourceTypeName, $ressourceTypeList)) {
                 $ressourceTypeList[] = $ressourceTypeName;
             }
         }
         return $ressourceTypeList;
     }
-    
+
     private function getAllConsumableTypes(): array
     {
         $consumablesRequest = "https://api.dofusdu.de/dofus2/fr/items/consumables/all?sort%5Blevel%5D=desc&filter%5Bmin_level%5D=1&filter%5Bmax_level%5D=200";
         $consumablesList = Http::get($consumablesRequest);
         $consumablesTypeList = [];
         foreach ($consumablesList["items"] as $aConsumables) {
-            $consumablesTypeName = Arr::get(Arr::get($aConsumables, "type") ?? [], "name");
+            $consumablesTypeName = Arr::get($aConsumables, "type.name");
             if (!in_array($consumablesTypeName, $consumablesTypeList)) {
                 $consumablesTypeList[] = $consumablesTypeName;
             }
@@ -114,6 +114,7 @@ class ImportRessources extends Command
         $this->info('All ressources are imported');
 
     }
+
     private function importConsumables(array $consumableTypeList)
     {
         foreach ($consumableTypeList as $aConsumableType) {
@@ -171,7 +172,7 @@ class ImportRessources extends Command
         $newRessource->name = Arr::get($ressource, "name");
         $newRessource->ressource_type_id = $ressourceType->id;
         $newRessource->level = Arr::get($ressource, "level");
-        $newRessource->image = Arr::get(Arr::get($ressource, "image_urls"), "hd")??Arr::get(Arr::get($ressource, "image_urls"), "icon");
+        $newRessource->image = Arr::get($ressource, "image_urls.hd") ?? Arr::get($ressource, "image_urls.icon");
         $newRessource->summary = Arr::get($ressource, "description");
         $newRessource->md5 = md5(json_encode($ressource));
         $newRessource->save();
